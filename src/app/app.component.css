@@ -2,8 +2,9 @@
     height: 50px;
     margin-top: -20px;
     text-align: center;
-    border-top: 1px solid lightgray;
+    border-top: 1px solid #C5B358 ;
     padding-top: 15px;
+    color: #C5B358;
 }
 
 header {
@@ -13,7 +14,7 @@ header {
 }
 
 #section {
-	min-height: 100%;
+	min-height: 550px;
 	display: inline-block;
 }
 
@@ -44,4 +45,29 @@ li a {
     border-color: #FAFAD2;
     background-color: #FAFAD2;
     border-bottom: 1px solid #996515;
+}
+
+#rightHeader{
+	float: right;
+	display: inline-flex;
+}
+
+#rightHeader li{
+	margin-top: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#login{
+	margin-right: 10px;
+}
+
+#register{
+	margin-right: 120px;
+}
+
+#separator{
+	color: #996515 !important;
+    margin-right: 10px;
+
 }
