@@ -1,0 +1,10 @@
+<div class="home-container">
+	<div class="cat-container col-md-2">
+		<div class="cat-div" *ngFor="let cat of categories">
+			<div >{{cat}}</div>
+		</div>
+	</div>
+	<div class="img-container col-md-9">
+		<img src="../../src/image/{{img}}" *ngFor="let img of images">
+	</div>
+</div>

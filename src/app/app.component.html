@@ -1,0 +1,16 @@
+ <header id="header">
+    <ul class="nav nav-tabs">
+    <li [ngClass]="status.one ? 'active' : ''" id="firstTab"  (click)="clickEvent('one')">
+      <a [routerLink]="['/home']">Home</a></li>
+    <li [ngClass]="status.two ? 'active' : ''" (click)="clickEvent('two')">
+      <a [routerLink]="['']" >Menu 1</a></li>
+  </ul>
+  </header>
+  <section id="section">
+    <router-outlet></router-outlet>
+  </section>
+  <footer id="footer"> 
+   <div id="footerWrap">2018 </div>
+ </footer>
+
+

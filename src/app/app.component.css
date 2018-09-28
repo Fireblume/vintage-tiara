@@ -1,0 +1,47 @@
+#footer {
+    height: 50px;
+    margin-top: -20px;
+    text-align: center;
+    border-top: 1px solid lightgray;
+    padding-top: 15px;
+}
+
+header {
+	background-image: url('../../src/image/cover.png');
+	height: 185px;
+    margin-top: -10px;
+}
+
+#section {
+	min-height: 100%;
+	display: inline-block;
+}
+
+#header, #section, #footer {
+}
+
+.nav-tabs{
+	padding-top: 70px;
+	border-bottom: 1px solid #996515;
+}
+
+#firstTab {
+	margin-left: 100px;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+		border: 1px solid #996515 !important;
+		color: white !important;
+	    cursor: default !important;
+	    background-color: #C5B358 !important;
+}
+
+li a {
+	color: #996515 !important;
+}
+
+.nav-tabs>li>a:hover {
+    border-color: #FAFAD2;
+    background-color: #FAFAD2;
+    border-bottom: 1px solid #996515;
+}

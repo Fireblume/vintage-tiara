@@ -1,0 +1,30 @@
+.cat-div {
+	padding: 5px;
+	margin-bottom: 10px;
+    border: 1px solid #914853;
+    border-radius: 5px;
+    width: 150px;
+    text-align: center;
+    font-size: 23px;
+    color: #914853;
+
+    -moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-box-shadow: 0.5px 1px 5px #b76e79;
+	-webkit-box-shadow: 0.5px 1px 5px #b76e79;
+	box-shadow: 1px 1px 5px #b76e79;
+	-webkit-appearance: none;
+}
+
+.cat-container{
+	margin-left: 50px;
+}
+
+.img-container img{
+	    margin-right: 40px;
+	    margin-bottom: 40px;
+}
+
+.home-container{
+	margin-top: 50px;
+}
