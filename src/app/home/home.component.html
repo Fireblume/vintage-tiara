@@ -1,8 +1,12 @@
 <div class="home-container">
 	<div class="cat-container col-md-2">
 		<p class="labela">Kategorije</p>
-		<div class="cat-div" *ngFor="let cat of categories">
-			<div >{{cat}}</div>
+		<div class="cat-div" *ngFor="let cat of categories" (mouseenter) ="hovered[cat.kategorija] = true"
+			(mouseleave) ="hovered[cat.kategorija] = false">
+			<div>{{cat.kategorija}}</div>
+			<div *ngIf="hovered[cat.kategorija]" class="under-cat-div">
+				<div *ngFor="let cat1 of cat.podkategorija" class="under-cat">{{cat1}}</div>
+			</div>
 		</div>
 	</div>
 	<div class="img-container col-md-9">

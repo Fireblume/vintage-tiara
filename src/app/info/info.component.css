@@ -12,7 +12,7 @@
 	margin-right: 50px;
 }
 
-#subject{
+#subject, #email{
 	margin-bottom: 15px;
 	width: 350px;
 }

@@ -8,7 +8,12 @@ export class HomeService {
   constructor() { }
 
   getCategories(){
-  	return [ 'RAJFOVI', 'HVATACI SNOVA', 'MINDJUSE', 'OGRLICE', 'KOMPLETI', 'DEKUPAZ'];
+  	return [ {'kategorija': 'RAJFOVI', 'podkategorija': ['blavi', 'dkd', 'kooo', 'dkkdklallk']},
+  			 {'kategorija': 'HVATACI SNOVA','podkategorija': ['blavi', 'dkd']},
+  			 {'kategorija': 'MINDJUSE','podkategorija': ['blavi', 'dkd']}, 
+  			 {'kategorija': 'OGRLICE','podkategorija': ['blavi', 'dkd']}, 
+  			 {'kategorija': 'KOMPLETI','podkategorija': ['blavi', 'dkd']}, 
+  			 {'kategorija': 'DEKUPAZ','podkategorija': ['blavi', 'dkd']}];
   }
 
   getImages(){

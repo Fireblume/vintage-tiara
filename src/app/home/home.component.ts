@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   	categories: any;
   	images:any;
     myThumbnail:any;
+    hovered:any = {};
 
 	ngOnInit() {
 		this.categories = this.route.snapshot.data.home.categories;

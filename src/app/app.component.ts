@@ -9,7 +9,8 @@ export class AppComponent {
   title = 'vintage-tiara-app';
 
 
-	status:any = { 'one':true, 'two':false};
+	status:any = { 'one':true, 
+					'two':false};
 
   clickEvent(number){
 		this.status = {};
