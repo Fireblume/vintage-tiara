@@ -12,6 +12,6 @@ export class HomeService {
   }
 
   getImages(){
-  	return ['logo-try.jpg', 'logo-withbackground.jpg', 'logo.jpg', 'logo-withbackground.png', 'logo.jpg', 'logo-withbackground.png','logo-try.jpg', 'logo-withbackground.jpg', 'logo.jpg', 'logo-withbackground.png', 'logo.jpg', 'logo-withbackground.png','logo-try.jpg', 'logo-withbackground.jpg'];
+  	return ['logo-try.jpg', 'logo-withbackground.jpg', 'logo.jpg',  'logo.jpg', 'logo-try.jpg', 'logo-withbackground.jpg', 'logo.jpg', 'logo.jpg','logo-try.jpg', 'logo-withbackground.jpg', 'cover.jpg'];
   }
 }

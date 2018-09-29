@@ -6,6 +6,37 @@
 		</div>
 	</div>
 	<div class="img-container col-md-9">
-		<img src="../../src/image/{{img}}" *ngFor="let img of images">
+		<div class="img-div" *ngFor="let img of images" (click)="openModal('custom-modal-1', img)">
+			<img src="../../src/image/{{img}}" class="image">
+			<span class="zoom-img glyphicon glyphicon-search"></span>
+		<div>
 	</div>
 </div>
+<jw-modal id="custom-modal-1">
+	<div class="col-md-4" id="modalImg">
+		<ngx-image-zoom
+		    [thumbImage]=myThumbnail
+		    [fullImage]=modalImage
+		></ngx-image-zoom>
+		<!--<img src="../../src/image/{{modalImage}}">-->
+	</div>
+    <div class="col-md-4 details">
+    	<p>Naziv: Test</p>
+    	<p>Opis: Test</p>
+    	<p>Status: DOSTUPNO</p>
+    	<p>Kolicina: <input type="number" name="quantity" min="1" max="5" value="1"></p>
+    	<p>Cena: 500,00 RSD</p>
+    	<div class="lower-stuff">
+    		<span class="glyphicon glyphicon-heart-empty heart-empty" *ngIf="!hearClick" 
+    		(click)="hearClick = !hearClick"></span>
+    		<span class="glyphicon glyphicon-heart heart" *ngIf="hearClick" 
+    		(click)="hearClick = !hearClick"></span>
+    		<button class="btn btn-cart">U KORPU</button>
+    	</div>
+    </div>
+    <div class="col-md-2" style="width: 85px;">
+    </div>
+    <div class="col-md-1" style="padding-left: 60px;">
+    	<span class="glyphicon glyphicon-remove" (click)="closeModal('custom-modal-1')"></span>
+    </div>
+</jw-modal>

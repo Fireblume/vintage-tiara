@@ -1,13 +1,13 @@
  <header id="header">
     <ul class="nav nav-tabs">
     <li [ngClass]="status.one ? 'active' : ''" id="firstTab"  (click)="clickEvent('one')">
-      <a [routerLink]="['/home']">Home</a></li>
+      <a [routerLink]="['/home']">Pocetna</a></li>
     <li [ngClass]="status.two ? 'active' : ''" (click)="clickEvent('two')">
-      <a [routerLink]="['']" >Menu 1</a></li>
+      <a [routerLink]="['/info']" >Kontakt</a></li>
     <div id="rightHeader">
-      <li id="login"><a>Login</a></li>
+      <li id="login"><a>Uloguj se</a></li>
       <li id="separator">|</li>
-      <li id="register"><a>Register</a></li>
+      <li id="register"><a>Registracija</a></li>
     </div>
   </ul>
   </header>

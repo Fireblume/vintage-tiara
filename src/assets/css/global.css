@@ -1,0 +1,21 @@
+jw-modal{
+    display: none;
+}
+
+.details{
+	margin-left: 30px;
+}
+
+.details p {
+	font-size: 20px;
+}
+
+#modalImg{
+	height: 400px !important;
+    width: 400px !important;
+}
+
+/*#modalImg img{
+	height: 400px !important;
+    width: 400px ;
+}*/
