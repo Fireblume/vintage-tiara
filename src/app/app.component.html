@@ -5,9 +5,9 @@
     <li [ngClass]="status.two ? 'active' : ''" (click)="clickEvent('two')">
       <a [routerLink]="['/info']" >Kontakt</a></li>
     <div id="rightHeader">
-      <li id="login"><a>Uloguj se</a></li>
+      <li id="login" [routerLink]="['/login']"><a>Uloguj se</a></li>
       <li id="separator">|</li>
-      <li id="register"><a>Registracija</a></li>
+      <li id="register" [routerLink]="['/register']"><a>Registracija</a></li>
     </div>
   </ul>
   </header>

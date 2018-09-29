@@ -1,0 +1,39 @@
+#logDiv{
+	margin-top: 50px;
+	margin-left: 500px;
+}
+
+.form-control{
+	width: 250px;
+    margin-bottom: 20px;
+}
+
+.btn-login {
+	background: #C5B358;
+	color: white;
+  	position: relative;
+	bottom: 10px;
+	font-size: 16px;
+  	width: 250px;
+  	margin-top: 50px;
+
+	-moz-box-shadow: 1px 1px 2px #EEE8AA;
+	-webkit-box-shadow: 1px 1px 2px #EEE8AA;
+	box-shadow: 1px 1px 2px #EEE8AA;
+}
+
+.btn-login:hover{
+	background: #EEE8AA;
+	color: black;
+}
+
+.out-loging{
+	margin-bottom: 20px;
+    width: 300px;
+    border-bottom: 1px solid #C5B358;
+    margin-left: -23px;
+}
+
+.out-loging button{
+	margin-left: 23px;
+}
