@@ -1,4 +1,4 @@
- <header id="header">
+ <header id="header" *ngIf="notAdmin" #viewSection>
     <ul class="nav nav-tabs">
     <li [ngClass]="status.one ? 'active' : ''" id="firstTab"  (click)="clickEvent('one')">
       <a [routerLink]="['/home']">Pocetna</a></li>
@@ -19,5 +19,9 @@
   <footer id="footer"> 
    <div id="footerWrap">2018 </div>
  </footer>
+
+ <div id="upButton" #upButton (click)="gotoSection()">
+    <span class="glyphicon glyphicon-arrow-up"></span>
+ </div>
 
 

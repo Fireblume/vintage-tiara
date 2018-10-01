@@ -69,5 +69,24 @@ li a {
 #separator{
 	color: #996515 !important;
     margin-right: 10px;
+}
 
+#upButton{
+	width: 40px;
+    height: 40px;
+    position: fixed;
+    bottom: 60px;
+    border: 1px solid #996515;
+    border-radius: 5px;
+    color: #996515;
+    right: 30px;
+    text-align: center;
+    cursor: pointer;
+    padding-top: 9px;
+    display: none;
+}
+
+#upButton:hover{
+	background: #996515;
+	color: white;
 }
