@@ -1,0 +1,46 @@
+<div class="upper-dash">
+	<div class="col-md-6 list-displey">
+		<div class="items-lists col-md-3"></div>
+		<div class="items-lists col-md-3"></div>
+	</div>
+	<div class="col-md-6 form-part">
+		<div class="col-md-6">
+			<h4>Kategorija:</h4>
+			<form>
+				<input type="text" class="form-control" name="title" placeholder="Naziv">
+				<input type="radio" name="isActive" checked="true"><p class="radiobtn">Da</p>
+				<input type="radio" name="isActive"><p class="radiobtn">Ne</p>
+			</form>
+		</div>
+		<div class="col-md-6">
+			<h4>Podkategorija:</h4>
+			<form>
+				<input type="text" class="form-control" name="title" placeholder="Naziv">
+				<input list="category" class="form-control" name="category" placeholder="Kategorija" required/>
+						<datalist id="category" >
+							<option value="dfk">Prva</option>
+							<option value="kdfjd">Druga</option>
+							<option value="dfdfsk">Treca</option>
+						</datalist>
+				<input type="radio" name="isActive" checked="true"><p class="radiobtn">Da</p>
+				<input type="radio" name="isActive"><p class="radiobtn">Ne</p>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="lower-dash">
+	<div class="items-lists col-md-6"></div>
+	<div class="col-md-1 separator"></div>
+	<div class="col-md-4">
+		<h4>Proizvod:</h4>
+		<form>
+			<input type="text" class="form-control" name="title" placeholder="Naziv">
+			<input type="text" class="form-control" name="title" placeholder="Opis">
+			<input type="text" class="form-control" name="title" placeholder="Kolicina">
+			<input type="text" class="form-control" name="title" placeholder="Boja">
+			<input type="text" class="form-control" name="title" placeholder="Cena">
+			<input type="radio" name="isAvailable" checked="true"><p class="radiobtn">Da</p>
+			<input type="radio" name="isAvailable"><p class="radiobtn">Ne</p>
+		</form>
+	</div>
+</div>

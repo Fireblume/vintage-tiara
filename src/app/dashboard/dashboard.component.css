@@ -1,0 +1,35 @@
+.radiobtn{
+	display: inline-block;
+	margin-right: 10px;
+	margin-left: 5px;
+}
+
+.upper-dash{
+	border-bottom: 1px solid #C5B358;
+    height: 300px;
+}
+
+.lower-dash{
+	margin-top: 30px;
+	margin-bottom: 250px;
+}
+
+.list-displey{
+	height: 250px;
+    border-right: 1px solid #C5B358;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.form-part{
+	margin-top: 10px;
+}
+
+.form-control{
+	margin-bottom: 10px;
+}
+
+.separator{
+	border-left: 1px solid #C5B358;
+    height: 300px;
+}

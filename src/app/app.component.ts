@@ -12,15 +12,20 @@ export class AppComponent implements OnInit{
  	 notAdmin:boolean;
  	 @ViewChild('viewSection') viewSection: ElementRef
  	 @ViewChild('upButton') upButton: ElementRef
+ 	 @ViewChild('section') section: ElementRef
 
 	constructor(private route: Router) { }
 
 	ngOnInit() {
 		
-		if(window.location.pathname === '/info')
+		if(window.location.pathname === '/admin' || window.location.pathname === '/admin/dashboard'){
 			this.notAdmin = false;
-		else
+			this.section.nativeElement.style.display = 'block';
+		}
+		else{
 			this.notAdmin = true;
+			this.section.nativeElement.style.display = 'inline-block';
+		}
 
 		window.addEventListener("scroll", (e: Event) => {this.scrollFunction()});
 	  }

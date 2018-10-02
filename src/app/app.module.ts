@@ -11,12 +11,16 @@ import { HomeService } from './home/home.service';
 import { LoginService } from './login/login.service';
 import { RegisterService } from './register/register.service';
 import { ModalService } from './modal.service';
+import { AdminLoginService } from './admin-login/admin-login.service';
+import { DashboardService } from './dashboard/dashboard.service';
 
 import { HomeResolver } from './home/homeResolver.service';
 import { InfoComponent } from './info/info.component';
 import { ModalComponent } from './modal/modal.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
 	  { path: '', pathMatch: 'full', redirectTo: 'home'},
@@ -24,6 +28,8 @@ const routes: Routes = [
     { path: 'info', component: InfoComponent},
     { path: 'login', component: LoginComponent},
     { path: 'register', component: RegisterComponent},
+    { path: 'admin', component: AdminLoginComponent},
+    { path: 'admin/dashboard', component: DashboardComponent},
   ];
 
 @NgModule({
@@ -33,7 +39,9 @@ const routes: Routes = [
     InfoComponent,
     ModalComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AdminLoginComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +55,9 @@ const routes: Routes = [
     HomeResolver, 
     ModalService,
     RegisterService,
-    LoginService
+    LoginService,
+    AdminLoginService,
+    DashboardService
     ],
   bootstrap: [AppComponent]
 })
