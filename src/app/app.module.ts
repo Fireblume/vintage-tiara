@@ -3,6 +3,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxImageZoomModule } from 'ngx-image-zoom';
 import { Ng2ImgMaxModule } from 'ng2-img-max';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireStorageModule } from 'angularfire2/storage';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -21,6 +25,8 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+
+import { environment } from '../environments/environment';
 
 const routes: Routes = [
 	  { path: '', pathMatch: 'full', redirectTo: 'home'},
@@ -48,7 +54,11 @@ const routes: Routes = [
     RouterModule,
     Ng2ImgMaxModule,
     RouterModule.forRoot(routes),
-    NgxImageZoomModule.forRoot()
+    NgxImageZoomModule.forRoot(),
+    AngularFireModule.initializeApp(environment.firebase, 'vintagetiara'),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireStorageModule,
   ],
   providers: [ 
     HomeService, 
