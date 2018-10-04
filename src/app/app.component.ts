@@ -20,11 +20,11 @@ export class AppComponent implements OnInit{
 		
 		if(window.location.pathname === '/admin' || window.location.pathname === '/admin/dashboard'){
 			this.notAdmin = false;
-			this.section.nativeElement.style.display = 'block';
+			//this.section.nativeElement.style.display = 'block';
 		}
 		else{
 			this.notAdmin = true;
-			this.section.nativeElement.style.display = 'inline-block';
+			//this.section.nativeElement.style.display = 'inline-block';
 		}
 
 		window.addEventListener("scroll", (e: Event) => {this.scrollFunction()});
