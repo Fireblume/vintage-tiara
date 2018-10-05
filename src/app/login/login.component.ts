@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
@@ -12,7 +12,8 @@ import { LoginService } from './login.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public afAuth: AngularFireAuth, private router: Router, private logInService: LoginService) { }
+  constructor(public afAuth: AngularFireAuth, private router: Router, private logInService: LoginService,
+  private zone: NgZone) { }
 
   login: any = {};
   error: any;
@@ -31,19 +32,19 @@ export class LoginComponent implements OnInit {
 	    .then(res => {
 	      resolve(res);
 	      this.setUser(res);
-	      sessionStorage.setItem("currentUser", JSON.stringify(this.currentUser));
-	      this.router.navigate(['/home']);
-	      this.logInService.changeLoginStatus(true);
+		    sessionStorage.setItem("currentUser", JSON.stringify(this.currentUser));
+		    this.router.navigate(['/home']);
+		    this.logInService.changeLoginStatus(true);
 	    })
 	  })*/
 
 	  this.logInService.signInGoogle()
-		.then((res) => {
-		    //resolve(res);
+		.then((res) => {    
 		    this.setUser(res);
 		    sessionStorage.setItem("currentUser", JSON.stringify(this.currentUser));
-		    this.router.navigate(['/home']);
+		    this.zone.run(() => this.router.navigate(['/home']));
 		    this.logInService.changeLoginStatus(true);
+			
 		})
 	    .catch((err) => { 
 	      	  this.error = err;

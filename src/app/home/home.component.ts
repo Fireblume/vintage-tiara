@@ -24,8 +24,6 @@ export class HomeComponent implements OnInit  {
 	ngOnInit() {
 		this.categories = this.route.snapshot.data.home.categories;
 		this.images = this.route.snapshot.data.home.images;
-
-    console.log("iz home" + this.categories[0].kategorija)
 	}
 
 	openModal(id: string, modalImage: string) {
