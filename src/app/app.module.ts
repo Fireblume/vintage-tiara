@@ -20,6 +20,8 @@ import { AdminLoginService } from './admin-login/admin-login.service';
 import { DashboardService } from './dashboard/dashboard.service';
 
 import { HomeResolver } from './home/homeResolver.service';
+import { AppResolver } from './appResolver.service';
+
 import { InfoComponent } from './info/info.component';
 import { ModalComponent } from './modal/modal.component';
 import { LoginComponent } from './login/login.component';
@@ -31,7 +33,7 @@ import { EqualValidator } from './equalValidator.directive';
 import { environment } from '../environments/environment';
 
 const routes: Routes = [
-	  { path: '', pathMatch: 'full', redirectTo: 'home'},
+	{ path: '', pathMatch: 'full', redirectTo: 'home'},
     { path: 'home', component: HomeComponent, resolve: { home: HomeResolver }},
     { path: 'info', component: InfoComponent},
     { path: 'login', component: LoginComponent},
@@ -71,7 +73,8 @@ const routes: Routes = [
     RegisterService,
     LoginService,
     AdminLoginService,
-    DashboardService
+    DashboardService,
+    AppResolver
     ],
   bootstrap: [AppComponent]
 })

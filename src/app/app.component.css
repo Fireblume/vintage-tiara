@@ -64,8 +64,16 @@ li a {
 	margin-right: 10px;
 }
 
+#logout{
+    margin-right: 50px;
+}
+
 #register{
 	margin-right: 120px;
+}
+
+#cart{
+    margin-right: 20px;
 }
 
 #separator{

@@ -14,11 +14,6 @@ export class HomeResolver implements Resolve<IReturn> {
 
   constructor(private homeService: HomeService) { }
 
-  /*resolve() {   
-    return this.homeService.getCategories();
-  }*/
-
-
   resolve(): Observable<IReturn>{
     return of ([
           this.homeService.getCategories(),

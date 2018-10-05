@@ -5,12 +5,19 @@
       <a [routerLink]="['/home']">Pocetna</a></li>
     <li [ngClass]="status.two ? 'active' : ''" (click)="clickEvent('two')">
       <a [routerLink]="['/info']" >Kontakt</a></li>
-    <div id="rightHeader">
+    <div id="rightHeader" *ngIf="logedIn == false">
       <li id="login" (click)="clickEvent('')">
         <a [routerLink]="['/login']">Uloguj se</a></li>
       <li id="separator">|</li>
       <li id="register" (click)="clickEvent('')" >
         <a [routerLink]="['/register']">Registracija</a></li>
+    </div>
+    <div id="rightHeader" *ngIf="logedIn == true">
+      <li id="cart">
+        <img src="../../src/image/cart.png">
+      </li>
+      <li id="logout" (click)="logOut()">
+        <a>Izloguj se</a></li>
     </div>
   </ul>
   </header>

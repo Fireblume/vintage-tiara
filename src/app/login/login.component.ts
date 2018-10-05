@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   }
 
 	doGoogleLogin(){
-	  return new Promise<any>((resolve, reject) => {
+	  /*return new Promise<any>((resolve, reject) => {
 	    let provider = new firebase.auth.GoogleAuthProvider();
 	    provider.addScope('profile');
 	    provider.addScope('email');
@@ -33,8 +33,24 @@ export class LoginComponent implements OnInit {
 	      this.setUser(res);
 	      sessionStorage.setItem("currentUser", JSON.stringify(this.currentUser));
 	      this.router.navigate(['/home']);
+	      this.logInService.changeLoginStatus(true);
 	    })
-	  })
+	  })*/
+
+	  this.logInService.signInGoogle()
+		.then((res) => {
+		    //resolve(res);
+		    this.setUser(res);
+		    sessionStorage.setItem("currentUser", JSON.stringify(this.currentUser));
+		    this.router.navigate(['/home']);
+		    this.logInService.changeLoginStatus(true);
+		})
+	    .catch((err) => { 
+	      	  this.error = err;
+		      setTimeout(()=>{
+			      this.error = null;
+			  }, 3000);
+		});
 	}
 
 	logInWithEmail() {		
@@ -42,7 +58,8 @@ export class LoginComponent implements OnInit {
 	      .then((res) => {
 	      	this.setUser(res);
 	      	sessionStorage.setItem("currentUser", JSON.stringify(this.currentUser));
-	      	this.router.navigate(['/home']);        
+	      	this.router.navigate(['/home']);    
+	      	this.logInService.changeLoginStatus(true);
 	      })
 	      .catch((err) => { 
 	      	  this.error = err;

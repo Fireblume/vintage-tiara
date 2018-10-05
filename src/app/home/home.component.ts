@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit} from '@angular/core';
 import { HomeService } from './home.service';
 import { ModalService} from '../modal.service';
 import { Ng2ImgMaxService } from 'ng2-img-max';
@@ -10,13 +10,13 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit  {
 
   constructor(private homeService: HomeService, private route: ActivatedRoute,
   	private modalService: ModalService, private ng2ImgMax: Ng2ImgMaxService) { }
 
-    modalImage: any;
-  	categories: any;
+    modalImage: any = [];
+  	categories: any = [];
   	images:any;
     myThumbnail:any;
     hovered:any = {};
@@ -24,6 +24,8 @@ export class HomeComponent implements OnInit {
 	ngOnInit() {
 		this.categories = this.route.snapshot.data.home.categories;
 		this.images = this.route.snapshot.data.home.images;
+
+    console.log("iz home" + this.categories[0].kategorija)
 	}
 
 	openModal(id: string, modalImage: string) {
