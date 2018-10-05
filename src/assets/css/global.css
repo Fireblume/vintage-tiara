@@ -15,7 +15,28 @@ jw-modal{
     width: 400px !important;
 }
 
-/*#modalImg img{
-	height: 400px !important;
-    width: 400px ;
-}*/
+.input-has-error {
+		border-color: red !important;
+	}
+
+.input-has-error:focus {
+	border-color: red !important;
+
+	outline: 0;
+		-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(227, 57, 68, .6) !important;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(227, 57, 68, .6) !important;
+}
+
+.error-box{
+    padding: 5px;
+    color: red;
+	border: 1px solid #ccc;
+	width: 250px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 1px 1px 2px #ccc;
+	-webkit-box-shadow: 1px 1px 2px #ccc;
+	box-shadow: 1px 1px 2px #ccc;
+	-webkit-appearance: none;		
+}

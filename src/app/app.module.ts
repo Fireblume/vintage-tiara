@@ -7,6 +7,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireStorageModule } from 'angularfire2/storage';
+import { FormsModule }   from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -26,6 +27,7 @@ import { RegisterComponent } from './register/register.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
+import { EqualValidator } from './equalValidator.directive';
 import { environment } from '../environments/environment';
 
 const routes: Routes = [
@@ -47,7 +49,8 @@ const routes: Routes = [
     LoginComponent,
     RegisterComponent,
     AdminLoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    EqualValidator
   ],
   imports: [
     BrowserModule,
@@ -59,6 +62,7 @@ const routes: Routes = [
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
+    FormsModule
   ],
   providers: [ 
     HomeService, 

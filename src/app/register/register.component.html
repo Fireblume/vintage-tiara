@@ -1,9 +1,25 @@
 <div class="col-md-6" id="registerDiv">
-<form>
-		<input type="text" class="form-control" name="name" placeholder="Ime i prezime">
-		<input type="text" class="form-control" name="email" placeholder="Email">
-		<input type="password" class="form-control" name="password" placeholder="Lozinka">
-		<input type="password" class="form-control" name="Reppassword" placeholder="Ponovi lozinku">
-		<button class="btn btn-register">Registruj se</button>
+	<form name="form" (ngSubmit)="f.form.valid && doRegister()" #f="ngForm" novalidate>
+		<input type="text" class="form-control" name="name" [(ngModel)]="register.name"
+		 #name="ngModel" placeholder="Ime i prezime" 
+		 [ngClass]="{ 'input-has-error': !name.valid && !name.pristine }" required>
+
+		<input type="text" class="form-control" name="email" [(ngModel)]="register.email"
+		 #email="ngModel" placeholder="Email" 
+		 [ngClass]="{ 'input-has-error': !email.valid && !email.pristine }" required>
+
+		<input type="password" class="form-control" name="password" [(ngModel)]="register.password" 
+		 #password="ngModel" placeholder="Lozinka" validateEqual="reppassword" reverse="true"
+		 [ngClass]="{ 'input-has-error': !password.valid && !password.pristine }" required>
+
+		<input type="password" class="form-control" name="reppassword" [(ngModel)]="register.reppassword" 
+		 #reppassword="ngModel" placeholder="Ponovi lozinku" validateEqual="password" reverse="false"
+		 [ngClass]="{ 'input-has-error': !reppassword.valid && !reppassword.pristine }" required>
+
+		<div class="form-group error-box" *ngIf= "error != undefined || error != null">
+			{{error}} 
+		</div>
+
+		<button class="btn btn-register" [disabled]="!f.valid">Registruj se</button>
 	</form>
 </div>
