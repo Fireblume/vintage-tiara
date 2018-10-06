@@ -13,26 +13,40 @@
 	<div class="col-md-6 form-part">
 		<div class="col-md-6">
 			<h4>Kategorija:</h4>
-			<form>
-				<input type="text" class="form-control" name="title" placeholder="Naziv">
-				<input type="radio" name="isActive" checked="true"><p class="radiobtn">Da</p>
-				<input type="radio" name="isActive"><p class="radiobtn">Ne</p>
-				<button class="btn" id="form1">Sacuvaj</button>
+			<form name="form" (ngSubmit)="f1.form.valid && submitCatg(f1.value)" #f1="ngForm" novalidate>
+				<input type="text" name="uid" [(ngModel)]="category.uid" [hidden]="true">
+				<input type="text" class="form-control" name="title" placeholder="Naziv" 
+				 [(ngModel)]="category.title" #title="ngModel"
+		 		 [ngClass]="{ 'input-has-error': !title.valid && !title.pristine }" required>
+
+				<input type="radio" name="isActive" value="true" [(ngModel)]="category.isActive" required/>
+					<p class="radiobtn">Da</p>
+				<input type="radio" name="isActive" value="false" [(ngModel)]="category.isActive" required/>
+					<p class="radiobtn">Ne</p>
+				<button class="btn" id="form1" [disabled]="!f1.valid">Sacuvaj</button>
 			</form>
 		</div>
 		<div class="col-md-6">
 			<h4>Podkategorija:</h4>
-			<form>
-				<input type="text" class="form-control" name="title" placeholder="Naziv">
-				<input list="category" class="form-control" name="category" placeholder="Kategorija" required/>
+			<form name="form" (ngSubmit)="f2.form.valid && submitSubctg(f2.value)" #f2="ngForm" novalidate>
+				<input type="text" name="uid" [(ngModel)]="subCatg.uid" [hidden]="true">
+				<input type="text" class="form-control" name="title" placeholder="Naziv"
+				 [(ngModel)]="subCatg.title" #title="ngModel"
+		 		 [ngClass]="{ 'input-has-error': !title.valid && !title.pristine }" required>
+
+				<input list="category" class="form-control" name="category" placeholder="Kategorija" 
+				 [(ngModel)]="subCatg.category" #category="ngModel"
+		 		 [ngClass]="{ 'input-has-error': !category.valid && !category.pristine }" required/>
 						<datalist id="category" >
 							<option value="dfk">Prva</option>
 							<option value="kdfjd">Druga</option>
 							<option value="dfdfsk">Treca</option>
 						</datalist>
-				<input type="radio" name="isActive" checked="true"><p class="radiobtn">Da</p>
-				<input type="radio" name="isActive"><p class="radiobtn">Ne</p>
-				<button class="btn" id="form2">Sacuvaj</button>
+				<input type="radio" name="isActive" checked="true" >
+					<p class="radiobtn">Da</p>
+				<input type="radio" name="isActive" value="false" [(ngModel)]="subCatg.isActive">
+					<p class="radiobtn">Ne</p>
+				<button class="btn" id="form2" [disabled]="!f2.valid">Sacuvaj</button>
 			</form>
 		</div>
 	</div>
@@ -54,15 +68,33 @@
 	<div class="col-md-1 separator"></div>
 	<div class="col-md-4">
 		<h4>Proizvod:</h4>
-		<form>
-			<input type="text" class="form-control" name="title" placeholder="Naziv">
-			<input type="text" class="form-control" name="title" placeholder="Opis">
-			<input type="text" class="form-control" name="title" placeholder="Kolicina">
-			<input type="text" class="form-control" name="title" placeholder="Boja">
-			<input type="text" class="form-control" name="title" placeholder="Cena">
-			<input type="radio" name="isAvailable" checked="true"><p class="radiobtn">Da</p>
-			<input type="radio" name="isAvailable"><p class="radiobtn">Ne</p>
-			<button class="btn" id="form3">Sacuvaj</button>
+		<form name="form" (ngSubmit)="f3.form.valid && submitProduct(f3.value)" #f3="ngForm" novalidate>
+			<input type="text" name="uid" [(ngModel)]="product.uid" [hidden]="true">
+			<input type="text" class="form-control" name="title" placeholder="Naziv"
+			 [(ngModel)]="product.title" #title="ngModel"
+		 	 [ngClass]="{ 'input-has-error': !title.valid && !title.pristine }" required/>
+
+			<input type="text" class="form-control" name="description" placeholder="Opis"
+			 [(ngModel)]="product.desc" #desc="ngModel"
+		 	 [ngClass]="{ 'input-has-error': !desc.valid && !desc.pristine }" required/>
+
+			<input type="text" class="form-control" name="quantity" placeholder="Kolicina"
+			 [(ngModel)]="product.quantity" #quantity="ngModel"
+		 	 [ngClass]="{ 'input-has-error': !quantity.valid && !quantity.pristine }" required/>
+
+			<input type="text" class="form-control" name="color" placeholder="Boja"
+			 [(ngModel)]="product.color" #color="ngModel"
+		 	 [ngClass]="{ 'input-has-error': !color.valid && !color.pristine }" required/>
+
+			<input type="text" class="form-control" name="price" placeholder="Cena"
+			 [(ngModel)]="product.price" #price="ngModel"
+		 	 [ngClass]="{ 'input-has-error': !price.valid && !price.pristine }" required/>
+
+			<input type="radio" name="isAvailable" checked="true" value="true" [(ngModel)]="product.isActive">
+				<p class="radiobtn">Da</p>
+			<input type="radio" name="isAvailable" value="false" [(ngModel)]="product.isActive">
+				<p class="radiobtn">Ne</p>
+			<button class="btn" id="form3" [disabled]="!f3.valid">Sacuvaj</button>
 		</form>
 	</div>
 </div>

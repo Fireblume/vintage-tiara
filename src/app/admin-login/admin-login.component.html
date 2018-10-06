@@ -1,8 +1,17 @@
 <div class="col-md-4"></div>
 <div class="col-md-6" id="logDiv">
-	<form>
-		<input type="text" class="form-control" name="email" placeholder="Email">
-		<input type="password" class="form-control" name="password" placeholder="Lozinka">
-		<button class="btn btn-login">Prijavi se</button>
+	<form name="form" (ngSubmit)="f.form.valid && logInWithEmail()" #f="ngForm" novalidate>
+		<input type="email" class="form-control" name="email" [(ngModel)]="login.email"
+		 #email="ngModel" placeholder="Email" 
+		 [ngClass]="{ 'input-has-error': !email.valid && !email.pristine }" required>
+
+		<input type="password" class="form-control" name="password" [(ngModel)]="login.password"
+		 #password="ngModel" placeholder="Lozinka" 
+		 [ngClass]="{ 'input-has-error': !password.valid && !password.pristine }" required>
+
+		<div class="form-group error-box" *ngIf= "error != undefined || error != null">
+			{{error}} 
+		</div>
+		<button class="btn btn-login" [disabled]="!f.valid">Prijavi se</button>
 	</form>
 </div>

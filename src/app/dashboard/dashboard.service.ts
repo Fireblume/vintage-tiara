@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase/app';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
 
-  constructor() { }
+  constructor(private _firebaseAuth: AngularFireAuth, public db: AngularFireDatabase) { }
 
   getCategories(){
   	return [
@@ -75,4 +78,21 @@ export class DashboardService {
           }
     ]
   }
+
+  saveCategory(category, adminUid){
+
+    if(category.uid == undefined )
+      return this.db.list('/categories/'+adminUid)
+                    .push({
+                          title: category.title,
+                          active: category.isActive
+                        });
+    else
+      return this.db.object('/categories/'+adminUid+'/'+category.uid)
+                    .update({
+                      title: category.title,
+                      active: category.isActive
+                    });
+  }
+
 }

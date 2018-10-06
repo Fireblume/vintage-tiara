@@ -23,21 +23,6 @@ export class LoginComponent implements OnInit {
   }
 
 	doGoogleLogin(){
-	  /*return new Promise<any>((resolve, reject) => {
-	    let provider = new firebase.auth.GoogleAuthProvider();
-	    provider.addScope('profile');
-	    provider.addScope('email');
-	    this.afAuth.auth
-	    .signInWithPopup(provider)
-	    .then(res => {
-	      resolve(res);
-	      this.setUser(res);
-		    sessionStorage.setItem("currentUser", JSON.stringify(this.currentUser));
-		    this.router.navigate(['/home']);
-		    this.logInService.changeLoginStatus(true);
-	    })
-	  })*/
-
 	  this.logInService.signInGoogle()
 		.then((res) => {    
 		    this.setUser(res);
