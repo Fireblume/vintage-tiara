@@ -3,23 +3,26 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
 
-  constructor(private _firebaseAuth: AngularFireAuth, public db: AngularFireDatabase) { }
+  constructor(private _firebaseAuth: AngularFireAuth, public db: AngularFireDatabase) {
+       this._firebaseAuth.authState.subscribe((auth) => {
+              this.adminUid = auth.uid;
+            });
+   }
+
+   adminUid:any;
 
   getCategories(){
-  	return [
-  		{'id': 'o', 'cat':'prva'},
-  		{'id': 'd', 'cat':'druga'},
-  		{'id': 'f', 'cat':'treca'},
-  		{'id': 't', 'cat':'cetvrta'},
-  		{'id': 'e', 'cat':'prva'},
-  		{'id': 'g', 'cat':'druga'},
-  		{'id': 'y', 'cat':'treca'}
-  	]
+      return this.db.list('/categories/'+ this.adminUid).snapshotChanges().pipe(map(changes => {
+        return changes.map(c => ({ key: c.payload.key, value: c.payload.val() }));
+      }));
   }
 
   getSubCategories(){
@@ -79,16 +82,16 @@ export class DashboardService {
     ]
   }
 
-  saveCategory(category, adminUid){
+  saveCategory(category){
 
     if(category.uid == undefined )
-      return this.db.list('/categories/'+adminUid)
+      return this.db.list('/categories/'+ this.adminUid)
                     .push({
                           title: category.title,
                           active: category.isActive
                         });
     else
-      return this.db.object('/categories/'+adminUid+'/'+category.uid)
+      return this.db.object('/categories/'+ this.adminUid +'/'+category.uid)
                     .update({
                       title: category.title,
                       active: category.isActive

@@ -3,7 +3,9 @@
 	<div class="col-md-6 list-displey">
 		<div class="items-lists col-md-3">
 			<div class="list-title">Kategorije:</div>
-			<div *ngFor="let cat of categories" (click)="getSubCat(cat.id)">{{cat.cat}}</div>
+			<div *ngFor="let cat of categories" (click)="getSubCat(cat.key); fillFormC(cat)">
+				<div *ngIf="cat.value.active == 'true'">{{cat.value.title}}</div>
+			</div>
 		</div>
 		<div class="items-lists col-md-3">
 			<div class="list-title">Podkategorije:</div>
@@ -14,7 +16,7 @@
 		<div class="col-md-6">
 			<h4>Kategorija:</h4>
 			<form name="form" (ngSubmit)="f1.form.valid && submitCatg(f1.value)" #f1="ngForm" novalidate>
-				<input type="text" name="uid" [(ngModel)]="category.uid" [hidden]="true">
+				<input type="text" name="uid" [(ngModel)]="category.uid" #uid="ngModel" [hidden]="true">
 				<input type="text" class="form-control" name="title" placeholder="Naziv" 
 				 [(ngModel)]="category.title" #title="ngModel"
 		 		 [ngClass]="{ 'input-has-error': !title.valid && !title.pristine }" required>
@@ -30,14 +32,14 @@
 			<h4>Podkategorija:</h4>
 			<form name="form" (ngSubmit)="f2.form.valid && submitSubctg(f2.value)" #f2="ngForm" novalidate>
 				<input type="text" name="uid" [(ngModel)]="subCatg.uid" [hidden]="true">
-				<input type="text" class="form-control" name="title" placeholder="Naziv"
-				 [(ngModel)]="subCatg.title" #title="ngModel"
-		 		 [ngClass]="{ 'input-has-error': !title.valid && !title.pristine }" required>
+				<input type="text" class="form-control" name="subtitle" placeholder="Naziv"
+				 [(ngModel)]="subCatg.title" #subtitle="ngModel"
+		 		 [ngClass]="{ 'input-has-error': !subtitle.valid && !subtitle.pristine }" required>
 
-				<input list="category" class="form-control" name="category" placeholder="Kategorija" 
-				 [(ngModel)]="subCatg.category" #category="ngModel"
-		 		 [ngClass]="{ 'input-has-error': !category.valid && !category.pristine }" required/>
-						<datalist id="category" >
+				<input list="categoryList" class="form-control" name="categoryList" placeholder="Kategorija" 
+				 [(ngModel)]="subCatg.category" #categoryList="ngModel"
+		 		 [ngClass]="{ 'input-has-error': !categoryList.valid && !categoryList.pristine }" required/>
+						<datalist id="categoryList" >
 							<option value="dfk">Prva</option>
 							<option value="kdfjd">Druga</option>
 							<option value="dfdfsk">Treca</option>
@@ -70,9 +72,9 @@
 		<h4>Proizvod:</h4>
 		<form name="form" (ngSubmit)="f3.form.valid && submitProduct(f3.value)" #f3="ngForm" novalidate>
 			<input type="text" name="uid" [(ngModel)]="product.uid" [hidden]="true">
-			<input type="text" class="form-control" name="title" placeholder="Naziv"
-			 [(ngModel)]="product.title" #title="ngModel"
-		 	 [ngClass]="{ 'input-has-error': !title.valid && !title.pristine }" required/>
+			<input type="text" class="form-control" name="prodtitle" placeholder="Naziv"
+			 [(ngModel)]="product.title" #prodtitle="ngModel"
+		 	 [ngClass]="{ 'input-has-error': !prodtitle.valid && !prodtitle.pristine }" required/>
 
 			<input type="text" class="form-control" name="description" placeholder="Opis"
 			 [(ngModel)]="product.desc" #desc="ngModel"
