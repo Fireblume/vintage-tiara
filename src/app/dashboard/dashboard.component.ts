@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DashboardService } from './dashboard.service';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
+import { Ng2ImgMaxService } from 'ng2-img-max';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +12,8 @@ import * as firebase from 'firebase/app';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private dashService: DashboardService, private _firebaseAuth: AngularFireAuth) {
+  constructor(private dashService: DashboardService, private _firebaseAuth: AngularFireAuth, 
+  public db: AngularFireDatabase, public ng2ImgMax: Ng2ImgMaxService) {
       
   }
 
@@ -31,9 +34,7 @@ export class DashboardComponent implements OnInit {
   selectedP:any = {};
 
   ngOnInit() {
-  console.log(this.category)
   	this.getCategory();
-    this.getProducts();
   }
 
   getCategory(){
@@ -64,12 +65,56 @@ export class DashboardComponent implements OnInit {
           });
     }
 
-  getProducts(){
-    this.products = this.dashService.getProducts();
+  getProducts(subCtgId){
+    this.dashService.getProducts(subCtgId).subscribe(
+      (res) => {
+        let container:any[] = [];
+        let result: any[] = res;
+
+        for(let i of result){
+          this.dashService.getPhoto(i.key).then(
+            (res1 => {i.value.photo = res1; container.push(i)})
+          )
+        }
+        console.log(this.products)
+        this.products = container;
+      }, 
+      (error) => {
+            this.error = error;
+            setTimeout(()=>{
+            this.error = null;
+        }, 3000);
+            console.log(error)
+          });
   }
 
   submitCatg(category){
     this.dashService.saveCategory(category);
+  }
+
+  submitProduct(product){
+    const pushId = this.db.createPushId();
+    product.photo = this.product.photo;
+    console.log(product)
+
+    this.ng2ImgMax.resizeImage(product.photo, 800, 800).subscribe(
+        result => {
+          this.dashService.pushFileToStorage(result, pushId).on(firebase.storage.TaskEvent.STATE_CHANGED,
+            (snapshot) => {
+              // in progress
+            },
+            (error) => {
+              // fail
+              console.log(error);
+            },
+            () => {
+              // success
+              this.dashService.saveProduct(product, pushId);
+            });
+          },
+         error => {
+           console.log('😢 Oh no!', error);
+        });      
   }
 
   fillFormC(category){
@@ -113,5 +158,16 @@ export class DashboardComponent implements OnInit {
   selectActiveS(key){
     this.selectedS = {};
     this.selectedS[key] = true;
+  }
+
+  selectFile(event) {
+    const file = event.target.files.item(0);
+  
+    if (file.type.match('image.*')) {
+      this.product.photo = file;
+      console.log(this.product)
+    } else {
+      alert('invalid format!');
+    }
   }
 }

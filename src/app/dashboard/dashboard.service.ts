@@ -1,7 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
+import { FirebaseApp } from 'angularfire2';
+import 'firebase/storage';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,7 +13,8 @@ import { map } from 'rxjs/operators';
 })
 export class DashboardService {
 
-  constructor(private _firebaseAuth: AngularFireAuth, public db: AngularFireDatabase) {
+  constructor(private _firebaseAuth: AngularFireAuth, public db: AngularFireDatabase,
+              public firebaseApp: FirebaseApp) {
        this._firebaseAuth.authState.subscribe((auth) => {
               this.adminUid = auth.uid;
             });
@@ -32,44 +35,11 @@ export class DashboardService {
                   }));
   }
 
-  getProducts(){
-    return [
-          {
-            'image': 'logo-try.jpg',
-            'title': 'Test test testiiici',
-            'desc': 'Test',
-            'quantity':'2',
-            'price':'200'
-          },
-          {
-            'image': 'logo-withbackground.jpg',
-            'title': 'Test tskdjklsjdlkfsjlkfjslkdj dj',
-            'desc': 'Test',
-            'quantity':'10',
-            'price':'100'
-          },
-          {
-            'image': 'logo.jpg',
-            'title': 'Test',
-            'desc': 'Test',
-            'quantity':'8',
-            'price':'3000'
-          },
-          {
-            'image': 'logo-try.jpg',
-            'title': 'Test',
-            'desc': 'TestTest',
-            'quantity':'2',
-            'price':'500'
-          },
-          {
-            'image': 'logo-withbackground.jpg',
-            'title': 'Test',
-            'desc': 'Test',
-            'quantity':'1',
-            'price':'1000'
-          }
-    ]
+  getProducts(subCtgID){
+   return this.db.list('/products/'+ this.adminUid + '/'+ subCtgID)
+                  .snapshotChanges().pipe(map(changes => {
+                    return changes.map(c => ({ key: c.payload.key, value: c.payload.val(), parentId: subCtgID }));
+                  }));
   }
 
   saveCategory(category){
@@ -102,10 +72,45 @@ export class DashboardService {
                     });
   }
 
+  saveProduct(product, pushId){
+    if(product.uidP == undefined ){
+      return this.db.list('/products/'+ this.adminUid + '/'+ product.subCtgId)
+                    .set(pushId,{
+                          title: product.prodtitle,
+                          description: product.desc,
+                          quantity: product.quantity,
+                          color: product.color,
+                          price: product.price,
+                          available: product.isAvailable
+                        });
+    }
+    else
+      return this.db.object('/products/'+ this.adminUid + '/'+ product.subCtgId +'/'+product.uidP)
+                    .update({
+                      title: product.prodtitle,
+                      description: product.desc,
+                      quantity: product.quantity,
+                      color: product.color,
+                      price: product.price,
+                      available: product.isAvailable,
+                      photo: product.photo
+                    });
+  }
+
   removeSubCateg(subCateg, catID){
     console.log("za brisanje " +catID)
     return this.db.object('/subcategories/'+ this.adminUid +'/'+ catID +'/'+subCateg.uidS)
                   .remove();
+  }
+
+  pushFileToStorage(fileUpload: File, pushId) {
+    const storageRef = this.firebaseApp.storage().ref();
+    return storageRef.child('/photos/'+ pushId).put(fileUpload);
+  }
+
+  getPhoto(productId){
+    const storageRef = this.firebaseApp.storage();
+    return storageRef.ref('/photos/'+productId).getDownloadURL();
   }
 
 }

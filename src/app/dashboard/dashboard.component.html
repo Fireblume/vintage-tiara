@@ -10,7 +10,7 @@
 		</div>
 		<div class="items-lists col-md-3">
 			<div class="list-title">Podkategorije:</div>
-			<div *ngFor="let sub of subCatgs" (click)="fillFormS(sub); selectActiveS(sub.key)">
+			<div *ngFor="let sub of subCatgs" (click)="getProducts(sub.key); fillFormS(sub); selectActiveS(sub.key)">
 				<div [ngClass]="selectedS[sub.key] ? 'active' : ''" >{{sub.value.title}}</div>
 			</div>
 		</div>
@@ -66,13 +66,13 @@
 	<div class="col-md-6" style="margin-left: 30px;">
 		<div class="prod-div" *ngFor="let prod of products">
 			<div class="img-div">
-				<img class="img-responsive" src="../../src/image/{{prod.image}}">
+				<img class="img-responsive" src="{{prod.value.photo}}">
 			</div>
 			<div class="details-div">
-				<div>Naziv: {{prod.title}}</div>
-				<div>Opis: {{prod.desc}}</div>
-				<div>Kolicina: {{prod.quantity}}</div>
-				<div>Cena: {{prod.price}}</div>
+				<div>Naziv: {{prod.value.title}}</div>
+				<div>Opis: {{prod.value.description}}</div>
+				<div>Kolicina: {{prod.value.quantity}}</div>
+				<div>Cena: {{prod.value.price}}</div>
 			</div>
 		</div>
 	</div>
@@ -82,12 +82,21 @@
 		<form name="form" (ngSubmit)="f3.form.valid && submitProduct(f3.value)" #f3="ngForm" novalidate>
 			<input type="text" name="uidP" [(ngModel)]="product.uidP" #uidP="ngModel" [hidden]="true">
 			<input type="text" class="form-control" name="prodtitle" placeholder="Naziv"
-			 [(ngModel)]="product.title" #prodtitle="ngModel"
+			 [(ngModel)]="product.prodtitle" #prodtitle="ngModel"
 		 	 [ngClass]="{ 'input-has-error': !prodtitle.valid && !prodtitle.pristine }" required/>
 
-			<input type="text" class="form-control" name="description" placeholder="Opis"
+			<input type="text" class="form-control" name="desc" placeholder="Opis"
 			 [(ngModel)]="product.desc" #desc="ngModel"
 		 	 [ngClass]="{ 'input-has-error': !desc.valid && !desc.pristine }" required/>
+
+		 	 <input list="subCtgList" class="form-control" name="subCtgId" placeholder="Podkategorija" 
+				 [(ngModel)]="product.subCtgId" #subCtgId="ngModel" #submitOption
+		 		 [ngClass]="{ 'input-has-error': !subCtgId.valid && !subCtgId.pristine }" required/>
+						<datalist id="subCtgList" >
+							<option value="{{sub.key}}" *ngFor="let sub of subCatgs">
+								{{sub.value.title}}
+							</option>
+						</datalist>
 
 			<input type="text" class="form-control" name="quantity" placeholder="Kolicina"
 			 [(ngModel)]="product.quantity" #quantity="ngModel"
@@ -101,9 +110,12 @@
 			 [(ngModel)]="product.price" #price="ngModel"
 		 	 [ngClass]="{ 'input-has-error': !price.valid && !price.pristine }" required/>
 
-			<input type="radio" name="isAvailable" value="true" [(ngModel)]="product.isActive" required>
+		 	<input type="file" id="photoPick" name="photo"
+		 	(change)="selectFile($event)" required>
+
+			<input type="radio" name="isAvailable" value="true" [(ngModel)]="product.isAvailable" required>
 				<p class="radiobtn">Da</p>
-			<input type="radio" name="isAvailable" value="false" [(ngModel)]="product.isActive" required>
+			<input type="radio" name="isAvailable" value="false" [(ngModel)]="product.isAvailable" required>
 				<p class="radiobtn">Ne</p>
 			<div id="form3">
 				<button class="btn" [disabled]="!f3.valid">Sacuvaj</button>
