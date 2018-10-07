@@ -38,7 +38,7 @@ export class AppComponent implements OnInit{
 	status:any = { 'one':true, 
 					'two':false};
 
-    clickEvent(number){
+  clickEvent(number){
 		this.status = {};
 		this.status[number] = true
 	}

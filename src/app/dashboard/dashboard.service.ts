@@ -25,21 +25,11 @@ export class DashboardService {
       }));
   }
 
-  getSubCategories(){
-  	return [
-	  		{'catId':'o',
-	  		'catgs': [
-	  			{'subcat':'prva'},
-	  			{'subcat':'druga'},
-	  			{'subcat':'treca'}
-	  			]},
-	  		{'catId':'d',
-	  		'catgs': [
-	  			{'subcat':'druga gdd'},
-	  			{'subcat':'dkkkkdj'},
-	  			{'subcat':'kdkkkdk'}
-	  			]},
-	  	]
+  getSubCategories(categoryID){
+  	return this.db.list('/subcategories/'+ this.adminUid + '/'+ categoryID)
+                  .snapshotChanges().pipe(map(changes => {
+                    return changes.map(c => ({ key: c.payload.key, value: c.payload.val(), parentId: categoryID }));
+                  }));
   }
 
   getProducts(){
@@ -83,19 +73,39 @@ export class DashboardService {
   }
 
   saveCategory(category){
-
-    if(category.uid == undefined )
+    if(category.uidC == undefined )
       return this.db.list('/categories/'+ this.adminUid)
                     .push({
                           title: category.title,
                           active: category.isActive
                         });
     else
-      return this.db.object('/categories/'+ this.adminUid +'/'+category.uid)
+      return this.db.object('/categories/'+ this.adminUid +'/'+category.uidC)
                     .update({
                       title: category.title,
                       active: category.isActive
                     });
+  }
+
+  saveSubCateg(subCateg){
+    if(subCateg.uidS == undefined )
+      return this.db.list('/subcategories/'+ this.adminUid + '/'+ subCateg.categoryId)
+                    .push({
+                          title: subCateg.subtitle,
+                          active: subCateg.isActiveS
+                        });
+    else
+      return this.db.object('/subcategories/'+ this.adminUid + '/'+ subCateg.categoryId +'/'+subCateg.uidS)
+                    .update({
+                      title: subCateg.subtitle,
+                      active: subCateg.isActiveS
+                    });
+  }
+
+  removeSubCateg(subCateg, catID){
+    console.log("za brisanje " +catID)
+    return this.db.object('/subcategories/'+ this.adminUid +'/'+ catID +'/'+subCateg.uidS)
+                  .remove();
   }
 
 }

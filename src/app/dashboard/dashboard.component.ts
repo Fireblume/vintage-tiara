@@ -14,14 +14,21 @@ export class DashboardComponent implements OnInit {
       
   }
 
+  @ViewChild('submitOption') public submitOption: ElementRef;
+
 	categories:any;
-	subCat:any;
+	subCatgs:any;
   products:any;
 
   product:any = {};
   category: any = {};
   subCatg:any = {};
   error:any;
+  categoryId:any;
+
+  selectedC:any = {};
+  selectedS:any = {};
+  selectedP:any = {};
 
   ngOnInit() {
   console.log(this.category)
@@ -44,12 +51,18 @@ export class DashboardComponent implements OnInit {
   }
 
   getSubCat(catId){
-  	let suc = this.dashService.getSubCategories();
-  	suc.forEach(cat => { 
-  		if(cat.catId == catId)
-  			this.subCat = cat;
-  		});
-  }
+  	this.dashService.getSubCategories(catId).subscribe(
+      (res) => {
+        this.subCatgs = res;
+      }, 
+      (error) => {
+            this.error = error;
+            setTimeout(()=>{
+            this.error = null;
+        }, 3000);
+            console.log(error)
+          });
+    }
 
   getProducts(){
     this.products = this.dashService.getProducts();
@@ -60,9 +73,45 @@ export class DashboardComponent implements OnInit {
   }
 
   fillFormC(category){
-    this.category.uid = category.key;
+    this.category.uidC = category.key;
     this.category.title = category.value.title;
     this.category.isActive = category.value.active;
   }
 
+  submitSubctg(subCat){
+    this.dashService.saveSubCateg(subCat);
+  }
+
+  fillFormS(subCat){
+    this.subCatg.uidS = subCat.key;
+    this.subCatg.subtitle = subCat.value.title;
+    this.subCatg.isActiveS = subCat.value.active;
+    this.subCatg.categoryId = subCat.parentId;
+    this.categoryId = subCat.parentId;
+
+    this.submitOption.nativeElement.disabled = true;
+  }
+
+  cleanCatgForm() {
+    this.selectedC = {};
+    this.category = {};
+    this.subCatgs = [];
+    this.selectedS = {};
+  }
+
+  cleanSubForm(){
+    this.selectedS = {};
+    this.subCatg = {};
+    this.submitOption.nativeElement.disabled = false;
+  }
+
+  selectActiveC(key){
+    this.selectedC = {};
+    this.selectedC[key] = true;
+  }
+
+  selectActiveS(key){
+    this.selectedS = {};
+    this.selectedS[key] = true;
+  }
 }

@@ -3,20 +3,23 @@
 	<div class="col-md-6 list-displey">
 		<div class="items-lists col-md-3">
 			<div class="list-title">Kategorije:</div>
-			<div *ngFor="let cat of categories" (click)="getSubCat(cat.key); fillFormC(cat)">
-				<div *ngIf="cat.value.active == 'true'">{{cat.value.title}}</div>
+			<div *ngFor="let cat of categories" (click)="getSubCat(cat.key); fillFormC(cat); 
+				selectActiveC(cat.key)">
+				<div [ngClass]="selectedC[cat.key] ? 'active' : ''" >{{cat.value.title}}</div>
 			</div>
 		</div>
 		<div class="items-lists col-md-3">
 			<div class="list-title">Podkategorije:</div>
-			<div *ngFor="let sub of subCat?.catgs">{{sub.subcat}}</div>
+			<div *ngFor="let sub of subCatgs" (click)="fillFormS(sub); selectActiveS(sub.key)">
+				<div [ngClass]="selectedS[sub.key] ? 'active' : ''" >{{sub.value.title}}</div>
+			</div>
 		</div>
 	</div>
 	<div class="col-md-6 form-part">
 		<div class="col-md-6">
 			<h4>Kategorija:</h4>
 			<form name="form" (ngSubmit)="f1.form.valid && submitCatg(f1.value)" #f1="ngForm" novalidate>
-				<input type="text" name="uid" [(ngModel)]="category.uid" #uid="ngModel" [hidden]="true">
+				<input type="text" name="uidC" [(ngModel)]="category.uidC" #uidC="ngModel" [hidden]="true">
 				<input type="text" class="form-control" name="title" placeholder="Naziv" 
 				 [(ngModel)]="category.title" #title="ngModel"
 		 		 [ngClass]="{ 'input-has-error': !title.valid && !title.pristine }" required>
@@ -25,30 +28,36 @@
 					<p class="radiobtn">Da</p>
 				<input type="radio" name="isActive" value="false" [(ngModel)]="category.isActive" required/>
 					<p class="radiobtn">Ne</p>
-				<button class="btn" id="form1" [disabled]="!f1.valid">Sacuvaj</button>
+				<div id="form1">
+					<button class="btn" [disabled]="!f1.valid">Sacuvaj</button>
+					<button class="btn btn-clean" (click)="cleanCatgForm()">Obrisi</button>
+				</div>
 			</form>
 		</div>
 		<div class="col-md-6">
 			<h4>Podkategorija:</h4>
 			<form name="form" (ngSubmit)="f2.form.valid && submitSubctg(f2.value)" #f2="ngForm" novalidate>
-				<input type="text" name="uid" [(ngModel)]="subCatg.uid" [hidden]="true">
+				<input type="text" name="uidS" [(ngModel)]="subCatg.uidS" #uidS="ngModel" [hidden]="true">
 				<input type="text" class="form-control" name="subtitle" placeholder="Naziv"
-				 [(ngModel)]="subCatg.title" #subtitle="ngModel"
+				 [(ngModel)]="subCatg.subtitle" #subtitle="ngModel"
 		 		 [ngClass]="{ 'input-has-error': !subtitle.valid && !subtitle.pristine }" required>
 
-				<input list="categoryList" class="form-control" name="categoryList" placeholder="Kategorija" 
-				 [(ngModel)]="subCatg.category" #categoryList="ngModel"
-		 		 [ngClass]="{ 'input-has-error': !categoryList.valid && !categoryList.pristine }" required/>
+				<input list="categoryList" class="form-control" name="categoryId" placeholder="Kategorija" 
+				 [(ngModel)]="subCatg.categoryId" #categoryId="ngModel" #submitOption
+		 		 [ngClass]="{ 'input-has-error': !categoryId.valid && !categoryId.pristine }" required/>
 						<datalist id="categoryList" >
-							<option value="dfk">Prva</option>
-							<option value="kdfjd">Druga</option>
-							<option value="dfdfsk">Treca</option>
+							<option value="{{cat.key}}" *ngFor="let cat of categories">
+								{{cat.value.title}}
+							</option>
 						</datalist>
-				<input type="radio" name="isActive" checked="true" >
+				<input type="radio" name="isActiveS" value="true" [(ngModel)]="subCatg.isActiveS" required>
 					<p class="radiobtn">Da</p>
-				<input type="radio" name="isActive" value="false" [(ngModel)]="subCatg.isActive">
+				<input type="radio" name="isActiveS" value="false" [(ngModel)]="subCatg.isActiveS" required>
 					<p class="radiobtn">Ne</p>
-				<button class="btn" id="form2" [disabled]="!f2.valid">Sacuvaj</button>
+				<div id="form2">
+					<button class="btn" [disabled]="!f2.valid">Sacuvaj</button>
+					<button class="btn btn-clean" (click)="cleanSubForm()">Obrisi</button>
+				</div>
 			</form>
 		</div>
 	</div>
@@ -71,7 +80,7 @@
 	<div class="col-md-4">
 		<h4>Proizvod:</h4>
 		<form name="form" (ngSubmit)="f3.form.valid && submitProduct(f3.value)" #f3="ngForm" novalidate>
-			<input type="text" name="uid" [(ngModel)]="product.uid" [hidden]="true">
+			<input type="text" name="uidP" [(ngModel)]="product.uidP" #uidP="ngModel" [hidden]="true">
 			<input type="text" class="form-control" name="prodtitle" placeholder="Naziv"
 			 [(ngModel)]="product.title" #prodtitle="ngModel"
 		 	 [ngClass]="{ 'input-has-error': !prodtitle.valid && !prodtitle.pristine }" required/>
@@ -92,11 +101,14 @@
 			 [(ngModel)]="product.price" #price="ngModel"
 		 	 [ngClass]="{ 'input-has-error': !price.valid && !price.pristine }" required/>
 
-			<input type="radio" name="isAvailable" checked="true" value="true" [(ngModel)]="product.isActive">
+			<input type="radio" name="isAvailable" value="true" [(ngModel)]="product.isActive" required>
 				<p class="radiobtn">Da</p>
-			<input type="radio" name="isAvailable" value="false" [(ngModel)]="product.isActive">
+			<input type="radio" name="isAvailable" value="false" [(ngModel)]="product.isActive" required>
 				<p class="radiobtn">Ne</p>
-			<button class="btn" id="form3" [disabled]="!f3.valid">Sacuvaj</button>
+			<div id="form3">
+				<button class="btn" [disabled]="!f3.valid">Sacuvaj</button>
+				<button class="btn btn-clean" (click)="product = {}">Obrisi</button>
+			</div>
 		</form>
 	</div>
 </div>

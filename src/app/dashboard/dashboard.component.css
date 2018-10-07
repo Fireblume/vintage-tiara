@@ -57,12 +57,22 @@
 	cursor: pointer;
 }
 
+.active{
+	border-radius: 3px;
+	background-color: #914853;
+	color: white;
+	padding-left: 10px;
+}
+
 .list-title{
 	font-size: 16px;
 }
 
-.btn{
-    display: block !important;
+.btn-clean{
+	border: 1px solid #bf7f89;
+    background: white;
+    color: #bf7f89;
+    margin-left: 15px;
 }
 
 .btn:hover{
