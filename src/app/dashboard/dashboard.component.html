@@ -43,7 +43,7 @@
 		 		 [ngClass]="{ 'input-has-error': !subtitle.valid && !subtitle.pristine }" required>
 
 				<input list="categoryList" class="form-control" name="categoryId" placeholder="Kategorija" 
-				 [(ngModel)]="subCatg.categoryId" #categoryId="ngModel" #submitOption
+				 [(ngModel)]="subCatg.categoryId" #categoryId="ngModel" #ctgInput
 		 		 [ngClass]="{ 'input-has-error': !categoryId.valid && !categoryId.pristine }" required/>
 						<datalist id="categoryList" >
 							<option value="{{cat.key}}" *ngFor="let cat of categories">
@@ -64,7 +64,7 @@
 </div>
 <div class="lower-dash">
 	<div class="col-md-6" style="margin-left: 30px;">
-		<div class="prod-div" *ngFor="let prod of products">
+		<div class="prod-div" *ngFor="let prod of products" (click)="fillFormP(prod)">
 			<div class="img-div">
 				<img class="img-responsive" src="{{prod.value.photo}}">
 			</div>
@@ -90,7 +90,7 @@
 		 	 [ngClass]="{ 'input-has-error': !desc.valid && !desc.pristine }" required/>
 
 		 	 <input list="subCtgList" class="form-control" name="subCtgId" placeholder="Podkategorija" 
-				 [(ngModel)]="product.subCtgId" #subCtgId="ngModel" #submitOption
+				 [(ngModel)]="product.subCtgId" #subCtgId="ngModel" #subCtgInput
 		 		 [ngClass]="{ 'input-has-error': !subCtgId.valid && !subCtgId.pristine }" required/>
 						<datalist id="subCtgList" >
 							<option value="{{sub.key}}" *ngFor="let sub of subCatgs">
@@ -119,7 +119,7 @@
 				<p class="radiobtn">Ne</p>
 			<div id="form3">
 				<button class="btn" [disabled]="!f3.valid">Sacuvaj</button>
-				<button class="btn btn-clean" (click)="product = {}">Obrisi</button>
+				<button class="btn btn-clean" (click)="cleanProdForm()">Obrisi</button>
 			</div>
 		</form>
 	</div>

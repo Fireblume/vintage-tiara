@@ -101,6 +101,17 @@
     margin-right: 10px;
 }
 
+.prod-div:hover {
+	border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+
+    -moz-box-shadow: 0.5px 1px 5px lightgray;
+	-webkit-box-shadow: 0.5px 1px 5px lightgray;
+	box-shadow: 1px 1px 5px lightgray;
+}
+
 .img-div{
 	height: 150px;
     width: 150px;	

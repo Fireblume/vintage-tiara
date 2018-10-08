@@ -92,8 +92,7 @@ export class DashboardService {
                       quantity: product.quantity,
                       color: product.color,
                       price: product.price,
-                      available: product.isAvailable,
-                      photo: product.photo
+                      available: product.isAvailable
                     });
   }
 

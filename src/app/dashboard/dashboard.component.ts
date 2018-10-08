@@ -17,7 +17,8 @@ export class DashboardComponent implements OnInit {
       
   }
 
-  @ViewChild('submitOption') public submitOption: ElementRef;
+  @ViewChild('ctgInput') public ctgInput: ElementRef;
+  @ViewChild('subCtgInput') public subCtgInput: ElementRef;
 
 	categories:any;
 	subCatgs:any;
@@ -97,34 +98,37 @@ export class DashboardComponent implements OnInit {
     product.photo = this.product.photo;
     console.log(product)
 
-    this.ng2ImgMax.resizeImage(product.photo, 800, 800).subscribe(
-        result => {
-          this.dashService.pushFileToStorage(result, pushId).on(firebase.storage.TaskEvent.STATE_CHANGED,
-            (snapshot) => {
-              // in progress
+    if(product.photo != undefined)
+      this.ng2ImgMax.resizeImage(product.photo, 800, 800).subscribe(
+          result => {
+            this.dashService.pushFileToStorage(result, pushId).on(firebase.storage.TaskEvent.STATE_CHANGED,
+              (snapshot) => {
+                // in progress
+              },
+              (error) => {
+                // fail
+                console.log(error);
+              },
+              () => {
+                // success
+                this.dashService.saveProduct(product, pushId);
+              });
             },
-            (error) => {
-              // fail
-              console.log(error);
-            },
-            () => {
-              // success
-              this.dashService.saveProduct(product, pushId);
-            });
-          },
-         error => {
-           console.log('😢 Oh no!', error);
-        });      
+           error => {
+             console.log('😢 Oh no!', error);
+          });   
+    else
+      this.dashService.saveProduct(product, pushId);
+  }
+
+  submitSubctg(subCat){
+    this.dashService.saveSubCateg(subCat);
   }
 
   fillFormC(category){
     this.category.uidC = category.key;
     this.category.title = category.value.title;
     this.category.isActive = category.value.active;
-  }
-
-  submitSubctg(subCat){
-    this.dashService.saveSubCateg(subCat);
   }
 
   fillFormS(subCat){
@@ -134,7 +138,20 @@ export class DashboardComponent implements OnInit {
     this.subCatg.categoryId = subCat.parentId;
     this.categoryId = subCat.parentId;
 
-    this.submitOption.nativeElement.disabled = true;
+    this.ctgInput.nativeElement.disabled = true;
+  }
+
+  fillFormP(prod){
+    this.product.uidP = prod.key;
+    this.product.prodtitle = prod.value.title;
+    this.product.desc = prod.value.description;
+    this.product.quantity = prod.value.quantity;
+    this.product.color = prod.value.color;
+    this.product.price = prod.value.price;
+    this.product.isAvailable = prod.value.available;
+    this.product.subCtgId = prod.parentId;
+
+    this.subCtgInput.nativeElement.disabled = true;
   }
 
   cleanCatgForm() {
@@ -147,7 +164,12 @@ export class DashboardComponent implements OnInit {
   cleanSubForm(){
     this.selectedS = {};
     this.subCatg = {};
-    this.submitOption.nativeElement.disabled = false;
+    this.ctgInput.nativeElement.disabled = false;
+  }
+
+  cleanProdForm(){
+    this.product = {};
+    this.subCtgInput.nativeElement.disabled = false;
   }
 
   selectActiveC(key){
