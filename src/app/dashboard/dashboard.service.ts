@@ -102,6 +102,19 @@ export class DashboardService {
                   .remove();
   }
 
+  removeCateg(categ){
+    this.getSubCategories(categ.key).subscribe(
+      (res) => {
+        let subctgList = res;
+        console.log(subctgList)
+        for(let i of subctgList)
+          this.db.object('/products/'+ this.adminUid +'/'+ i.key).remove();
+
+        this.db.object('/subcategories/'+ this.adminUid +'/'+ categ.key).remove();
+        this.db.object('/categories/'+ this.adminUid +'/'+ categ.key).remove();
+      });
+  }
+
   pushFileToStorage(fileUpload: File, pushId) {
     const storageRef = this.firebaseApp.storage().ref();
     return storageRef.child('/photos/'+ pushId).put(fileUpload);

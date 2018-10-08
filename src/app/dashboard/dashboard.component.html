@@ -5,7 +5,8 @@
 			<div class="list-title">Kategorije:</div>
 			<div *ngFor="let cat of categories" (click)="getSubCat(cat.key); fillFormC(cat); 
 				selectActiveC(cat.key)">
-				<div [ngClass]="selectedC[cat.key] ? 'active' : ''" >{{cat.value.title}}</div>
+				<div class="listItm" [ngClass]="selectedC[cat.key] ? 'active' : ''" >{{cat.value.title}}</div>
+				<span class="glyphicon glyphicon-remove removeIcon" (click)="removeCategory(cat)"></span>
 			</div>
 		</div>
 		<div class="items-lists col-md-3">
@@ -123,4 +124,7 @@
 			</div>
 		</form>
 	</div>
+</div>
+<div id="feedbackMsg" #feedbackMsg>
+	{{fdbMessage}}
 </div>

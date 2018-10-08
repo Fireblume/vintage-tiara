@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit {
 
   @ViewChild('ctgInput') public ctgInput: ElementRef;
   @ViewChild('subCtgInput') public subCtgInput: ElementRef;
+  @ViewChild('feedbackMsg') public feedbackMsg: ElementRef;
 
 	categories:any;
 	subCatgs:any;
@@ -33,6 +34,8 @@ export class DashboardComponent implements OnInit {
   selectedC:any = {};
   selectedS:any = {};
   selectedP:any = {};
+
+  fdbMessage:any;
 
   ngOnInit() {
   	this.getCategory();
@@ -191,5 +194,10 @@ export class DashboardComponent implements OnInit {
     } else {
       alert('invalid format!');
     }
+  }
+
+  removeCategory(catg){
+    console.log(catg)
+    this.dashService.removeCateg(catg);
   }
 }
