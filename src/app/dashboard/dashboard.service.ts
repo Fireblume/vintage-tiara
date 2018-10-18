@@ -43,12 +43,14 @@ export class DashboardService {
   }
 
   saveCategory(category){
-    if(category.uidC == undefined )
+    if(category.uidC == undefined ){
+      const pushId = this.db.createPushId();
       return this.db.list('/categories/'+ this.adminUid)
-                    .push({
+                    .set(pushId,{
                           title: category.title,
                           active: category.isActive
                         });
+    }
     else
       return this.db.object('/categories/'+ this.adminUid +'/'+category.uidC)
                     .update({
@@ -58,12 +60,14 @@ export class DashboardService {
   }
 
   saveSubCateg(subCateg){
-    if(subCateg.uidS == undefined )
+    if(subCateg.uidS == undefined ){
+      const pushId = this.db.createPushId();
       return this.db.list('/subcategories/'+ this.adminUid + '/'+ subCateg.categoryId)
-                    .push({
+                    .set(pushId,{
                           title: subCateg.subtitle,
                           active: subCateg.isActiveS
                         });
+    }
     else
       return this.db.object('/subcategories/'+ this.adminUid + '/'+ subCateg.categoryId +'/'+subCateg.uidS)
                     .update({
@@ -96,23 +100,45 @@ export class DashboardService {
                     });
   }
 
-  removeSubCateg(subCateg, catID){
-    console.log("za brisanje " +catID)
-    return this.db.object('/subcategories/'+ this.adminUid +'/'+ catID +'/'+subCateg.uidS)
-                  .remove();
+  removeSubctg(subCateg){
+    return this.getProducts(subCateg.key).subscribe(
+      (res) => {
+        const storageRef = this.firebaseApp.storage().ref();
+        let productList = res;
+        for(let i of productList){
+          this.removeProd(i);
+        }
+
+        this.db.object('/subcategories/'+ this.adminUid +'/'+ subCateg.parentId +'/'+subCateg.key)
+                  .remove().catch((error) => console.log(error));
+      });     
   }
 
   removeCateg(categ){
-    this.getSubCategories(categ.key).subscribe(
+    return this.getSubCategories(categ.key).subscribe(
       (res) => {
         let subctgList = res;
-        console.log(subctgList)
-        for(let i of subctgList)
-          this.db.object('/products/'+ this.adminUid +'/'+ i.key).remove();
+        for(let i of subctgList){
+          this.removeSubctg(i);
+        }
 
-        this.db.object('/subcategories/'+ this.adminUid +'/'+ categ.key).remove();
-        this.db.object('/categories/'+ this.adminUid +'/'+ categ.key).remove();
+        this.db.object('/categories/'+ this.adminUid +'/'+ categ.key).remove()
+        .catch((error) => console.log(error));;
       });
+  }
+
+  removeProd(prod){
+    const storageRef = this.firebaseApp.storage().ref();
+    storageRef.child('/photos/'+ prod.key).delete()
+            .then(function() {
+              // File deleted successfully
+              console.log("its deleted")
+            }).catch(function(error) {
+              // Uh-oh, an error occurred!
+              console.log(error)
+            });
+    return this.db.object('/products/'+ this.adminUid +'/'+ prod.parentId +'/'+ prod.key)
+                  .remove().catch((error) => console.log(error));
   }
 
   pushFileToStorage(fileUpload: File, pushId) {

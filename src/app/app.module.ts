@@ -8,6 +8,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { FormsModule }   from '@angular/forms';
+import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -64,7 +65,8 @@ const routes: Routes = [
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
-    FormsModule
+    FormsModule,
+    SlimLoadingBarModule
   ],
   providers: [ 
     HomeService, 

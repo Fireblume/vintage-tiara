@@ -6,13 +6,14 @@
 			<div *ngFor="let cat of categories" (click)="getSubCat(cat.key); fillFormC(cat); 
 				selectActiveC(cat.key)">
 				<div class="listItm" [ngClass]="selectedC[cat.key] ? 'active' : ''" >{{cat.value.title}}</div>
-				<span class="glyphicon glyphicon-remove removeIcon" (click)="removeCategory(cat)"></span>
+				<span class="glyphicon glyphicon-remove removeIcon" (click)="dialogCatg(cat);"></span>
 			</div>
 		</div>
 		<div class="items-lists col-md-3">
 			<div class="list-title">Podkategorije:</div>
 			<div *ngFor="let sub of subCatgs" (click)="getProducts(sub.key); fillFormS(sub); selectActiveS(sub.key)">
-				<div [ngClass]="selectedS[sub.key] ? 'active' : ''" >{{sub.value.title}}</div>
+				<div class="listItm" [ngClass]="selectedS[sub.key] ? 'active' : ''" >{{sub.value.title}}</div>
+				<span class="glyphicon glyphicon-remove removeIcon" (click)="dialogSubCatg(sub);"></span>
 			</div>
 		</div>
 	</div>
@@ -75,6 +76,7 @@
 				<div>Kolicina: {{prod.value.quantity}}</div>
 				<div>Cena: {{prod.value.price}}</div>
 			</div>
+			<span class="glyphicon glyphicon-remove removeIcon" (click)="dialogProd(prod);"></span>
 		</div>
 	</div>
 	<div class="col-md-1 separator"></div>
@@ -127,4 +129,25 @@
 </div>
 <div id="feedbackMsg" #feedbackMsg>
 	{{fdbMessage}}
+</div>
+<div class="dialogBackground" *ngIf="vDeleteCtg">
+	<div class="removeDisplay">
+		<p class="removeFont">Obrisati?</p>
+		<button class="btn btn-vt removeBtns" (click)="removeCategory(cat); vDeleteCtg = !vDeleteCtg">Da</button>
+		<button class="btn removeBtns" (click)="vDeleteCtg = !vDeleteCtg">Ne</button>
+	</div>
+</div>
+<div class="dialogBackground" *ngIf="vDeleteSubCtg">
+	<div class="removeDisplay" >
+		<p class="removeFont">Obrisati?</p>
+		<button class="btn btn-vt removeBtns" (click)="removeSubctg(sub); vDeleteSubCtg = !vDeleteSubCtg">Da</button>
+		<button class="btn removeBtns" (click)="vDeleteSubCtg = !vDeleteSubCtg">Ne</button>
+	</div>
+</div>
+<div class="dialogBackground" *ngIf="vDeleteProd">
+	<div class="removeDisplay" >
+		<p class="removeFont">Obrisati?</p>
+		<button class="btn btn-vt removeBtns" (click)="removeProd(prod); vDeleteProd = !vDeleteProd">Da</button>
+		<button class="btn removeBtns" (click)="vDeleteProd = !vDeleteProd">Ne</button>
+	</div>
 </div>

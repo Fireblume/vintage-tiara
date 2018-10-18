@@ -4,6 +4,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Ng2ImgMaxService } from 'ng2-img-max';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +14,7 @@ import { Ng2ImgMaxService } from 'ng2-img-max';
 export class DashboardComponent implements OnInit {
 
   constructor(private dashService: DashboardService, private _firebaseAuth: AngularFireAuth, 
-  public db: AngularFireDatabase, public ng2ImgMax: Ng2ImgMaxService) {
+  public db: AngularFireDatabase, public ng2ImgMax: Ng2ImgMaxService, private slimLoadingBarService: SlimLoadingBarService) {
       
   }
 
@@ -31,6 +32,11 @@ export class DashboardComponent implements OnInit {
   error:any;
   categoryId:any;
 
+  vDeleteCtg:any;
+  vDeleteSubCtg:any;
+  vDeleteProd:any;
+  forDeleting:any;
+
   selectedC:any = {};
   selectedS:any = {};
   selectedP:any = {};
@@ -42,34 +48,41 @@ export class DashboardComponent implements OnInit {
   }
 
   getCategory(){
+    this.slimLoadingBarService.start();
   	this.dashService.getCategories().subscribe(
       (res) => {
         this.categories = res;
+        this.slimLoadingBarService.complete();
       }, 
       (error) => {
             this.error = error;
             setTimeout(()=>{
             this.error = null;
         }, 3000);
+            this.slimLoadingBarService.complete();
             console.log(error)
           });
   }
 
   getSubCat(catId){
+    this.slimLoadingBarService.start();
   	this.dashService.getSubCategories(catId).subscribe(
       (res) => {
         this.subCatgs = res;
+        this.slimLoadingBarService.complete();
       }, 
       (error) => {
             this.error = error;
             setTimeout(()=>{
             this.error = null;
         }, 3000);
+            this.slimLoadingBarService.complete();
             console.log(error)
           });
     }
 
   getProducts(subCtgId){
+    this.slimLoadingBarService.start();
     this.dashService.getProducts(subCtgId).subscribe(
       (res) => {
         let container:any[] = [];
@@ -82,21 +95,27 @@ export class DashboardComponent implements OnInit {
         }
         console.log(this.products)
         this.products = container;
+        this.slimLoadingBarService.complete();
       }, 
       (error) => {
             this.error = error;
             setTimeout(()=>{
             this.error = null;
         }, 3000);
+            this.slimLoadingBarService.complete();
             console.log(error)
           });
   }
 
   submitCatg(category){
-    this.dashService.saveCategory(category);
+    this.slimLoadingBarService.start();
+    this.dashService.saveCategory(category).then(
+      () =>{this.slimLoadingBarService.complete();}
+    );
   }
 
   submitProduct(product){
+    this.slimLoadingBarService.start();
     const pushId = this.db.createPushId();
     product.photo = this.product.photo;
     console.log(product)
@@ -114,18 +133,23 @@ export class DashboardComponent implements OnInit {
               },
               () => {
                 // success
-                this.dashService.saveProduct(product, pushId);
+                this.dashService.saveProduct(product, pushId).then(
+                  ()=>{this.slimLoadingBarService.complete();}
+                  );
               });
             },
            error => {
              console.log('😢 Oh no!', error);
           });   
     else
-      this.dashService.saveProduct(product, pushId);
+      this.dashService.saveProduct(product, pushId).then(() =>{this.slimLoadingBarService.complete();});
   }
 
   submitSubctg(subCat){
-    this.dashService.saveSubCateg(subCat);
+    this.slimLoadingBarService.start();
+    this.dashService.saveSubCateg(subCat).then(
+      () =>{this.slimLoadingBarService.complete();}
+      );
   }
 
   fillFormC(category){
@@ -196,8 +220,31 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  removeCategory(catg){
-    console.log(catg)
-    this.dashService.removeCateg(catg);
+  removeCategory(){
+    this.dashService.removeCateg(this.forDeleting);
+  }
+
+  removeSubctg(){
+    this.dashService.removeSubctg(this.forDeleting);
+  }
+
+  removeProd(){
+    this.dashService.removeProd(this.forDeleting);
+  }
+
+  dialogCatg(catg){
+    this.vDeleteCtg = !this.vDeleteCtg
+    this.forDeleting = catg;
+  }
+
+  dialogSubCatg(sub){
+    this.vDeleteSubCtg = !this.vDeleteSubCtg
+    this.forDeleting = sub;
+  }
+
+  dialogProd(prod){
+    this.vDeleteProd = !this.vDeleteProd;
+    this.forDeleting = prod;
+
   }
 }

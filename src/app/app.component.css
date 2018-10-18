@@ -100,3 +100,10 @@ li a {
 	background: #996515;
 	color: white;
 }
+
+#slimLoad{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}

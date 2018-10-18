@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminLoginService } from './admin-login.service'
 import { Router } from '@angular/router';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
   selector: 'app-admin-login',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class AdminLoginComponent implements OnInit {
 
-  constructor(private logInService: AdminLoginService, private router: Router) { }
+  constructor(private logInService: AdminLoginService, private router: Router, private slimLoadingBarService: SlimLoadingBarService) { }
 
   currentAdmin:any = {'uid':'', 'name':'', 'email':''}
   login:any = {};
@@ -19,19 +20,21 @@ export class AdminLoginComponent implements OnInit {
   }
 
   logInWithEmail() {		
-	    this.logInService.signInRegular(this.login.email, this.login.password)
-	      .then((res) => {
-	      	this.setAdmin(res);
-	      	sessionStorage.setItem("currentAdmin", JSON.stringify(this.currentAdmin));
-	      	this.router.navigate(['/admin/dashboard']);
-	      })
-	      .catch((err) => { 
-	      	  this.error = err;
-		      setTimeout(()=>{
-			      this.error = null;
-			  }, 3000);
-
-		});
+  	this.slimLoadingBarService.start();
+    this.logInService.signInRegular(this.login.email, this.login.password)
+      .then((res) => {
+      	this.setAdmin(res);
+      	sessionStorage.setItem("currentAdmin", JSON.stringify(this.currentAdmin));
+      	this.router.navigate(['/admin/dashboard']);
+      	this.slimLoadingBarService.complete();
+      })
+      .catch((err) => { 
+      	  this.error = err;
+	      setTimeout(()=>{
+		      this.error = null;
+		  }, 3000);
+		  this.slimLoadingBarService.complete();
+	});
 	}
 
 	setAdmin(res){
