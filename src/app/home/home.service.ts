@@ -1,22 +1,44 @@
 import { Injectable } from '@angular/core';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase/app';
+import { FirebaseApp } from 'angularfire2';
+import 'firebase/storage';
+
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HomeService {
 
-  constructor() { }
+  constructor(private _firebaseAuth: AngularFireAuth, public db: AngularFireDatabase,
+              public firebaseApp: FirebaseApp) { }
 
   getCategories(){
-  	return [ {'kategorija': 'RAJFOVI', 'podkategorija': ['blavi', 'dkd', 'kooo', 'dkkdklallk']},
-  			 {'kategorija': 'HVATACI SNOVA','podkategorija': ['blavi', 'dkd']},
-  			 {'kategorija': 'MINDJUSE','podkategorija': ['blavi', 'dkd']}, 
-  			 {'kategorija': 'OGRLICE','podkategorija': ['blavi', 'dkd']}, 
-  			 {'kategorija': 'KOMPLETI','podkategorija': ['blavi', 'dkd']}, 
-  			 {'kategorija': 'DEKUPAZ','podkategorija': ['blavi', 'dkd']}];
+  	return this.db.list('/categories/').snapshotChanges().pipe(map(changes => {
+        return changes.map(c => ({ value: c.payload.val() }));
+      }));
   }
 
-  getImages(){
-  	return ['logo-try.jpg', 'logo-withbackground.jpg', 'logo.jpg',  'logo.jpg', 'logo-try.jpg', 'logo-withbackground.jpg', 'logo.jpg', 'logo.jpg','logo-try.jpg', 'logo-withbackground.jpg', 'cover.jpg'];
+  getSubCategories(){
+    return this.db.list('/subcategories/').snapshotChanges().pipe(map(changes => {
+          return changes.map(c => ({ value: c.payload.val() }));
+        }));
   }
+
+ /* getProducts(subCtgID){
+   return this.db.list('/products/'+ this.adminUid + '/'+ subCtgID)
+                  .snapshotChanges().pipe(map(changes => {
+                    return changes.map(c => ({ key: c.payload.key, value: c.payload.val(), parentId: subCtgID }));
+                  }));
+  }
+
+  getPhoto(productId){
+    const storageRef = this.firebaseApp.storage();
+    return storageRef.ref('/photos/'+productId).getDownloadURL();
+  }
+
+  */
 }

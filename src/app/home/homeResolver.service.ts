@@ -4,24 +4,20 @@ import { Observable, pipe, forkJoin, of } from 'rxjs';
 import { HomeService } from './home.service';
 import { map } from 'rxjs/operators';
 
-interface IReturn {
-  categories: any[];
-  images: any[];
-}
-
 @Injectable()
-export class HomeResolver implements Resolve<IReturn> {
+export class HomeResolver implements Resolve<any> {
 
   constructor(private homeService: HomeService) { }
 
-  resolve(): Observable<IReturn>{
+  resolve(): Observable<any>{
     return of ([
           this.homeService.getCategories(),
-          this.homeService.getImages()
+          this.homeService.getSubCategories()
+          
         ])
         .pipe(map(results => ({
             categories: results[0],
-            images : results[1]
+            subctg : results[1]
         })))
     }
 }

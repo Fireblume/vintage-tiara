@@ -4,6 +4,7 @@ import { ModalService} from '../modal.service';
 import { Ng2ImgMaxService } from 'ng2-img-max';
 
 import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -22,9 +23,56 @@ export class HomeComponent implements OnInit  {
     hovered:any = {};
 
 	ngOnInit() {
-		this.categories = this.route.snapshot.data.home.categories;
-		this.images = this.route.snapshot.data.home.images;
+		this.route.snapshot.data.home.categories.subscribe(
+      (res) => {
+         this.categories = this.object_to_ctg(res[0].value);
+
+         this.route.snapshot.data.home.subctg.subscribe(
+            (res2) => {
+               let subctgs = this.object_to_subctg(res2[0].value);
+               
+               this.categories.forEach(val => { 
+                  let subcSet:any = [];
+
+                  subctgs.forEach(val2 => { 
+                    if(val.key == val2.parentId)
+                      subcSet.push(val2);
+                  })
+
+                  val.subctgs = subcSet;
+               })
+              })
+
+          console.log(this.categories)
+
+        })
+    
+
+		//this.images = this.route.snapshot.data.home.images;
 	}
+
+  object_to_ctg(map) {
+    let categories: any = []
+    for (let k of Object.keys(map)) {
+        map[k].key = k;
+        categories.push(map[k]);
+    }
+
+    return categories;
+  }
+
+  object_to_subctg(map) {
+    let categories: any = []
+    for (let k of Object.keys(map)) {
+        for (let j of Object.keys(map[k])) {
+            map[k][j].key = j;
+            map[k][j].parentId = k;
+            categories.push(map[k][j]);
+        }
+    }
+
+    return categories;
+  }
 
 	openModal(id: string, modalImage: string) {
      /* var file = new File([this.dataURItoBlob("../../src/image/"+modalImage)], 'resized', {type: 'image/jpeg'});

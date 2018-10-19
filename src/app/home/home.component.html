@@ -1,11 +1,15 @@
 <div class="home-container">
 	<div class="cat-container col-md-2">
 		<p class="labela">Kategorije</p>
-		<div class="cat-div" *ngFor="let cat of categories" (mouseenter) ="hovered[cat.kategorija] = true"
-			(mouseleave) ="hovered[cat.kategorija] = false">
-			<div>{{cat.kategorija}}</div>
-			<div *ngIf="hovered[cat.kategorija]" class="under-cat-div">
-				<div *ngFor="let cat1 of cat.podkategorija" class="under-cat">{{cat1}}</div>
+		<div *ngFor="let cat of categories" (mouseenter) ="hovered[cat.title] = true"
+			(mouseleave) ="hovered[cat.title] = false">
+			<div class="cat-div" *ngIf="cat.active == 'true'">
+				<div>{{cat.title}}</div>
+				<div *ngIf="hovered[cat.title]" class="under-cat-div">
+					<div *ngFor="let sub of cat.subctgs">
+						<div *ngIf="sub.active == 'true'" class="under-cat">{{sub?.title}}</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

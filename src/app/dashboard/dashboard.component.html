@@ -31,8 +31,8 @@
 				<input type="radio" name="isActive" value="false" [(ngModel)]="category.isActive" required/>
 					<p class="radiobtn">Ne</p>
 				<div id="form1">
-					<button class="btn" [disabled]="!f1.valid">Sacuvaj</button>
-					<button class="btn btn-clean" (click)="cleanCatgForm()">Obrisi</button>
+					<button class="btn btn-clean" [disabled]="!f1.valid">Sacuvaj</button>
+					<button class="btn" (click)="cleanCatgForm()">Obrisi</button>
 				</div>
 			</form>
 		</div>
@@ -57,8 +57,8 @@
 				<input type="radio" name="isActiveS" value="false" [(ngModel)]="subCatg.isActiveS" required>
 					<p class="radiobtn">Ne</p>
 				<div id="form2">
-					<button class="btn" [disabled]="!f2.valid">Sacuvaj</button>
-					<button class="btn btn-clean" (click)="cleanSubForm()">Obrisi</button>
+					<button class="btn btn-clean" [disabled]="!f2.valid">Sacuvaj</button>
+					<button class="btn" (click)="cleanSubForm()">Obrisi</button>
 				</div>
 			</form>
 		</div>
@@ -121,8 +121,8 @@
 			<input type="radio" name="isAvailable" value="false" [(ngModel)]="product.isAvailable" required>
 				<p class="radiobtn">Ne</p>
 			<div id="form3">
-				<button class="btn" [disabled]="!f3.valid">Sacuvaj</button>
-				<button class="btn btn-clean" (click)="cleanProdForm()">Obrisi</button>
+				<button class="btn btn-clean" [disabled]="!f3.valid">Sacuvaj</button>
+				<button class="btn" (click)="cleanProdForm()">Obrisi</button>
 			</div>
 		</form>
 	</div>
