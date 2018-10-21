@@ -5,6 +5,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Ng2ImgMaxService } from 'ng2-img-max';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { FileReaderEvent } from '../Event';
 
 @Component({
   selector: 'app-dashboard',
@@ -85,16 +86,7 @@ export class DashboardComponent implements OnInit {
     this.slimLoadingBarService.start();
     this.dashService.getProducts(subCtgId).subscribe(
       (res) => {
-        let container:any[] = [];
-        let result: any[] = res;
-
-        for(let i of result){
-          this.dashService.getPhoto(i.key).then(
-            (res1 => {i.value.photo = res1; container.push(i)})
-          )
-        }
-        console.log(this.products)
-        this.products = container;
+        this.products = res;
         this.slimLoadingBarService.complete();
       }, 
       (error) => {
@@ -118,26 +110,21 @@ export class DashboardComponent implements OnInit {
     this.slimLoadingBarService.start();
     const pushId = this.db.createPushId();
     product.photo = this.product.photo;
-    console.log(product)
-
     if(product.photo != undefined)
       this.ng2ImgMax.resizeImage(product.photo, 800, 800).subscribe(
           result => {
-            this.dashService.pushFileToStorage(result, pushId).on(firebase.storage.TaskEvent.STATE_CHANGED,
-              (snapshot) => {
-                // in progress
-              },
-              (error) => {
-                // fail
-                console.log(error);
-              },
-              () => {
-                // success
-                this.dashService.saveProduct(product, pushId).then(
-                  ()=>{this.slimLoadingBarService.complete();}
-                  );
+            var reader: FileReader = new FileReader();
+            reader.readAsDataURL(result);
+            reader.onload = (event: FileReaderEvent) => {
+              let element = event.target.result
+              product.photo = element;
+              console.log(product)
+              //product.photo = e.target.result;
+              this.dashService.saveProduct(product, pushId).then(() =>{
+              this.slimLoadingBarService.complete();
               });
-            },
+            }
+           }, 
            error => {
              console.log('😢 Oh no!', error);
           });   

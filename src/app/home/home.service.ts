@@ -28,17 +28,9 @@ export class HomeService {
         }));
   }
 
- /* getProducts(subCtgID){
-   return this.db.list('/products/'+ this.adminUid + '/'+ subCtgID)
-                  .snapshotChanges().pipe(map(changes => {
-                    return changes.map(c => ({ key: c.payload.key, value: c.payload.val(), parentId: subCtgID }));
-                  }));
+  getProducts(){
+   return this.db.list('/products/').snapshotChanges().pipe(map(changes => {
+            return changes.map(c => ({value: c.payload.val()}));
+          }));
   }
-
-  getPhoto(productId){
-    const storageRef = this.firebaseApp.storage();
-    return storageRef.ref('/photos/'+productId).getDownloadURL();
-  }
-
-  */
 }

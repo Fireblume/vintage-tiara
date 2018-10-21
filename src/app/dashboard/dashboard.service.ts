@@ -85,7 +85,8 @@ export class DashboardService {
                           quantity: product.quantity,
                           color: product.color,
                           price: product.price,
-                          available: product.isAvailable
+                          available: product.isAvailable,
+                          photo: product.photo
                         });
     }
     else
@@ -96,7 +97,8 @@ export class DashboardService {
                       quantity: product.quantity,
                       color: product.color,
                       price: product.price,
-                      available: product.isAvailable
+                      available: product.isAvailable,
+                      photo: product.photo
                     });
   }
 
@@ -128,27 +130,7 @@ export class DashboardService {
   }
 
   removeProd(prod){
-    const storageRef = this.firebaseApp.storage().ref();
-    storageRef.child('/photos/'+ prod.key).delete()
-            .then(function() {
-              // File deleted successfully
-              console.log("its deleted")
-            }).catch(function(error) {
-              // Uh-oh, an error occurred!
-              console.log(error)
-            });
     return this.db.object('/products/'+ this.adminUid +'/'+ prod.parentId +'/'+ prod.key)
                   .remove().catch((error) => console.log(error));
   }
-
-  pushFileToStorage(fileUpload: File, pushId) {
-    const storageRef = this.firebaseApp.storage().ref();
-    return storageRef.child('/photos/'+ pushId).put(fileUpload);
-  }
-
-  getPhoto(productId){
-    const storageRef = this.firebaseApp.storage();
-    return storageRef.ref('/photos/'+productId).getDownloadURL();
-  }
-
 }

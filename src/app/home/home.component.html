@@ -7,22 +7,22 @@
 				<div>{{cat.title}}</div>
 				<div *ngIf="hovered[cat.title]" class="under-cat-div">
 					<div *ngFor="let sub of cat.subctgs">
-						<div *ngIf="sub.active == 'true'" class="under-cat">{{sub?.title}}</div>
+						<div *ngIf="sub.active == 'true'" class="under-cat" (click)="showProducts(sub.key)">{{sub?.title}}</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="img-container col-md-9">
-		<div class="img-div" *ngFor="let img of images" (click)="openModal('custom-modal-1', img)">
-			<img src="../../src/image/{{img}}" class="image">
+		<div class="img-div" *ngFor="let prod of products" (click)="openModal('custom-modal-1', prod)">
+			<img src="{{prod.photo}}" class="image">
 			<span class="zoom-img glyphicon glyphicon-search"></span>
 		<div>
 	</div>
 </div>
 <jw-modal id="custom-modal-1">
 	<div class="col-md-4" id="modalImg">
-		<ngx-image-zoom
+		<ngx-image-zoom #modalPP
 		    [thumbImage]=myThumbnail
 		    [fullImage]=modalImage
 		></ngx-image-zoom>
