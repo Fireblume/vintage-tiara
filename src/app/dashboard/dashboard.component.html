@@ -1,4 +1,4 @@
-<div id="logOut"><a href="">Izloguj se</a></div>
+<div id="logOut" (click)="logOut()"><a href="">Izloguj se</a></div>
 <div class="upper-dash">
 	<div class="col-md-6 list-displey">
 		<div class="items-lists col-md-3">
@@ -101,9 +101,9 @@
 							</option>
 						</datalist>
 
-			<input type="text" class="form-control" name="quantity" placeholder="Kolicina"
-			 [(ngModel)]="product.quantity" #quantity="ngModel"
-		 	 [ngClass]="{ 'input-has-error': !quantity.valid && !quantity.pristine }" required/>
+			<input type="number" class="form-control" name="quantity" placeholder="Kolicina"
+			 [(ngModel)]="product.quantity" #quantity="ngModel" min="1" max="1000"
+		 	 [ngClass]="{ 'input-has-error': !quantity.valid && !quantity.pristine }" pattern="^\d{0,8}(\.\d{1,2})?$" required/>
 
 			<input type="text" class="form-control" name="color" placeholder="Boja"
 			 [(ngModel)]="product.color" #color="ngModel"

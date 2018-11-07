@@ -55,7 +55,7 @@ li a {
 }
 
 #rightHeader li{
-	margin-top: 10px;
+	margin-top: 9px;
     font-size: 16px;
     cursor: pointer;
 }
@@ -66,6 +66,7 @@ li a {
 
 #logout{
     margin-right: 50px;
+    margin-top: 14px !important;
 }
 
 #register{

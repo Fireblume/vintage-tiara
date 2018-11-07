@@ -22,7 +22,13 @@ export class AppComponent implements OnInit{
 	}
 
 	ngOnInit() {
-		this.checkSession().subscribe(res => this.logedIn = res);
+    if(window.location.pathname === '/home' || window.location.pathname === '/')
+      this.status['one'] = true;
+    else if(window.location.pathname === '/info')
+      this.status['two'] = true;
+
+
+		this.checkSession().subscribe(res => {this.logedIn = res;});
 		this.loginService.currentLoginStatus.subscribe(message => this.logedIn = message)
 
 		if(window.location.pathname === '/admin' || window.location.pathname === '/admin/dashboard'){
@@ -35,7 +41,7 @@ export class AppComponent implements OnInit{
 		window.addEventListener("scroll", (e: Event) => {this.scrollFunction()});
 	}
 
-	status:any = { 'one':true, 
+	status:any = { 'one':false, 
 					'two':false};
 
   clickEvent(number){
@@ -48,39 +54,42 @@ export class AppComponent implements OnInit{
         this.viewSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
 
-    scrollFunction(){
-    	let y = window.scrollY;
-    	if(y >= 200)
-    		this.upButton.nativeElement.style.display = 'block';
-    	else
-    		this.upButton.nativeElement.style.display = 'none';
-    }
+  scrollFunction(){
+  	let y = window.scrollY;
+  	if(y >= 200)
+  		this.upButton.nativeElement.style.display = 'block';
+  	else
+  		this.upButton.nativeElement.style.display = 'none';
+  }
 
-    logOut(){
-    	sessionStorage.removeItem("currentUser");
-    	this._firebaseAuth.auth.signOut();
-    	this.logedIn = false;
-    }
+  logOut(){
+  	sessionStorage.removeItem("currentUser");
+  	this._firebaseAuth.auth.signOut();
+  	this.logedIn = false;
+  }
 
-    checkSession(){
-    return Observable.create(observer => {
-       this._firebaseAuth.authState.subscribe((auth) => {
-          let user = auth;
-          let logedIn:any = {};
-          let sessionUser = JSON.parse(sessionStorage.getItem("currentUser"));
+  checkSession(){
+  return Observable.create(observer => {
+     this._firebaseAuth.authState.subscribe((auth) => {
+        let user = auth;
+        let logedIn:any = {};
+        let sessionUser = JSON.parse(sessionStorage.getItem("currentUser"));
 
-          try{
-	          if(user.email == sessionUser.email)
-	            logedIn = true;
-	          else
-	            logedIn = false;
-            }catch(Exception ){
-            	logedIn = false;
-            }
+        try{
+          if(user.email == sessionUser.email)
+            logedIn = true;
+          else{
+            logedIn = false;
+            this.logOut();
+          }
+          }catch(Exception ){
+          	logedIn = false;
+            this.logOut();
+          }
 
-            observer.next(logedIn);
-            observer.complete();
-             })
-        });
-    }
+          observer.next(logedIn);
+          observer.complete();
+           })
+      });
+  }
 }

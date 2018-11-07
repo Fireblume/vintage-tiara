@@ -28,12 +28,12 @@
 
 .img-div{
 	float: left;
-    position: relative;
-    margin-right: 25px;
+  position: relative;
+  margin-right: 25px;
 	margin-bottom: 40px;
 
 	height: 300px;
-    width: 300px;
+  width: 300px;
 }
 
 .home-container{
@@ -42,7 +42,7 @@
 
 .labela{
 	font-size: 26px;
-    color: #914853;
+  color: #914853;
 }
 
 .image {
@@ -100,7 +100,7 @@
 	-moz-box-shadow: 1px 1px 2px #EEE8AA;
 	-webkit-box-shadow: 1px 1px 2px #EEE8AA;
 	box-shadow: 1px 1px 2px #EEE8AA;
-	}
+}
 
 .btn-cart:hover{
 	background: #FAFAD2;
@@ -108,11 +108,9 @@
 }
 
 .under-cat-div{
-  z-index: 1000;
   border: 1px solid #914853;
-  position: absolute;
   border: 1px solid;
-  width: 250px;
+  width: 240px;
   border-radius: 3px;
   margin-top: 7px;
   margin-left: -37px;
@@ -125,13 +123,18 @@
   -webkit-appearance: none;
 }
 
+.under-cat:not(:last-child){
+ border-bottom: 1px solid; 
+}
+
 .under-cat{
-  border-bottom: 1px solid;
+  
   background: white;
   color: #914853;
   padding-bottom: 2.5px;
   padding-top: 2.5px;
-  width: 251px;
+  width: 230px;
+  margin-left: 5px;
 }
 
 .under-cat:hover{
@@ -139,4 +142,14 @@
   background-color: #914853;
   color: white;
   cursor: pointer;
+}
+
+#catTitle{
+  padding: 3px;
+  margin: -5px;
+}
+
+.quantity-input{
+  width: 40% !important;
+  display: inline !important;
 }

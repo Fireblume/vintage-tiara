@@ -14,7 +14,13 @@ import { map } from 'rxjs/operators';
 export class HomeService {
 
   constructor(private _firebaseAuth: AngularFireAuth, public db: AngularFireDatabase,
-              public firebaseApp: FirebaseApp) { }
+              public firebaseApp: FirebaseApp) {
+               this._firebaseAuth.authState.subscribe((auth) => {
+              this.userUid = auth.uid;
+            });
+    }
+
+  userUid:any;
 
   getCategories(){
   	return this.db.list('/categories/').snapshotChanges().pipe(map(changes => {
@@ -33,4 +39,20 @@ export class HomeService {
             return changes.map(c => ({value: c.payload.val()}));
           }));
   }
+
+  likeProduct(productKey){
+    return this.db.list('/productLikes/'+ this.userUid)
+                  .push({
+                        productKey: productKey
+                      });
+  }
+
+  toCart(productKey, quantity){
+    return this.db.list('/cart/'+ this.userUid)
+                  .push({
+                        productKey: productKey,
+                        quantity: quantity
+                      });
+  }
+
 }

@@ -234,4 +234,9 @@ export class DashboardComponent implements OnInit {
     this.forDeleting = prod;
 
   }
+
+  logOut(){
+    sessionStorage.removeItem("currentAdmin");
+    this._firebaseAuth.auth.signOut();
+  }
 }

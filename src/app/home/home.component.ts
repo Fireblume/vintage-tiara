@@ -5,6 +5,7 @@ import { ModalService} from '../modal.service';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { FirebaseApp } from 'angularfire2';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { ZoomElement } from '../Event';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
@@ -16,16 +17,27 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 export class HomeComponent implements OnInit  {
 
   constructor(private homeService: HomeService, private route: ActivatedRoute,
-  	private modalService: ModalService, public firebaseApp: FirebaseApp, private slimLoadingBarService: SlimLoadingBarService) { }
+  	private modalService: ModalService, public firebaseApp: FirebaseApp, private _firebaseAuth: AngularFireAuth, private slimLoadingBarService: SlimLoadingBarService) { 
+      this._firebaseAuth.authState.subscribe((auth) => {
+            try{
+              this.adminUid = auth.uid;
+            }catch(Exception){}
+      });
+    }
 
     @ViewChild('modalPP') public modalPP: ZoomElement;
 
     modalImage: any = [];
   	categories: any = [];
     products: any = [];
+    showProduct: any;
+    maxQuantity: any;
+    adminUid:any;
+    quantityProblem:boolean;
   	images:any;
     myThumbnail:any = '';
     hovered:any = {};
+    quantityToBuy:number = 1;
 
 	ngOnInit() {
     this.slimLoadingBarService.start();
@@ -116,10 +128,33 @@ export class HomeComponent implements OnInit  {
 
     img.src = product.photo;
     this.modalImage = product.photo
+    this.showProduct = product;
+    if(product.available == 'true')
+      this.showProduct.inStock = 'DOSTUPNO';
+    else
+      this.showProduct.inStock = 'NEDOSTUPNO';
+
+    this.maxQuantity = parseInt(this.showProduct.quantity);
+
     this.modalService.open(id);
   }
  
   closeModal(id: string) {
       this.modalService.close(id);
+  }
+
+  onQChange(value){
+    if(value < 1 || value > this.maxQuantity)
+      this.quantityProblem = true;
+    else
+      this.quantityProblem = false;
+  }
+
+  likeProduct(productKey){
+    this.homeService.likeProduct(productKey);
+  }
+
+  toCart(productKey, quantity){
+     this.homeService.toCart(productKey, quantity);
   }
 }

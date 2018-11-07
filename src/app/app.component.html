@@ -1,4 +1,4 @@
-<ng2-slim-loading-bar color="#914853" height="5px" id="slimLoad"></ng2-slim-loading-bar>
+<ng2-slim-loading-bar color="#C5B358" height="5px" id="slimLoad"></ng2-slim-loading-bar>
 <div #viewSection></div>
  <header id="header" *ngIf="notAdmin">
     <ul class="nav nav-tabs">
@@ -14,8 +14,8 @@
         <a [routerLink]="['/register']">Registracija</a></li>
     </div>
     <div id="rightHeader" *ngIf="logedIn == true">
-      <li id="cart">
-        <img src="../../src/image/cart.png">
+      <li id="cart" (click)="clickEvent('')">
+        <img src="../../src/image/cart.png" [routerLink]="['/cart']">
       </li>
       <li id="logout" (click)="logOut()">
         <a>Izloguj se</a></li>
@@ -26,7 +26,7 @@
     <router-outlet></router-outlet>
   </section>
   <footer id="footer"> 
-   <div id="footerWrap">2018 </div>
+   <div id="footerWrap">2018. Vintage Tiara</div>
  </footer>
 
  <div id="upButton" #upButton (click)="gotoSection()">

@@ -15,9 +15,9 @@ export class DashboardService {
 
   constructor(private _firebaseAuth: AngularFireAuth, public db: AngularFireDatabase,
               public firebaseApp: FirebaseApp) {
-       this._firebaseAuth.authState.subscribe((auth) => {
-              this.adminUid = auth.uid;
-            });
+      
+    let admin = JSON.parse(sessionStorage.getItem("currentAdmin"));
+    this.adminUid = admin.uid;
    }
 
    adminUid:any;

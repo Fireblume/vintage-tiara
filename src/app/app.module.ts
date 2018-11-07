@@ -19,6 +19,7 @@ import { RegisterService } from './register/register.service';
 import { ModalService } from './modal.service';
 import { AdminLoginService } from './admin-login/admin-login.service';
 import { DashboardService } from './dashboard/dashboard.service';
+import { CartService } from './cart/cart.service';
 
 import { HomeResolver } from './home/homeResolver.service';
 import { AppResolver } from './appResolver.service';
@@ -29,9 +30,11 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { CartComponent } from './cart/cart.component';
 
 import { EqualValidator } from './equalValidator.directive';
 import { environment } from '../environments/environment';
+
 
 const routes: Routes = [
 	{ path: '', pathMatch: 'full', redirectTo: 'home'},
@@ -41,6 +44,7 @@ const routes: Routes = [
     { path: 'register', component: RegisterComponent},
     { path: 'admin', component: AdminLoginComponent},
     { path: 'admin/dashboard', component: DashboardComponent},
+    { path: 'cart', component: CartComponent},
   ];
 
 @NgModule({
@@ -53,7 +57,8 @@ const routes: Routes = [
     RegisterComponent,
     AdminLoginComponent,
     DashboardComponent,
-    EqualValidator
+    EqualValidator,
+    CartComponent
   ],
   imports: [
     BrowserModule,

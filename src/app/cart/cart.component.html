@@ -1,0 +1,35 @@
+<div id="cart">
+	<div class="cart-inner-menu">
+		<span class="glyphicon glyphicon-triangle-right" *ngIf="!showItems"></span>
+		<span class="glyphicon glyphicon-triangle-bottom" *ngIf="showItems"></span>
+		<h2 (click)="showItems = !showItems">Vasa korpa</h2>
+	</div>
+	<div *ngIf="showItems">
+		<div *ngFor="let item of itemsInCart" id="contentDiv">
+			<div id="contentDivInner">
+				<div id="imgDiv">
+					<img src="{{item.photo}}" class="img-responsive" />
+				</div>
+				<div id="infoDiv">
+					<p>Naziv: {{item.title}}</p>
+					<p>Opis: {{item.description}}</p>
+					<p>Kolicina: {{item.quantity}}</p>
+					<p>Cena: {{item.price}} RSD</p>
+				</div>
+			</div>
+			<div id="btnDiv">
+				<button class="btn btn-cancel">Obaci</button>
+				<button class="btn btn-buy">Kupi</button>
+			</div>
+		</div>
+	</div>
+	<div class="cart-inner-menu">
+		<span class="glyphicon glyphicon-triangle-right" *ngIf="!showLikes"></span>
+		<span class="glyphicon glyphicon-triangle-bottom" *ngIf="showLikes"></span>
+		<h2 (click)="showLikes = !showLikes">Vasa svidjanja</h2>
+	</div>
+	<div *ngIf="showLikes">
+		soon...
+	</div>
+</div>
+
