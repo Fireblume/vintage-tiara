@@ -13,16 +13,15 @@ import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 
-import { HomeService } from './home/home.service';
+import { HomeService } from './home.service';
 import { LoginService } from './login/login.service';
 import { RegisterService } from './register/register.service';
 import { ModalService } from './modal.service';
 import { AdminLoginService } from './admin-login/admin-login.service';
 import { DashboardService } from './dashboard/dashboard.service';
-import { CartService } from './cart/cart.service';
+import { CartService } from './cart.service';
 
 import { HomeResolver } from './home/homeResolver.service';
-import { AppResolver } from './appResolver.service';
 
 import { InfoComponent } from './info/info.component';
 import { ModalComponent } from './modal/modal.component';
@@ -74,14 +73,14 @@ const routes: Routes = [
     SlimLoadingBarModule
   ],
   providers: [ 
-    HomeService, 
-    HomeResolver, 
+    HomeService,
     ModalService,
     RegisterService,
     LoginService,
     AdminLoginService,
     DashboardService,
-    AppResolver
+    CartService,
+    HomeResolver
     ],
   bootstrap: [AppComponent]
 })

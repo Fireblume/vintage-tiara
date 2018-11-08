@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from './cart.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -9,55 +10,30 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 })
 export class CartComponent implements OnInit {
 
-  constructor(public cartService: CartService, private slimLoadingBarService: SlimLoadingBarService) { }
+  constructor(public cartService: CartService, private slimLoadingBarService: SlimLoadingBarService, 
+  private route: ActivatedRoute) { }
 
   itemsInCart:any = [];
+  likedItems:any = [];
+  showItems:boolean = true;
   showLikes:boolean = false;
+  quantityProblem:boolean = true;
 
   ngOnInit() {
-	this.showItems();
+	this.slimLoadingBarService.start();
+	this.itemsInCart = JSON.parse(sessionStorage.getItem("cartItems"));
+	this.likedItems = JSON.parse(sessionStorage.getItem("likedItems"));
+	this.slimLoadingBarService.complete();
   }
 
-  showItems(){
-  	this.slimLoadingBarService.start();
-  	this.cartService.getCartItems().subscribe(res => {console.log(res),
-  		this.cartService.getProducts().subscribe(res2 => {
-  			let container: any = [];
-  			let products = this.object_to_subctg_prod(res2[0].value);
-
-  			res.forEach(itemT => {
-  			let item:any = itemT;
-  				products.forEach(prod => {
-  					if(item.value.productKey == prod.key){
-  						let itemToShow:any = {
-  							'title': prod.title,
-  							'description': prod.description,
-  							'quantity': item.value.quantity,
-  							'price' : prod.price,
-  							'photo': prod.photo
-  							}
-  						container.push(itemToShow);
-  					}
-  				});
-                    
-            })
-
-  			this.itemsInCart = container;
-  			this.slimLoadingBarService.complete();
-  		});
-  	});
+  removeLike(productKey){
+  	this.cartService.removeLike(productKey);
   }
 
-  object_to_subctg_prod(map) {
-    let result: any = []
-    for (let k of Object.keys(map)) {
-        for (let j of Object.keys(map[k])) {
-            map[k][j].key = j;
-            map[k][j].parentId = k;
-            result.push(map[k][j]);
-        }
-    }
-
-    return result;
+  onQChange(value, maxQuantity){
+    if(value < 1 || value > maxQuantity)
+      this.quantityProblem = true;
+    else
+      this.quantityProblem = false;
   }
 }

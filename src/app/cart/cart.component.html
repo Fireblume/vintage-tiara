@@ -18,7 +18,7 @@
 				</div>
 			</div>
 			<div id="btnDiv">
-				<button class="btn btn-cancel">Obaci</button>
+				<button class="btn btn-cancel">Odbaci</button>
 				<button class="btn btn-buy">Kupi</button>
 			</div>
 		</div>
@@ -29,7 +29,26 @@
 		<h2 (click)="showLikes = !showLikes">Vasa svidjanja</h2>
 	</div>
 	<div *ngIf="showLikes">
-		soon...
+		<div *ngFor="let item of likedItems" id="contentDiv">
+			<div id="contentDivInner">
+				<div id="imgDiv">
+					<img src="{{item.photo}}" class="img-responsive" />
+				</div>
+				<div id="infoDiv">
+					<p>Naziv: {{item.title}}</p>
+					<p>Opis: {{item.description}}</p>
+					<p>Kolicina: <input type="number" name="quantity" class="form-control quantity-input" 
+					    		[(ngModel)]="quantityToBuy" min="1"	max="{{item.quantity}}" 
+					    		(input)="onQChange($event.target.value, item.quantity)"
+					    		[ngClass]="{ 'input-has-error': quantityProblem}" required></p>
+					<p>Cena: {{item.price}} RSD</p>
+				</div>
+			</div>
+			<div id="btnDiv2">
+				<button class="btn btn-cancel" (click)="removeLike(item.key)">Odbaci</button>
+				<button class="btn btn-add" [disabled]="quantityProblem">Dodaj u korpu</button>
+			</div>
+		</div>
 	</div>
 </div>
 

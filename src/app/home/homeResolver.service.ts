@@ -12,13 +12,11 @@ export class HomeResolver implements Resolve<any> {
   resolve(): Observable<any>{
     return of ([
           this.homeService.getCategories(),
-          this.homeService.getSubCategories(),
-          this.homeService.getProducts()
+          this.homeService.getSubCategories()
         ])
         .pipe(map(results => ({
             categories: results[0],
-            subctg: results[1],
-            product: results[2]
+            subctg: results[1]
         })))
     }
 }

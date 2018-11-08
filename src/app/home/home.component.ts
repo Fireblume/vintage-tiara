@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit  {
   	private modalService: ModalService, public firebaseApp: FirebaseApp, private _firebaseAuth: AngularFireAuth, private slimLoadingBarService: SlimLoadingBarService) { 
       this._firebaseAuth.authState.subscribe((auth) => {
             try{
-              this.adminUid = auth.uid;
+              this.userUid = auth.uid;
             }catch(Exception){}
       });
     }
@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit  {
     products: any = [];
     showProduct: any;
     maxQuantity: any;
-    adminUid:any;
+    userUid:any;
     quantityProblem:boolean;
   	images:any;
     myThumbnail:any = '';
@@ -40,69 +40,23 @@ export class HomeComponent implements OnInit  {
     quantityToBuy:number = 1;
 
 	ngOnInit() {
-    this.slimLoadingBarService.start();
-		this.route.snapshot.data.home.categories.subscribe(
-      (res) => {
-         this.categories = this.object_to_ctg(res[0].value);
-
-         this.route.snapshot.data.home.subctg.subscribe(
-            (res2) => {
-               let subctgs = this.object_to_subctg_prod(res2[0].value);
-               
-               this.categories.forEach(val => { 
-                  let subcSet:any = [];
-
-                  subctgs.forEach(val2 => { 
-                    if(val.key == val2.parentId)
-                      subcSet.push(val2);
-                  })
-
-                  val.subctgs = subcSet;
-                  this.slimLoadingBarService.complete();
-               })
-              })
-    })
-	}
-
-  object_to_ctg(map) {
-    let categories: any = []
-    for (let k of Object.keys(map)) {
-        map[k].key = k;
-        categories.push(map[k]);
-    }
-
-    return categories;
-  }
-
-  object_to_subctg_prod(map) {
-    let result: any = []
-    for (let k of Object.keys(map)) {
-        for (let j of Object.keys(map[k])) {
-            map[k][j].key = j;
-            map[k][j].parentId = k;
-            result.push(map[k][j]);
-        }
-    }
-
-    return result;
+    
+    this.prepareCategoriesAndSubCtg();
+    
   }
 
   showProducts(subCId){
     this.slimLoadingBarService.start();
-    this.route.snapshot.data.home.product.subscribe(
-      (res) => {
-         let prod = this.object_to_subctg_prod(res[0].value);
-         let prodSet: any = [];
-
-         prod.forEach(val => {
+    let products = JSON.parse(sessionStorage.getItem("products"));
+    let prodSet: any = [];
+    products.forEach(val => {
             if(subCId == val.parentId){
               prodSet.push(val);
             }
           })
 
-          this.products = prodSet;
-          this.slimLoadingBarService.complete();
-      });
+    this.products = prodSet;
+    this.slimLoadingBarService.complete();
   }
 
   openModal(id, product) {
@@ -156,5 +110,54 @@ export class HomeComponent implements OnInit  {
 
   toCart(productKey, quantity){
      this.homeService.toCart(productKey, quantity);
+  }
+
+  prepareCategoriesAndSubCtg(){
+  this.slimLoadingBarService.start();
+    this.route.snapshot.data.home.categories.subscribe(
+      (res) => {
+         this.categories = this.object_to_ctg(res[0].value);
+
+          this.route.snapshot.data.home.subctg.subscribe(
+            (res2) => {
+               let subctgs = this.object_to_subctg_prod(res2[0].value);
+               
+               this.categories.forEach(val => { 
+                  let subcSet:any = [];
+
+                  subctgs.forEach(val2 => { 
+                    if(val.key == val2.parentId)
+                      subcSet.push(val2);
+                  })
+
+                  val.subctgs = subcSet;
+               })
+
+            this.slimLoadingBarService.complete();
+          })
+    })
+  }
+
+  object_to_ctg(map) {
+    let categories: any = []
+    for (let k of Object.keys(map)) {
+        map[k].key = k;
+        categories.push(map[k]);
+    }
+
+    return categories;
+  }
+
+  object_to_subctg_prod(map) {
+    let result: any = []
+    for (let k of Object.keys(map)) {
+        for (let j of Object.keys(map[k])) {
+            map[k][j].key = j;
+            map[k][j].parentId = k;
+            result.push(map[k][j]);
+        }
+    }
+
+    return result;
   }
 }

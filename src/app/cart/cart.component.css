@@ -29,26 +29,35 @@
 
 #infoDiv{
 	margin-left: 30px;
+	width: 40%;
 }
 
 #infoDiv p{
 	font-size: 20px;
 }
 
-.btn-buy {
+.btn-buy, .btn-add{
 	background: #C5B358;
 	color: white;
 	position: relative;
 	bottom: 10px;
 	font-size: 16px;
-	width: 100px;
+
 
 	-moz-box-shadow: 1px 1px 2px #EEE8AA;
 	-webkit-box-shadow: 1px 1px 2px #EEE8AA;
 	box-shadow: 1px 1px 2px #EEE8AA;
 }
 
-.btn-buy:hover{
+.btn-buy {
+	width: 100px;
+}
+
+.btn-add{
+	width: 130px;
+}
+
+.btn-buy:hover, .btn-cancel:hover, .btn-add :hover{
 	background: #FAFAD2;
   	color: #996515;
 }
@@ -63,17 +72,21 @@
 	width: 100px;
 }
 
-.btn-cancel:hover{
-	background: #FAFAD2;
-  	color: #996515;
-}
-
 #btnDiv{
 	width: 40%;
     margin-left: 65%;
 }
 
+#btnDiv2{
+	width: 40%;
+    margin-left: 60%;
+}
+
 #btnDiv button{
+	margin-left: 15px;
+}
+
+#btnDiv2 button{
 	margin-left: 15px;
 }
 
@@ -96,4 +109,9 @@
 	display: inline;
 	color: #914853;
 	cursor: pointer;
+}
+
+.quantity-input{
+  width: 30% !important;
+  display: inline !important;
 }
