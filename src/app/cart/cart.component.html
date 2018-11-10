@@ -1,4 +1,4 @@
-<div id="cart">
+<div id="cart" >
 	<div class="cart-inner-menu">
 		<span class="glyphicon glyphicon-triangle-right" *ngIf="!showItems"></span>
 		<span class="glyphicon glyphicon-triangle-bottom" *ngIf="showItems"></span>
@@ -19,7 +19,7 @@
 			</div>
 			<div id="btnDiv">
 				<button class="btn btn-cancel">Odbaci</button>
-				<button class="btn btn-buy">Kupi</button>
+				<button class="btn btn-buy" (click)="buyClicked = true">Kupi</button>
 			</div>
 		</div>
 	</div>

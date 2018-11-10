@@ -20,9 +20,9 @@ export class LoginService {
   }
 
   signInGoogle(){
- 	let provider = new firebase.auth.GoogleAuthProvider();
-	provider.addScope('profile');
-	provider.addScope('email');
+   	let provider = new firebase.auth.GoogleAuthProvider();
+  	provider.addScope('profile');
+  	provider.addScope('email');
 
   	return this._firebaseAuth.auth.signInWithPopup(provider)
   }

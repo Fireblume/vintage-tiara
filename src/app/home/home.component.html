@@ -1,4 +1,4 @@
-<div class="home-container">
+<div class="home-container" *ngIf="categories?.length !== 0">
 	<div class="cat-container col-md-2">
 		<p class="labela">Kategorije</p>
 		<div *ngFor="let cat of categories" >

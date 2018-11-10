@@ -18,11 +18,17 @@ export class HomeComponent implements OnInit  {
 
   constructor(private homeService: HomeService, private route: ActivatedRoute,
   	private modalService: ModalService, public firebaseApp: FirebaseApp, private _firebaseAuth: AngularFireAuth, private slimLoadingBarService: SlimLoadingBarService) { 
-      this._firebaseAuth.authState.subscribe((auth) => {
+     /* this._firebaseAuth.authState.subscribe((auth) => {
             try{
               this.userUid = auth.uid;
             }catch(Exception){}
       });
+     this.route.snapshot.data.home.subscribe(res => {
+        this.categories = res;
+      });*/
+
+      this.prepareCategoriesAndSubCtg();
+      this.prepareProducts();
     }
 
     @ViewChild('modalPP') public modalPP: ZoomElement;
@@ -30,6 +36,7 @@ export class HomeComponent implements OnInit  {
     modalImage: any = [];
   	categories: any = [];
     products: any = [];
+    fullProductList: any = [];
     showProduct: any;
     maxQuantity: any;
     userUid:any;
@@ -40,16 +47,22 @@ export class HomeComponent implements OnInit  {
     quantityToBuy:number = 1;
 
 	ngOnInit() {
-    
-    this.prepareCategoriesAndSubCtg();
-    
+   // this.categories = JSON.parse(sessionStorage.getItem("categories"));
+    this.route.parent.data.subscribe((auth) => {
+      auth.base.subscribe(res =>{
+        if(res != null)
+          this.userUid = res.uid;
+        else
+          this.userUid = undefined;
+      });
+      
+    });
   }
 
   showProducts(subCId){
     this.slimLoadingBarService.start();
-    let products = JSON.parse(sessionStorage.getItem("products"));
     let prodSet: any = [];
-    products.forEach(val => {
+    this.fullProductList.forEach(val => {
             if(subCId == val.parentId){
               prodSet.push(val);
             }
@@ -113,29 +126,35 @@ export class HomeComponent implements OnInit  {
   }
 
   prepareCategoriesAndSubCtg(){
-  this.slimLoadingBarService.start();
-    this.route.snapshot.data.home.categories.subscribe(
-      (res) => {
-         this.categories = this.object_to_ctg(res[0].value);
+    this.slimLoadingBarService.start();
+    this.homeService.getCategories().subscribe(prodRes =>{
+      this.categories = this.object_to_ctg(prodRes[0].value);
 
-          this.route.snapshot.data.home.subctg.subscribe(
-            (res2) => {
-               let subctgs = this.object_to_subctg_prod(res2[0].value);
-               
-               this.categories.forEach(val => { 
-                  let subcSet:any = [];
+      this.homeService.getSubCategories().subscribe(
+        (res2) => {
+           let subctgs = this.object_to_subctg_prod(res2[0].value);
+           
+            this.categories.forEach(val => { 
+              let subcSet:any = [];
 
-                  subctgs.forEach(val2 => { 
-                    if(val.key == val2.parentId)
-                      subcSet.push(val2);
-                  })
+              subctgs.forEach(val2 => { 
+                if(val.key == val2.parentId)
+                  subcSet.push(val2);
+              })
 
-                  val.subctgs = subcSet;
-               })
-
-            this.slimLoadingBarService.complete();
-          })
+              val.subctgs = subcSet;
+           })
+      })
+      sessionStorage.setItem("categories", JSON.stringify(this.categories));
+      this.slimLoadingBarService.complete();
     })
+  }
+
+  prepareProducts(){
+    this.homeService.getProducts().subscribe(
+      (res) => {
+          this.fullProductList = this.object_to_subctg_prod(res[0].value);
+      });
   }
 
   object_to_ctg(map) {

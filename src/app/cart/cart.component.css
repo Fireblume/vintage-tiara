@@ -115,3 +115,101 @@
   width: 30% !important;
   display: inline !important;
 }
+
+.bubble {
+    -webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	
+    -webkit-box-shadow: inset 1px 1px 1px 0px rgba(255, 255, 255, 1);
+	-moz-box-shadow: inset 1px 1px 1px 0px rgba(255, 255, 255, 1);
+	box-shadow: inset 1px 1px 1px 0px rgba(255, 255, 255, 1);
+	
+    height: 20px;
+	position: absolute;
+	width: 20px;
+	background: #C5B358;
+	border: 1px solid #C5B358;
+}
+
+#buy-animation {
+    margin-left: 52%;
+}
+
+@-webkit-keyframes animateBubble {
+    0% {
+       margin-top: -3%;
+    }
+    100% {
+        margin-top: -15%;
+    }
+}
+
+@-moz-keyframes animateBubble {
+    0% {
+        margin-top: -3%;
+    }
+    100% {
+        margin-top: -15%;
+    }
+}
+
+@keyframes animateBubble {
+    0% {
+        margin-top: -3%;
+    }
+    100% {
+        margin-top: -15%;
+    }
+}
+
+@-webkit-keyframes sideWays { 
+    0% { 
+        margin-left:0px;
+    }
+    100% { 
+        margin-left:50px;
+    }
+}
+
+@-moz-keyframes sideWays { 
+    0% { 
+        margin-left:0px;
+    }
+    100% { 
+        margin-left:50px;
+    }
+}
+
+@keyframes sideWays { 
+    0% { 
+        margin-left:0px;
+    }
+    100% { 
+        margin-left:50px;
+    }
+}
+
+/* ANIMATIONS */
+
+.x1 {
+    -webkit-animation: animateBubble 1s linear , sideWays 1s ease-in-out alternate;
+	-moz-animation: animateBubble 1s linear , sideWays 1s ease-in-out alternate;
+	animation: animateBubble 1s linear , sideWays 1s ease-in-out alternate;
+	
+	
+	-webkit-transform: scale(0.6);
+	-moz-transform: scale(0.6);
+	transform: scale(0.6);
+}
+
+.x2 {
+    -webkit-animation: animateBubble 1s linear , sideWays 1s ease-out alternate;
+	-moz-animation: animateBubble 1s linear , sideWays 1s ease-out alternate;
+	animation: animateBubble 1s linear , sideWays 1s ease-out alternate;
+	
+	
+	-webkit-transform: scale(0.6);
+	-moz-transform: scale(0.6);
+	transform: scale(0.6);
+}

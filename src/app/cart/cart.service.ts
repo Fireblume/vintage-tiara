@@ -23,13 +23,13 @@ export class CartService {
 
    userUid:any;
 
-   	getCartItems(uid:any){
+   	getCartItems(uid){
      	return this.db.list('/cart/'+ uid).snapshotChanges().pipe(map(changes => {
     	    return changes.map(c => ({ key: c.payload.key, value: c.payload.val() } ));
       	}));
   	}
 
-  	getLikedItems(uid:any){
+  	getLikedItems(uid){
      	return this.db.list('/productLikes/'+ uid).snapshotChanges().pipe(map(changes => {
     	    return changes.map(c => ({ key: c.payload.key, value: c.payload.val() } ));
       	}));

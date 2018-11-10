@@ -4,7 +4,7 @@ import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
 
 import { LoginService } from './login.service';
-import { CartService } from '../cart.service';
+import { CartService } from '../cart/cart.service';
 
 @Component({
   selector: 'app-login',
@@ -29,8 +29,7 @@ export class LoginComponent implements OnInit {
 		    this.setUser(res);
 		    sessionStorage.setItem("currentUser", JSON.stringify(this.currentUser));
 		    this.zone.run(() => {
-		    	this.prepareCartItems(this.currentUser.uid);
-    			this.prepareLikedItems(this.currentUser.uid);
+		    	//this.router.navigate(['/home']);
     			history.back(); //add history entry - to trigger url path change
     			});
 		    this.logInService.changeLoginStatus(true);
@@ -49,7 +48,8 @@ export class LoginComponent implements OnInit {
 	      .then((res) => {
 	      	this.setUser(res);
 	      	sessionStorage.setItem("currentUser", JSON.stringify(this.currentUser));
-	      	this.router.navigate(['/home']);    
+	      	//this.router.navigate(['/home']); 
+	      	history.back(); //add history entry - to trigger url path change   
 	      	this.logInService.changeLoginStatus(true);
 	      })
 	      .catch((err) => { 
@@ -66,83 +66,4 @@ export class LoginComponent implements OnInit {
 		this.currentUser.name = res.user.displayName;
 		this.currentUser.email = res.user.email;
 	}
-
-	prepareCartItems(uid){
-	    this.cartService.getCartItems(uid).subscribe(res => {
-	      this.cartService.getProducts().subscribe(res2 => {
-	        let container: any = [];
-	        let products = this.object_to_subctg_prod(res2[0].value);
-
-	        res.forEach(itemT => {
-	        	let item:any = itemT;
-	          	products.forEach(prod => {
-	            	if(item.value.productKey == prod.key){
-		              let itemToShow:any = {
-		                'key': prod.key,
-		                'title': prod.title,
-		                'description': prod.description,
-		                'quantity': item.value.quantity,
-		                'price' : prod.price,
-		                'photo': prod.photo
-		                }
-	              	container.push(itemToShow);
-	            	}
-	          	});            
-	        })
-
-	        sessionStorage.setItem("cartItems", JSON.stringify(container));
-	      });
-	    });
-  	}
-
-  prepareLikedItems(uid){
-    this.cartService.getLikedItems(uid).subscribe(res => {
-      this.cartService.getProducts().subscribe(res2 => {
-        let container: any = [];
-        let products = this.object_to_subctg_prod(res2[0].value);
-
-        res.forEach(itemT => {
-        let item:any = itemT;
-          products.forEach(prod => {
-            if(item.value.productKey == prod.key){
-              let itemToShow:any = {
-                'key': prod.key,
-                'title': prod.title,
-                'description': prod.description,
-                'quantity': prod.quantity,
-                'price' : prod.price,
-                'photo': prod.photo
-                }
-              container.push(itemToShow);
-            }
-          });            
-        })
-
-        sessionStorage.setItem("likedItems", JSON.stringify(container));
-      });
-    });
-  }
-
-  object_to_ctg(map) {
-    let categories: any = []
-    for (let k of Object.keys(map)) {
-        map[k].key = k;
-        categories.push(map[k]);
-    }
-
-    return categories;
-  }
-
-  object_to_subctg_prod(map) {
-    let result: any = []
-    for (let k of Object.keys(map)) {
-        for (let j of Object.keys(map[k])) {
-            map[k][j].key = j;
-            map[k][j].parentId = k;
-            result.push(map[k][j]);
-        }
-    }
-
-    return result;
-  }
 }

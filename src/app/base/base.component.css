@@ -1,0 +1,110 @@
+#footer {
+    height: 50px;
+    margin-top: -20px;
+    text-align: center;
+    border-top: 1px solid #C5B358 ;
+    padding-top: 15px;
+    color: #C5B358;
+}
+
+header {
+	background-image: url('../../../src/image/cover.png');
+	height: 185px;
+    margin-top: -10px;
+}
+
+#section {
+	min-height: 450px;
+	display: inline-block;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+#header, #section, #footer {
+}
+
+.nav-tabs{
+	padding-top: 70px;
+	border-bottom: 1px solid #996515;
+}
+
+#firstTab {
+	margin-left: 100px;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+		border: 1px solid #996515 !important;
+		color: white !important;
+	    cursor: default !important;
+	    background-color: #C5B358 !important;
+}
+
+li a {
+	color: #996515 !important;
+}
+
+.nav-tabs>li>a:hover {
+    border-color: #FAFAD2;
+    background-color: #FAFAD2;
+    border-bottom: 1px solid #996515;
+}
+
+#rightHeader{
+	float: right;
+	display: inline-flex;
+}
+
+#rightHeader li{
+	margin-top: 9px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#login{
+	margin-right: 10px;
+}
+
+#logout{
+    margin-right: 50px;
+    margin-top: 14px !important;
+}
+
+#register{
+	margin-right: 120px;
+}
+
+#cart{
+    margin-right: 20px;
+}
+
+#separator{
+	color: #996515 !important;
+    margin-right: 10px;
+}
+
+#upButton{
+	width: 40px;
+    height: 40px;
+    position: fixed;
+    bottom: 60px;
+    border: 1px solid #996515;
+    border-radius: 5px;
+    color: #996515;
+    right: 30px;
+    text-align: center;
+    cursor: pointer;
+    padding-top: 9px;
+    display: none;
+}
+
+#upButton:hover{
+	background: #996515;
+	color: white;
+}
+
+#slimLoad{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}

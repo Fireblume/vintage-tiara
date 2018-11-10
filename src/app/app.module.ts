@@ -13,14 +13,16 @@ import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 
-import { HomeService } from './home.service';
+import { HomeService } from './home/home.service';
 import { LoginService } from './login/login.service';
 import { RegisterService } from './register/register.service';
 import { ModalService } from './modal.service';
 import { AdminLoginService } from './admin-login/admin-login.service';
 import { DashboardService } from './dashboard/dashboard.service';
-import { CartService } from './cart.service';
+import { CartService } from './cart/cart.service';
+import { BaseService } from './base/base.service';
 
+import { BaseResolver } from './base/baseResolver.service';
 import { HomeResolver } from './home/homeResolver.service';
 
 import { InfoComponent } from './info/info.component';
@@ -33,17 +35,23 @@ import { CartComponent } from './cart/cart.component';
 
 import { EqualValidator } from './equalValidator.directive';
 import { environment } from '../environments/environment';
+import { BaseComponent } from './base/base.component';
 
 
 const routes: Routes = [
 	{ path: '', pathMatch: 'full', redirectTo: 'home'},
-    { path: 'home', component: HomeComponent, resolve: { home: HomeResolver }},
-    { path: 'info', component: InfoComponent},
-    { path: 'login', component: LoginComponent},
-    { path: 'register', component: RegisterComponent},
-    { path: 'admin', component: AdminLoginComponent},
-    { path: 'admin/dashboard', component: DashboardComponent},
-    { path: 'cart', component: CartComponent},
+    { path: '', component: BaseComponent, 
+        resolve: {base: BaseResolver},
+        children: [
+            { path: 'home', component: HomeComponent,resolve: {home: HomeResolver}},
+            { path: 'info', component: InfoComponent},
+            { path: 'login', component: LoginComponent},
+            { path: 'register', component: RegisterComponent},
+            { path: 'admin', component: AdminLoginComponent},
+            { path: 'admin/dashboard', component: DashboardComponent},
+            { path: 'cart', component: CartComponent},
+        ]
+    }    
   ];
 
 @NgModule({
@@ -57,7 +65,8 @@ const routes: Routes = [
     AdminLoginComponent,
     DashboardComponent,
     EqualValidator,
-    CartComponent
+    CartComponent,
+    BaseComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +74,7 @@ const routes: Routes = [
     Ng2ImgMaxModule,
     RouterModule.forRoot(routes),
     NgxImageZoomModule.forRoot(),
-    AngularFireModule.initializeApp(environment.firebase, 'vintagetiara'),
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
@@ -80,6 +89,8 @@ const routes: Routes = [
     AdminLoginService,
     DashboardService,
     CartService,
+    BaseResolver,
+    BaseService,
     HomeResolver
     ],
   bootstrap: [AppComponent]

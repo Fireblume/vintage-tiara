@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class HomeService {
+export class BaseService {
 
   constructor(private _firebaseAuth: AngularFireAuth, public db: AngularFireDatabase,
               public firebaseApp: FirebaseApp) {
@@ -41,18 +41,4 @@ export class HomeService {
             return changes.map(c => ({value: c.payload.val()}));
           }));
   }
-
-  likeProduct(productKey){
-    return this.db.list('/productLikes/'+ this.userUid)
-                  .set(productKey,{'productKey': productKey});
-  }
-
-  toCart(productKey, quantity){
-    return this.db.list('/cart/'+ this.userUid)
-                  .push({
-                        productKey: productKey,
-                        quantity: quantity
-                      });
-  }
-
 }
