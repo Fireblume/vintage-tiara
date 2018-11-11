@@ -1,6 +1,6 @@
 <ng2-slim-loading-bar color="#C5B358" height="5px" id="slimLoad"></ng2-slim-loading-bar>
 <div #viewSection></div>
-<header id="header" *ngIf="notAdmin">
+<header id="header">
     <ul class="nav nav-tabs">
     <li [ngClass]="status.one ? 'active' : ''" id="firstTab"  (click)="clickEvent('one')">
       <a [routerLink]="['/home']">Pocetna</a></li>

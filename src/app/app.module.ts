@@ -47,11 +47,11 @@ const routes: Routes = [
             { path: 'info', component: InfoComponent},
             { path: 'login', component: LoginComponent},
             { path: 'register', component: RegisterComponent},
-            { path: 'admin', component: AdminLoginComponent},
-            { path: 'admin/dashboard', component: DashboardComponent},
             { path: 'cart', component: CartComponent},
         ]
-    }    
+    },
+    { path: 'admin', component: AdminLoginComponent},
+    { path: 'admin/dashboard', component: DashboardComponent}
   ];
 
 @NgModule({

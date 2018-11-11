@@ -23,26 +23,20 @@ export class BaseComponent implements OnInit{
 	constructor(private route: Router, private _firebaseAuth: AngularFireAuth, 
 	private actRoute: ActivatedRoute, private loginService: LoginService, private homeService: HomeService,
 	private cartService: CartService) { 
-    this.actRoute.snapshot.data.base.adminId.subscribe(
+    /*this.actRoute.snapshot.data.base.adminId.subscribe(
       res => console.log(res)
-    );
+    );*/
 	}
 
 	ngOnInit() {
-	    this.checkLink();
-	    
-	    if(window.location.pathname === '/admin' || window.location.pathname === '/admin/dashboard')
-	      this.notAdmin = false;
-	    else
-	      this.notAdmin = true;
-
+	  this.checkLink();
 		this.checkSession();
 		this.loginService.currentLoginStatus.subscribe(message => 
 			this.logedIn = message
-			);
+		);
 
 		window.addEventListener("scroll", (e: Event) => {this.scrollFunction()});
-	    window.addEventListener ("popstate", (e:Event) => {this.checkLink()});
+	  window.addEventListener ("popstate", (e:Event) => {this.checkLink()});
 	  
 	}
 
@@ -78,8 +72,6 @@ export class BaseComponent implements OnInit{
 
   logOut(){
   	sessionStorage.removeItem("currentUser");
-    sessionStorage.removeItem("cartItems");
-    sessionStorage.removeItem("likedItems");
   	this._firebaseAuth.auth.signOut();
   	this.logedIn = false;
 
