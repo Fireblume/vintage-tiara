@@ -36,13 +36,15 @@ export class CartService {
       	}));
   	}
 
-  	getProducts(adminId){
-   		return this.db.list('/products/'+adminId).snapshotChanges().pipe(map(changes => {
-    		return changes.map(c => ({value: c.payload.val()}));
-        }));
+  	getProducts(adminId, subCtgId, itemId){
+   		return this.db.object('/products/'+adminId+'/'+subCtgId+'/'+itemId).valueChanges();
    	}
 
-   	removeLike(productKey){
-    	return this.db.list('/productLikes/'+ this.userUid + '/'+ productKey).remove();
+   	removeLike(likeKey){
+    	return this.db.list('/productLikes/'+ this.userUid + '/'+ likeKey).remove();
   	}
+
+    removeItem(itemKey){
+      return this.db.list('/cart/'+ this.userUid + '/'+ itemKey).remove();
+    }
 }

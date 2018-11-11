@@ -6,6 +6,9 @@
 	</div>
 	<div *ngIf="showItems">
 		<div *ngIf="itemsInCart.length == 0" id="emptyCartTxt">- Još ništa niste dodali -</div>
+		<button class="btn btn-buyAll" *ngIf="itemsInCart.length != 0" (click)="buyClicked = true">
+			K U P I
+		</button>
 		<div *ngFor="let item of itemsInCart" id="contentDiv">
 			<div id="contentDivInner">
 				<div id="imgDiv">
@@ -19,10 +22,12 @@
 				</div>
 			</div>
 			<div id="btnDiv">
-				<button class="btn btn-cancel">Odbaci</button>
-				<button class="btn btn-buy" (click)="buyClicked = true">Kupi</button>
+				<button class="btn btn-cancel" (click)="removeItem(item.itemCartKey)">ODBACI</button>
 			</div>
 		</div>
+		<button class="btn btn-buyAll" *ngIf="itemsInCart.length != 0" (click)="buyClicked = true">
+			K U P I
+		</button>
 	</div>
 	<div class="cart-inner-menu">
 		<span class="glyphicon glyphicon-triangle-right" *ngIf="!showLikes"></span>
@@ -30,8 +35,8 @@
 		<h2 (click)="showLikes = !showLikes">Vasa svidjanja</h2>
 	</div>
 	<div *ngIf="showLikes">
-		<div *ngIf="likedItems.length == 0" id="emptyCartTxt">- Još vam se ništa ne svidja -</div>
-		<div *ngFor="let item of likedItems" id="contentDiv">
+		<div *ngIf="likedItemsCart.length == 0" id="emptyCartTxt">- Još vam se ništa ne svidja -</div>
+		<div *ngFor="let item of likedItemsCart" id="contentDiv">
 			<div id="contentDivInner">
 				<div id="imgDiv">
 					<img src="{{item.photo}}" class="img-responsive" />
@@ -47,8 +52,9 @@
 				</div>
 			</div>
 			<div id="btnDiv2">
-				<button class="btn btn-cancel" (click)="removeLike(item.key)">Odbaci</button>
-				<button class="btn btn-add" [disabled]="quantityProblem">Dodaj u korpu</button>
+				<button class="btn btn-cancel" (click)="removeLike(item.itemLikedKey)">ODBACI</button>
+				<button class="btn btn-add" [disabled]="quantityProblem">U KORPU</button>
+				<button class="btn btn-buy" >KUPI</button>
 			</div>
 		</div>
 	</div>

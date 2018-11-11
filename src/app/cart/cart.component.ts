@@ -13,18 +13,6 @@ export class CartComponent implements OnInit {
   constructor(public cartService: CartService, private slimLoadingBarService: SlimLoadingBarService, 
   private route: ActivatedRoute) { 
     this.slimLoadingBarService.start();
-    /*this.route.parent.data.subscribe((auth) => {
-      auth.base.auth.subscribe(res =>{
-        if(res != null)
-          this.userUid = res.uid;
-        else
-          this.userUid = undefined;
-
-        this.prepareCartItems(this.userUid, this.adminId);
-        this.prepareLikedItems(this.userUid, this.adminId);
-      });
-    })*/
-
     this.route.parent.data.subscribe((auth) => {
       auth.base.adminId.subscribe(res =>{
         if(res != null)
@@ -50,7 +38,7 @@ export class CartComponent implements OnInit {
   userUid:any;
   adminId:any;
   itemsInCart:any = [];
-  likedItems:any = [];
+  likedItemsCart:any = [];
   showItems:boolean = true;
   showLikes:boolean = false;
   quantityProblem:boolean = true;
@@ -59,8 +47,22 @@ export class CartComponent implements OnInit {
     
   }
 
-  removeLike(productKey){
-  	this.cartService.removeLike(productKey);
+  removeLike(likeKey){
+  	this.cartService.removeLike(likeKey).then(a =>
+      this.cartService.getLikedItems(this.userUid).subscribe(res => {
+      if(res.length == 0)
+        this.likedItemsCart = [];
+      })
+    );
+  }
+
+  removeItem(itemKey){
+    this.cartService.removeItem(itemKey).then(a =>
+      this.cartService.getCartItems(this.userUid).subscribe(res => {
+      if(res.length == 0)
+        this.itemsInCart = [];
+      })
+    );
   }
 
   onQChange(value, maxQuantity){
@@ -72,58 +74,58 @@ export class CartComponent implements OnInit {
 
   prepareCartItems(uid, adminId){
     this.cartService.getCartItems(uid).subscribe(res => {
-      this.cartService.getProducts(adminId).subscribe(res2 => {
-        let container: any = [];
-        let products = this.object_to_subctg_prod(res2[0].value);
+      if(res.length == 0)
+        this.slimLoadingBarService.complete();
 
-        res.forEach(itemT => {
-          let item:any = itemT;
-            products.forEach(prod => {
-              if(item.value.productKey == prod.key){
-                let itemToShow:any = {
-                  'key': prod.key,
-                  'title': prod.title,
-                  'description': prod.description,
-                  'quantity': item.value.quantity,
-                  'price' : prod.price,
-                  'photo': prod.photo
+      let container: any = [];
+      res.forEach(item =>{
+        let itemCopy:any = item;
+        this.cartService.getProducts(adminId, itemCopy.value.subctgKey, itemCopy.value.productKey)
+        .subscribe(prod => {
+          let prodCopy:any = prod;
+          let itemToShow:any = {
+                  'itemCartKey': itemCopy.key,
+                  'key': itemCopy.value.productKey,
+                  'title': prodCopy.title,
+                  'description': prodCopy.description,
+                  'quantity': itemCopy.value.quantity,
+                  'price' : prodCopy.price,
+                  'photo': prodCopy.photo
                   }
                 container.push(itemToShow);
-              }
-            });            
         })
         this.itemsInCart = container;
         this.slimLoadingBarService.complete();
-      });
-    });
+      })
+    })
   }
 
   prepareLikedItems(uid, adminId){
     this.cartService.getLikedItems(uid).subscribe(res => {
-      this.cartService.getProducts(adminId).subscribe(res2 => {
-        let container: any = [];
-        let products = this.object_to_subctg_prod(res2[0].value);
+      if(res.length == 0)
+          this.slimLoadingBarService.complete();
 
-        res.forEach(itemT => {
-        let item:any = itemT;
-          products.forEach(prod => {
-            if(item.value.productKey == prod.key){
-              let itemToShow:any = {
-                'key': prod.key,
-                'title': prod.title,
-                'description': prod.description,
-                'quantity': prod.quantity,
-                'price' : prod.price,
-                'photo': prod.photo
-                }
-              container.push(itemToShow);
-            }
-          });            
+      let container: any = [];
+      res.forEach(item =>{
+        let itemCopy:any = item;
+        this.cartService.getProducts(adminId, itemCopy.value.subctgKey, itemCopy.value.productKey)
+        .subscribe(prod => {
+          let prodCopy:any = prod;
+          let itemToShow:any = {
+                  'itemLikedKey': itemCopy.key,
+                  'key': itemCopy.value.productKey,
+                  'title': prodCopy.title,
+                  'description': prodCopy.description,
+                  'quantity': prodCopy.quantity,
+                  'price' : prodCopy.price,
+                  'photo': prodCopy.photo
+                  }
+                container.push(itemToShow);
         })
-        this.likedItems = container;
+        this.likedItemsCart = container;
         this.slimLoadingBarService.complete();
-      });
-    });
+      })
+    })
   }
 
   object_to_ctg(map) {
@@ -134,6 +136,17 @@ export class CartComponent implements OnInit {
     }
 
     return categories;
+  }
+
+  convert_object(map) {
+    let obj: any = []
+    for (let k of Object.keys(map.value)) {
+        map.value[k].key = k;
+        map.value[k].parentId = map.key;
+        obj.push(map.value[k]);
+    }
+
+    return obj;
   }
 
   object_to_subctg_prod(map) {

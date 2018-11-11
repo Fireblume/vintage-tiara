@@ -88,7 +88,7 @@
 }
 
 .btn-cart {
-	background: #C5B358;
+	background: #CFB53B;
 	color: white;
   margin-left: 30px;
   position: relative;
@@ -102,10 +102,27 @@
 	box-shadow: 1px 1px 2px #EEE8AA;
 }
 
-.btn-cart:hover{
+.btn-buy{
+  background: #C5B358;
+  color: white;
+  margin-left: 20px;
+  position: relative;
+  bottom: 10px;
+  font-size: 16px;
+  width: 100px;
+
+
+  -moz-box-shadow: 1px 1px 2px #EEE8AA;
+  -webkit-box-shadow: 1px 1px 2px #EEE8AA;
+  box-shadow: 1px 1px 2px #EEE8AA;
+}
+
+.btn-cart:hover, .btn-buy:hover{
 	background: #FAFAD2;
   color: #996515;
 }
+
+
 
 .under-cat-div{
   border: 1px solid #914853;

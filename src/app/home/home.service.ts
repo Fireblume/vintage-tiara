@@ -42,20 +42,24 @@ export class HomeService {
       }));
   }
 
-  likeProduct(productKey){
+  likeProduct(subctgId, productId){
     return this.db.list('/productLikes/'+ this.userUid)
-                  .set(productKey,{'productKey': productKey});
+                  .push({
+                      'subctgKey': subctgId,
+                      'productKey': productId
+                      });
   }
 
   removeLike(productKey){
       return this.db.list('/productLikes/'+ this.userUid + '/'+ productKey).remove();
     }
 
-  toCart(productKey, quantity){
+  toCart(subctgId, productId, quantity){
     return this.db.list('/cart/'+ this.userUid)
                   .push({
-                        productKey: productKey,
-                        quantity: quantity
+                        'subctgKey': subctgId,
+                        'productKey': productId,
+                        'quantity': quantity
                       });
   }
 

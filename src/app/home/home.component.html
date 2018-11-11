@@ -32,7 +32,7 @@
 		></ngx-image-zoom>
 		<!--<img src="../../src/image/{{modalImage}}">-->
 	</div>
-    <div class="col-md-4 details">
+    <div class="col-md-5 details">
     	<p>Naziv: {{showProduct?.title}}</p>
     	<p>Opis: {{showProduct?.description}}</p>
     	<p>Status: {{showProduct?.inStock}}</p>
@@ -45,12 +45,14 @@
     	<div class="lower-stuff" *ngIf="userUid != undefined">
     		<span class="glyphicon glyphicon-heart-empty heart-empty" *ngIf="!hearClick[showProduct?.key]" 
     			(click)="hearClick[showProduct.key] = !hearClick[showProduct.key];
-    			likeProduct(showProduct.key)"></span>
+    			likeProduct(showProduct.parentId, showProduct.key)"></span>
     		<span class="glyphicon glyphicon-heart heart" *ngIf="hearClick[showProduct?.key]" 
     			(click)="hearClick[showProduct.key] = !hearClick[showProduct.key];
     			dislikeProduct(showProduct.key)"></span>
-    		<button class="btn btn-cart" (click)="toCart(showProduct.key, quantityToBuy)"
+    		<button class="btn btn-cart" (click)="toCart(showProduct.parentId, showProduct.key, quantityToBuy)"
     			[disabled]="quantityProblem">U KORPU</button>
+    		<button class="btn btn-buy"
+    			[disabled]="quantityProblem">KUPI</button>
     	</div>
     </div>
     <div class="col-md-2" style="width: 85px;">

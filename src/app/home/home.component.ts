@@ -134,16 +134,16 @@ export class HomeComponent implements OnInit  {
       this.quantityProblem = false;
   }
 
-  likeProduct(productKey){
-    this.homeService.likeProduct(productKey);
+  likeProduct(parentId, productKey){
+    this.homeService.likeProduct(parentId, productKey);
   }
 
   dislikeProduct(productKey){
     this.homeService.removeLike(productKey);
   }
 
-  toCart(productKey, quantity){
-     this.homeService.toCart(productKey, quantity);
+  toCart(parentId, productId, quantity){
+     this.homeService.toCart(parentId, productId, quantity);
   }
 
   prepareDataLists(adminId){

@@ -36,7 +36,7 @@
 	font-size: 20px;
 }
 
-.btn-buy, .btn-add{
+.btn-buy, .btn-add, .btn-buyAll{
 	background: #C5B358;
 	color: white;
 	position: relative;
@@ -49,15 +49,30 @@
 	box-shadow: 1px 1px 2px #EEE8AA;
 }
 
-.btn-buy {
+.btn-add{
+	background: #CFB53B;
+	color: white;
+	position: relative;
+	bottom: 10px;
+	font-size: 16px;
+
+
+	-moz-box-shadow: 1px 1px 2px #EEE8AA;
+	-webkit-box-shadow: 1px 1px 2px #EEE8AA;
+	box-shadow: 1px 1px 2px #EEE8AA;
+}
+
+.btn-buyAll {
+	margin-left: 65%;
+    margin-top: -1%;
+    width: 13%;
+}
+
+.btn-buy, .btn-add {
 	width: 100px;
 }
 
-.btn-add{
-	width: 130px;
-}
-
-.btn-buy:hover, .btn-cancel:hover, .btn-add :hover{
+.btn-buy:hover, .btn-cancel:hover, .btn-add:hover, .btn-buyAll:hover{
 	background: #FAFAD2;
   	color: #996515;
 }
@@ -74,12 +89,12 @@
 
 #btnDiv{
 	width: 40%;
-    margin-left: 65%;
+    margin-left: 80%;
 }
 
 #btnDiv2{
-	width: 40%;
-    margin-left: 60%;
+	width: 60%;
+    margin-left: 50%;
 }
 
 #btnDiv button{
@@ -87,7 +102,7 @@
 }
 
 #btnDiv2 button{
-	margin-left: 15px;
+	margin-left: 10px;
 }
 
 .cart-inner-menu{
