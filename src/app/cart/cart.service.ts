@@ -14,11 +14,12 @@ import { map } from 'rxjs/operators';
 export class CartService {
 
    	constructor(private _firebaseAuth: AngularFireAuth, public db: AngularFireDatabase,
-              public firebaseApp: FirebaseApp) {
-       	let user = JSON.parse(sessionStorage.getItem("currentUser"));
-       	try{
-    		this.userUid = user.uid;
-    	}catch(Exception){}
+    public firebaseApp: FirebaseApp) {
+       	this._firebaseAuth.authState.subscribe((auth) => {
+               try{
+                  this.userUid = auth.uid;
+                }catch(Exception){}
+            });
    	}
 
    userUid:any;
@@ -35,8 +36,8 @@ export class CartService {
       	}));
   	}
 
-  	getProducts(){
-   		return this.db.list('/products/').snapshotChanges().pipe(map(changes => {
+  	getProducts(adminId){
+   		return this.db.list('/products/'+adminId).snapshotChanges().pipe(map(changes => {
     		return changes.map(c => ({value: c.payload.val()}));
         }));
    	}

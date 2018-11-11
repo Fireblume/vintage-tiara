@@ -116,6 +116,12 @@
   display: inline !important;
 }
 
+#emptyCartTxt {
+	font-size: 24px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
 .bubble {
     -webkit-border-radius: 50%;
 	-moz-border-radius: 50%;

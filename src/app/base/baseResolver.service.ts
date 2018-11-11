@@ -16,7 +16,13 @@ export class BaseResolver implements Resolve<any> {
 
 
   resolve(): Observable<any>{
-    return of(this._firebaseAuth.authState);
+    return of(
+    [this._firebaseAuth.authState, 
+    this.baseService.getAdminId()]
+    ).pipe(map(res => ({
+    	auth: res[0],
+    	adminId: res[1]
+    })));
   }
 
 }

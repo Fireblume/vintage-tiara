@@ -23,6 +23,9 @@ export class BaseComponent implements OnInit{
 	constructor(private route: Router, private _firebaseAuth: AngularFireAuth, 
 	private actRoute: ActivatedRoute, private loginService: LoginService, private homeService: HomeService,
 	private cartService: CartService) { 
+    this.actRoute.snapshot.data.base.adminId.subscribe(
+      res => console.log(res)
+    );
 	}
 
 	ngOnInit() {
@@ -85,7 +88,7 @@ export class BaseComponent implements OnInit{
   }
 
   checkSession(){
-  	 this.actRoute.snapshot.data.base.subscribe((auth) => {    
+  	 this.actRoute.snapshot.data.base.auth.subscribe((auth) => {    
         if(auth != null)
           this.logedIn = true;
         else

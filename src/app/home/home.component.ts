@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
 import { HomeService } from './home.service';
 import { ModalService} from '../modal.service';
+import { CartService } from '../cart/cart.service';
 
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
@@ -17,18 +18,29 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 export class HomeComponent implements OnInit  {
 
   constructor(private homeService: HomeService, private route: ActivatedRoute,
-  	private modalService: ModalService, public firebaseApp: FirebaseApp, private _firebaseAuth: AngularFireAuth, private slimLoadingBarService: SlimLoadingBarService) { 
-     /* this._firebaseAuth.authState.subscribe((auth) => {
-            try{
-              this.userUid = auth.uid;
-            }catch(Exception){}
-      });
-     this.route.snapshot.data.home.subscribe(res => {
-        this.categories = res;
-      });*/
+  	private modalService: ModalService, public firebaseApp: FirebaseApp, private _firebaseAuth: AngularFireAuth, private slimLoadingBarService: SlimLoadingBarService, private cartService: CartService) { 
+       this.route.parent.data.subscribe((auth) => {
+        auth.base.auth.subscribe(res =>{
+          if(res != null)
+            this.userUid = res.uid;
+          else
+            this.userUid = undefined;
 
-      this.prepareCategoriesAndSubCtg();
-      this.prepareProducts();
+          this.prepareLikedItem(this.userUid);
+        });
+        
+      });
+
+      this.route.parent.data.subscribe((auth) => {
+        auth.base.adminId.subscribe(res =>{
+          if(res != null)
+            this.amidnUid = res[0].key;
+          else
+            this.amidnUid = undefined;
+
+          this.prepareDataLists(this.amidnUid);
+        });
+      });
     }
 
     @ViewChild('modalPP') public modalPP: ZoomElement;
@@ -36,40 +48,40 @@ export class HomeComponent implements OnInit  {
     modalImage: any = [];
   	categories: any = [];
     products: any = [];
+    subcategories: any = [];
+    likedItems: any = [];
     fullProductList: any = [];
+    subctgs: any = [];
     showProduct: any;
     maxQuantity: any;
     userUid:any;
+    amidnUid: any;
     quantityProblem:boolean;
   	images:any;
     myThumbnail:any = '';
     hovered:any = {};
     quantityToBuy:number = 1;
+    hearClick:any = {};
 
-	ngOnInit() {
-   // this.categories = JSON.parse(sessionStorage.getItem("categories"));
-    this.route.parent.data.subscribe((auth) => {
-      auth.base.subscribe(res =>{
-        if(res != null)
-          this.userUid = res.uid;
-        else
-          this.userUid = undefined;
-      });
-      
-    });
+	ngOnInit() {   
   }
 
   showProducts(subCId){
     this.slimLoadingBarService.start();
-    let prodSet: any = [];
     this.fullProductList.forEach(val => {
-            if(subCId == val.parentId){
-              prodSet.push(val);
-            }
-          })
-
-    this.products = prodSet;
+      if(subCId == val.key){
+        this.products = this.convert_object(val);
+      }
+    })
     this.slimLoadingBarService.complete();
+  }
+
+  showSubCategories(catId, cat){
+    this.subcategories.forEach(sub =>{
+      if(sub.key == catId){
+        cat.subctgs = this.convert_object(sub);
+      }
+    })
   }
 
   openModal(id, product) {
@@ -101,6 +113,11 @@ export class HomeComponent implements OnInit  {
     else
       this.showProduct.inStock = 'NEDOSTUPNO';
 
+    this.likedItems.forEach(like =>{
+      if(like.value.productKey == product.key)
+        this.hearClick[product.key] = true;
+    })
+
     this.maxQuantity = parseInt(this.showProduct.quantity);
 
     this.modalService.open(id);
@@ -121,40 +138,36 @@ export class HomeComponent implements OnInit  {
     this.homeService.likeProduct(productKey);
   }
 
+  dislikeProduct(productKey){
+    this.homeService.removeLike(productKey);
+  }
+
   toCart(productKey, quantity){
      this.homeService.toCart(productKey, quantity);
   }
 
-  prepareCategoriesAndSubCtg(){
+  prepareDataLists(adminId){
     this.slimLoadingBarService.start();
-    this.homeService.getCategories().subscribe(prodRes =>{
-      this.categories = this.object_to_ctg(prodRes[0].value);
+    this.homeService.getProducts(adminId).subscribe(res => {
+      this.fullProductList = res;
+    })
 
-      this.homeService.getSubCategories().subscribe(
-        (res2) => {
-           let subctgs = this.object_to_subctg_prod(res2[0].value);
-           
-            this.categories.forEach(val => { 
-              let subcSet:any = [];
+    this.homeService.getCategories(adminId).subscribe(cat =>{
+      console.log("Ctg loaded");
+      this.categories = cat;
 
-              subctgs.forEach(val2 => { 
-                if(val.key == val2.parentId)
-                  subcSet.push(val2);
-              })
-
-              val.subctgs = subcSet;
-           })
+      this.homeService.getSubCategories(adminId).subscribe(subC => {
+        console.log("Subctg loaded");
+        this.subcategories = subC;
+        this.slimLoadingBarService.complete();
       })
-      sessionStorage.setItem("categories", JSON.stringify(this.categories));
-      this.slimLoadingBarService.complete();
     })
   }
 
-  prepareProducts(){
-    this.homeService.getProducts().subscribe(
-      (res) => {
-          this.fullProductList = this.object_to_subctg_prod(res[0].value);
-      });
+  prepareLikedItem(uid){
+    this.cartService.getLikedItems(uid).subscribe(res => {
+        this.likedItems = res;
+    });
   }
 
   object_to_ctg(map) {
@@ -165,6 +178,17 @@ export class HomeComponent implements OnInit  {
     }
 
     return categories;
+  }
+
+  convert_object(map) {
+    let obj: any = []
+    for (let k of Object.keys(map.value)) {
+        map.value[k].key = k;
+        map.value[k].parentId = map.key;
+        obj.push(map.value[k]);
+    }
+
+    return obj;
   }
 
   object_to_subctg_prod(map) {

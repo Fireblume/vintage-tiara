@@ -24,28 +24,32 @@ export class HomeService {
 
   userUid:any;
 
-  getCategories(){
-  	return this.db.list('/categories/').snapshotChanges().pipe(map(changes => {
-        return changes.map(c => ({ value: c.payload.val() }));
+  getCategories(adminId){
+  	return this.db.list('/categories/'+adminId).snapshotChanges().pipe(map(changes => {
+        return changes.map(c => ({key:c.payload.key, value: c.payload.val() }));
       }));
   }
 
-  getSubCategories(){
-    return this.db.list('/subcategories/').snapshotChanges().pipe(map(changes => {
-          return changes.map(c => ({ value: c.payload.val() }));
-        }));
+  getSubCategories(adminId){
+    return this.db.list('/subcategories/'+adminId).snapshotChanges().pipe(map(changes => {
+        return changes.map(c => ({key:c.payload.key, value: c.payload.val() }));
+      }));
   }
 
-  getProducts(){
-   return this.db.list('/products/').snapshotChanges().pipe(map(changes => {
-            return changes.map(c => ({value: c.payload.val()}));
-          }));
+  getProducts(adminId){
+    return this.db.list('/products/'+adminId).snapshotChanges().pipe(map(changes => {
+        return changes.map(c => ({key:c.payload.key, value: c.payload.val()}));
+      }));
   }
 
   likeProduct(productKey){
     return this.db.list('/productLikes/'+ this.userUid)
                   .set(productKey,{'productKey': productKey});
   }
+
+  removeLike(productKey){
+      return this.db.list('/productLikes/'+ this.userUid + '/'+ productKey).remove();
+    }
 
   toCart(productKey, quantity){
     return this.db.list('/cart/'+ this.userUid)

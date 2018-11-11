@@ -24,6 +24,12 @@ export class BaseService {
 
   userUid:any;
 
+  getAdminId(){
+    return this.db.list('/categories/').snapshotChanges().pipe(map(changes => {
+        return changes.map(c => ({ key: c.payload.key }));
+      }));
+  }
+
   getCategories(){
   	return this.db.list('/categories/').snapshotChanges().pipe(map(changes => {
         return changes.map(c => ({ value: c.payload.val() }));

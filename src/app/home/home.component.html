@@ -1,12 +1,13 @@
-<div class="home-container" *ngIf="categories?.length !== 0">
+<div class="home-container" *ngIf="categories?.length !== 0 && subcategories?.length !== 0">
 	<div class="cat-container col-md-2">
 		<p class="labela">Kategorije</p>
 		<div *ngFor="let cat of categories" >
-			<div class="cat-div" *ngIf="cat.active == 'true'">
-				<div id="catTitle" (click) ="hovered[cat.title] = !hovered[cat.title]">
-				{{cat.title}}
+			<div class="cat-div" *ngIf="cat.value.active == 'true'">
+				<div id="catTitle" (click) ="hovered[cat.value.title] = !hovered[cat.value.title];
+				showSubCategories(cat.key, cat)">
+				{{cat.value.title}}
 				</div>
-				<div *ngIf="hovered[cat.title]" class="under-cat-div">
+				<div *ngIf="hovered[cat.value.title]" class="under-cat-div">
 					<div *ngFor="let sub of cat.subctgs" class="under-cat">
 						<div *ngIf="sub.active == 'true'"  (click)="showProducts(sub.key)">
 						{{sub?.title}}
@@ -42,10 +43,12 @@
     	</p>
     	<p>Cena: {{showProduct?.price}} RSD</p>
     	<div class="lower-stuff" *ngIf="userUid != undefined">
-    		<span class="glyphicon glyphicon-heart-empty heart-empty" *ngIf="!hearClick" 
-    			(click)="hearClick = !hearClick; likeProduct(showProduct.key)"></span>
-    		<span class="glyphicon glyphicon-heart heart" *ngIf="hearClick" 
-    			(click)="hearClick = !hearClick"></span>
+    		<span class="glyphicon glyphicon-heart-empty heart-empty" *ngIf="!hearClick[showProduct?.key]" 
+    			(click)="hearClick[showProduct.key] = !hearClick[showProduct.key];
+    			likeProduct(showProduct.key)"></span>
+    		<span class="glyphicon glyphicon-heart heart" *ngIf="hearClick[showProduct?.key]" 
+    			(click)="hearClick[showProduct.key] = !hearClick[showProduct.key];
+    			dislikeProduct(showProduct.key)"></span>
     		<button class="btn btn-cart" (click)="toCart(showProduct.key, quantityToBuy)"
     			[disabled]="quantityProblem">U KORPU</button>
     	</div>

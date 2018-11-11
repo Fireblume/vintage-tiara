@@ -13,20 +13,42 @@ export class CartComponent implements OnInit {
   constructor(public cartService: CartService, private slimLoadingBarService: SlimLoadingBarService, 
   private route: ActivatedRoute) { 
     this.slimLoadingBarService.start();
-    this.route.parent.data.subscribe((auth) => {
-      auth.base.subscribe(res =>{
+    /*this.route.parent.data.subscribe((auth) => {
+      auth.base.auth.subscribe(res =>{
         if(res != null)
           this.userUid = res.uid;
         else
           this.userUid = undefined;
 
-        this.prepareCartItems(this.userUid);
-        this.prepareLikedItems(this.userUid);
+        this.prepareCartItems(this.userUid, this.adminId);
+        this.prepareLikedItems(this.userUid, this.adminId);
       });
-    })
+    })*/
+
+    this.route.parent.data.subscribe((auth) => {
+      auth.base.adminId.subscribe(res =>{
+        if(res != null)
+          this.adminId = res[0].key;
+        else
+          this.adminId = undefined;
+
+            this.route.parent.data.subscribe((auth) => {
+            auth.base.auth.subscribe(res =>{
+              if(res != null)
+                this.userUid = res.uid;
+              else
+                this.userUid = undefined;
+
+              this.prepareCartItems(this.userUid, this.adminId);
+              this.prepareLikedItems(this.userUid, this.adminId);
+            });
+          })
+      });
+    });
   }
 
   userUid:any;
+  adminId:any;
   itemsInCart:any = [];
   likedItems:any = [];
   showItems:boolean = true;
@@ -34,6 +56,7 @@ export class CartComponent implements OnInit {
   quantityProblem:boolean = true;
 
   ngOnInit() {
+    
   }
 
   removeLike(productKey){
@@ -47,9 +70,9 @@ export class CartComponent implements OnInit {
       this.quantityProblem = false;
   }
 
-  prepareCartItems(uid){
+  prepareCartItems(uid, adminId){
     this.cartService.getCartItems(uid).subscribe(res => {
-      this.cartService.getProducts().subscribe(res2 => {
+      this.cartService.getProducts(adminId).subscribe(res2 => {
         let container: any = [];
         let products = this.object_to_subctg_prod(res2[0].value);
 
@@ -75,9 +98,9 @@ export class CartComponent implements OnInit {
     });
   }
 
-  prepareLikedItems(uid){
+  prepareLikedItems(uid, adminId){
     this.cartService.getLikedItems(uid).subscribe(res => {
-      this.cartService.getProducts().subscribe(res2 => {
+      this.cartService.getProducts(adminId).subscribe(res2 => {
         let container: any = [];
         let products = this.object_to_subctg_prod(res2[0].value);
 

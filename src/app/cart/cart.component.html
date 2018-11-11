@@ -5,6 +5,7 @@
 		<h2 (click)="showItems = !showItems">Vasa korpa</h2>
 	</div>
 	<div *ngIf="showItems">
+		<div *ngIf="itemsInCart.length == 0" id="emptyCartTxt">- Još ništa niste dodali -</div>
 		<div *ngFor="let item of itemsInCart" id="contentDiv">
 			<div id="contentDivInner">
 				<div id="imgDiv">
@@ -29,6 +30,7 @@
 		<h2 (click)="showLikes = !showLikes">Vasa svidjanja</h2>
 	</div>
 	<div *ngIf="showLikes">
+		<div *ngIf="likedItems.length == 0" id="emptyCartTxt">- Još vam se ništa ne svidja -</div>
 		<div *ngFor="let item of likedItems" id="contentDiv">
 			<div id="contentDivInner">
 				<div id="imgDiv">
