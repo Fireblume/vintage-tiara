@@ -14,13 +14,16 @@ import { map } from 'rxjs/operators';
 export class DashboardService {
 
   constructor(private _firebaseAuth: AngularFireAuth, public db: AngularFireDatabase,
-              public firebaseApp: FirebaseApp) {
-      
-    let admin = JSON.parse(sessionStorage.getItem("currentAdmin"));
-    this.adminUid = admin.uid;
-   }
+  public firebaseApp: FirebaseApp) {   
+      this._firebaseAuth.authState.subscribe((res) => {
+        if(res != null)
+            this.adminUid = res.uid;
+          else
+            this.adminUid = undefined;
+      })
+  }
 
-   adminUid:any;
+  adminUid:any;
 
   getCategories(){
       return this.db.list('/categories/'+ this.adminUid).snapshotChanges().pipe(map(changes => {

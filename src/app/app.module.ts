@@ -36,6 +36,7 @@ import { CartComponent } from './cart/cart.component';
 import { EqualValidator } from './equalValidator.directive';
 import { environment } from '../environments/environment';
 import { BaseComponent } from './base/base.component';
+import { AdminBaseComponent } from './admin-base/admin-base.component';
 
 
 const routes: Routes = [
@@ -43,15 +44,19 @@ const routes: Routes = [
     { path: '', component: BaseComponent, 
         resolve: {base: BaseResolver},
         children: [
-            { path: 'home', component: HomeComponent,resolve: {home: HomeResolver}},
+            { path: 'home', component: HomeComponent, resolve: {home: HomeResolver}},
             { path: 'info', component: InfoComponent},
             { path: 'login', component: LoginComponent},
             { path: 'register', component: RegisterComponent},
             { path: 'cart', component: CartComponent},
         ]
     },
-    { path: 'admin', component: AdminLoginComponent},
-    { path: 'admin/dashboard', component: DashboardComponent}
+    { path: 'admin', component: AdminBaseComponent,
+        children: [
+            { path: 'login', component: AdminLoginComponent},
+            { path: 'dashboard', component: DashboardComponent}
+        ]
+    }
   ];
 
 @NgModule({
@@ -66,7 +71,8 @@ const routes: Routes = [
     DashboardComponent,
     EqualValidator,
     CartComponent,
-    BaseComponent
+    BaseComponent,
+    AdminBaseComponent
   ],
   imports: [
     BrowserModule,

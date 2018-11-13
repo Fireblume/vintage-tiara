@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminLoginService } from './admin-login.service'
 import { Router } from '@angular/router';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'app-admin-login',
@@ -10,9 +11,17 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 })
 export class AdminLoginComponent implements OnInit {
 
-  constructor(private logInService: AdminLoginService, private router: Router, private slimLoadingBarService: SlimLoadingBarService) { }
+  constructor(private logInService: AdminLoginService, private router: Router, private slimLoadingBarService: SlimLoadingBarService, private _firebaseAuth: AngularFireAuth) {
+    this._firebaseAuth.authState.subscribe((res) => {
+      if(res != null){
+          this.adminId = res.uid;
+          this.router.navigate(['/admin/dashboard']);
+      } else
+          this.adminId = undefined;
+    })
+  }
 
-  currentAdmin:any = {'uid':'', 'name':'', 'email':''}
+  adminId:any;
   login:any = {};
   error:any;
   
@@ -23,9 +32,19 @@ export class AdminLoginComponent implements OnInit {
   	this.slimLoadingBarService.start();
     this.logInService.signInRegular(this.login.email, this.login.password)
       .then((res) => {
-      	this.setAdmin(res);
-      	sessionStorage.setItem("currentAdmin", JSON.stringify(this.currentAdmin));
-      	this.router.navigate(['/admin/dashboard']);
+        this.logInService.checkRole(res.user.uid).subscribe((role:any) =>{
+          if(role == null){
+            this._firebaseAuth.auth.signOut();
+            this.error = "Nemate prava pristupa";
+          }
+          else if(role.role == 'admin')
+            this.router.navigate(['/admin/dashboard']);
+          else{
+            this._firebaseAuth.auth.signOut();
+            this.error = "Nemate prava pristupa";
+          }
+        });
+      	
       	this.slimLoadingBarService.complete();
       })
       .catch((err) => { 
@@ -34,13 +53,6 @@ export class AdminLoginComponent implements OnInit {
 		      this.error = null;
 		  }, 3000);
 		  this.slimLoadingBarService.complete();
-	});
+	  });
 	}
-
-	setAdmin(res){
-		this.currentAdmin.uid = res.user.uid;
-		this.currentAdmin.name = res.user.displayName;
-		this.currentAdmin.email = res.user.email;
-	}
-
 }

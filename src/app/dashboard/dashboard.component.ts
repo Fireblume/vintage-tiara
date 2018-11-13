@@ -184,6 +184,7 @@ export class DashboardComponent implements OnInit {
   cleanProdForm(){
     this.product = {};
     this.subCtgInput.nativeElement.disabled = false;
+    (<HTMLInputElement>window.document.getElementById('photoPick')).value = "";
   }
 
   selectActiveC(key){
@@ -235,8 +236,4 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  logOut(){
-    sessionStorage.removeItem("currentAdmin");
-    this._firebaseAuth.auth.signOut();
-  }
 }

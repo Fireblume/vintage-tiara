@@ -1,0 +1,39 @@
+.header{
+	background: #bf7f89;
+    height: 35px;
+    padding-top: 5px;
+}
+
+.header div{
+	display: inline;
+}
+
+#logOut a{
+	color: white;
+	float: right;
+	margin-right: 20px;
+	font-size: 16px;
+}
+
+.hdr-items{
+    margin-left: 20px;
+    font-size: 16px;
+}
+
+.hdr-items a{
+	margin-right: 15px;
+	color: white;
+}
+
+.selected-tab{
+	background: white;
+    padding: 11px;
+    color: #bf7f89 !important;
+}
+
+#slimLoad{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
