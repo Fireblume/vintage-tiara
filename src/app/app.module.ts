@@ -21,6 +21,7 @@ import { AdminLoginService } from './admin-login/admin-login.service';
 import { DashboardService } from './dashboard/dashboard.service';
 import { CartService } from './cart/cart.service';
 import { BaseService } from './base/base.service';
+import { AuthGuard } from './authGuard.service';
 
 import { BaseResolver } from './base/baseResolver.service';
 import { HomeResolver } from './home/homeResolver.service';
@@ -48,7 +49,7 @@ const routes: Routes = [
             { path: 'info', component: InfoComponent},
             { path: 'login', component: LoginComponent},
             { path: 'register', component: RegisterComponent},
-            { path: 'cart', component: CartComponent},
+            { path: 'cart', component: CartComponent, canActivate: [AuthGuard]},
         ]
     },
     { path: 'admin', component: AdminBaseComponent,
@@ -97,7 +98,8 @@ const routes: Routes = [
     CartService,
     BaseResolver,
     BaseService,
-    HomeResolver
+    HomeResolver,
+    AuthGuard
     ],
   bootstrap: [AppComponent]
 })

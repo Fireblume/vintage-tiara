@@ -14,13 +14,13 @@ import { map } from 'rxjs/operators';
 export class HomeService {
 
   constructor(private _firebaseAuth: AngularFireAuth, public db: AngularFireDatabase,
-              public firebaseApp: FirebaseApp) {
-               this._firebaseAuth.authState.subscribe((auth) => {
-               try{
-                  this.userUid = auth.uid;
-                }catch(Exception){}
-            });
-    }
+  public firebaseApp: FirebaseApp) {
+     this._firebaseAuth.authState.subscribe((auth) => {
+       try{
+          this.userUid = auth.uid;
+        }catch(Exception){}
+    });
+  }
 
   userUid:any;
 

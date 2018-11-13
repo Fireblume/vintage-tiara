@@ -3,7 +3,7 @@
 <header id="header">
     <ul class="nav nav-tabs">
     <li [ngClass]="status.one ? 'active' : ''" id="firstTab"  (click)="clickEvent('one')">
-      <a [routerLink]="['/home']">Pocetna</a></li>
+      <a [routerLink]="['/home']">Početna</a></li>
     <li [ngClass]="status.two ? 'active' : ''" (click)="clickEvent('two')">
       <a [routerLink]="['/info']" >Kontakt</a></li>
     <div id="rightHeader" *ngIf="logedIn == false">

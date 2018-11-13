@@ -2,7 +2,7 @@
 	<div class="cart-inner-menu">
 		<span class="glyphicon glyphicon-triangle-right" *ngIf="!showItems"></span>
 		<span class="glyphicon glyphicon-triangle-bottom" *ngIf="showItems"></span>
-		<h2 (click)="showItems = !showItems">Vasa korpa</h2>
+		<h2 (click)="showItems = !showItems">Vaša korpa</h2>
 	</div>
 	<div *ngIf="showItems">
 		<div *ngIf="itemsInCart.length == 0" id="emptyCartTxt">- Još ništa niste dodali -</div>
@@ -32,7 +32,7 @@
 	<div class="cart-inner-menu">
 		<span class="glyphicon glyphicon-triangle-right" *ngIf="!showLikes"></span>
 		<span class="glyphicon glyphicon-triangle-bottom" *ngIf="showLikes"></span>
-		<h2 (click)="showLikes = !showLikes">Vasa svidjanja</h2>
+		<h2 (click)="showLikes = !showLikes">Vaša svidjanja</h2>
 	</div>
 	<div *ngIf="showLikes">
 		<div *ngIf="likedItemsCart.length == 0" id="emptyCartTxt">- Još vam se ništa ne svidja -</div>

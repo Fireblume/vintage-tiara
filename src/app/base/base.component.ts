@@ -20,8 +20,7 @@ export class BaseComponent implements OnInit{
  	 @ViewChild('upButton') upButton: ElementRef
  	 @ViewChild('section') section: ElementRef
 
-	constructor(private route: Router, private _firebaseAuth: AngularFireAuth, 
-	private actRoute: ActivatedRoute, private loginService: LoginService, private homeService: HomeService,
+	constructor(private route: Router, private _firebaseAuth: AngularFireAuth, private actRoute: ActivatedRoute, private loginService: LoginService, private homeService: HomeService,
 	private cartService: CartService) { 
     /*this.actRoute.snapshot.data.base.adminId.subscribe(
       res => console.log(res)
