@@ -21,7 +21,9 @@ import { AdminLoginService } from './admin-login/admin-login.service';
 import { DashboardService } from './dashboard/dashboard.service';
 import { CartService } from './cart/cart.service';
 import { BaseService } from './base/base.service';
-import { AuthGuard } from './authGuard.service';
+
+import { AuthGuard } from './auth.guard';
+import { AdminGuard } from './admin.guard';
 
 import { BaseResolver } from './base/baseResolver.service';
 import { HomeResolver } from './home/homeResolver.service';
@@ -33,11 +35,10 @@ import { RegisterComponent } from './register/register.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CartComponent } from './cart/cart.component';
+import { BaseComponent } from './base/base.component';
 
 import { EqualValidator } from './equalValidator.directive';
 import { environment } from '../environments/environment';
-import { BaseComponent } from './base/base.component';
-import { AdminBaseComponent } from './admin-base/admin-base.component';
 
 
 const routes: Routes = [
@@ -52,9 +53,9 @@ const routes: Routes = [
             { path: 'cart', component: CartComponent, canActivate: [AuthGuard]},
         ]
     },
-    { path: 'admin', component: AdminBaseComponent,
+    { path: 'admin', component: AdminLoginComponent,
+        canActivateChild: [AdminGuard],
         children: [
-            { path: 'login', component: AdminLoginComponent},
             { path: 'dashboard', component: DashboardComponent}
         ]
     }
@@ -72,8 +73,7 @@ const routes: Routes = [
     DashboardComponent,
     EqualValidator,
     CartComponent,
-    BaseComponent,
-    AdminBaseComponent
+    BaseComponent
   ],
   imports: [
     BrowserModule,
@@ -99,7 +99,8 @@ const routes: Routes = [
     BaseResolver,
     BaseService,
     HomeResolver,
-    AuthGuard
+    AuthGuard,
+    AdminGuard
     ],
   bootstrap: [AppComponent]
 })

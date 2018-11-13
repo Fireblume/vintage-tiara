@@ -1,7 +1,23 @@
 #logDiv{
 	margin-top: 150px;
 	margin-left: 540px;
-	margin-bottom: 270px;
+	margin-bottom: 230px;
+}
+
+#footer {
+    height: 50px;
+    margin-top: -20px;
+    text-align: center;
+    border-top: 1px solid #C5B358 ;
+    padding-top: 15px;
+    color: #C5B358;
+}
+
+#section {
+	min-height: 450px;
+	display: inline-block;
+    width: 100%;
+    margin-bottom: 40px;
 }
 
 .form-control{
@@ -28,7 +44,7 @@
 	color: #996515;
 }
 
-.out-loging{
+/*.out-loging{
 	margin-bottom: 20px;
     width: 300px;
     border-bottom: 1px solid #C5B358;
@@ -37,4 +53,44 @@
 
 .out-loging button{
 	margin-left: 23px;
+}*/
+
+.header{
+	background: #bf7f89;
+    height: 35px;
+    padding-top: 5px;
+}
+
+.header div{
+	display: inline;
+}
+
+#logOut a{
+	color: white;
+	float: right;
+	margin-right: 20px;
+	font-size: 16px;
+}
+
+.hdr-items{
+    margin-left: 20px;
+    font-size: 16px;
+}
+
+.hdr-items a{
+	margin-right: 15px;
+	color: white;
+}
+
+.selected-tab{
+	background: white;
+    padding: 11px;
+    color: #bf7f89 !important;
+}
+
+#slimLoad{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
