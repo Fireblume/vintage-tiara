@@ -1,0 +1,153 @@
+<div class="upper-dash">
+	<div class="col-md-6 list-displey">
+		<div class="items-lists col-md-3">
+			<div class="list-title">Kategorije:</div>
+			<div *ngFor="let cat of categories" (click)="getSubCat(cat.id); fillFormC(cat); 
+				selectActiveC(cat.id)">
+				<div class="listItm" [ngClass]="selectedC[cat.id] ? 'active' : ''" >{{cat.title}}</div>
+				<span class="glyphicon glyphicon-remove removeIcon" (click)="dialogCatg(cat);"></span>
+			</div>
+		</div>
+		<div class="items-lists col-md-3">
+			<div class="list-title">Podkategorije:</div>
+			<div *ngFor="let sub of subCatgs" (click)="getProducts(sub.id); fillFormS(sub); 
+			selectActiveS(sub.id)">
+				<div class="listItm" [ngClass]="selectedS[sub.id] ? 'active' : ''" >{{sub.title}}</div>
+				<span class="glyphicon glyphicon-remove removeIcon" (click)="dialogSubCatg(sub);"></span>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 form-part">
+		<div class="col-md-6">
+			<h4>Kategorija:</h4>
+			<form name="form" (ngSubmit)="f1.form.valid && submitCatg(f1.value)" #f1="ngForm" novalidate>
+				<input type="text" name="uidC" [(ngModel)]="category.id" #uidC="ngModel" [hidden]="true">
+				<input type="text" class="form-control" name="title" placeholder="Naziv" 
+				 [(ngModel)]="category.title" #title="ngModel"
+		 		 [ngClass]="{ 'input-has-error': !title.valid && !title.pristine }" required>
+
+				<input type="radio" name="isActive" value="Y" [(ngModel)]="category.active" required/>
+					<p class="radiobtn">Da</p>
+				<input type="radio" name="isActive" value="N" [(ngModel)]="category.active" required/>
+					<p class="radiobtn">Ne</p>
+				<div id="form1">
+					<button class="btn btn-clean" [disabled]="!f1.valid">Sacuvaj</button>
+					<button class="btn" (click)="cleanCatgForm()">Obrisi</button>
+				</div>
+			</form>
+		</div>
+		<div class="col-md-6">
+			<h4>Podkategorija:</h4>
+			<form name="form" (ngSubmit)="f2.form.valid && submitSubctg(f2.value)" #f2="ngForm" novalidate>
+				<input type="text" name="uidS" [(ngModel)]="subCatg.id" #uidS="ngModel" [hidden]="true">
+				<input type="text" class="form-control" name="subtitle" placeholder="Naziv"
+				 [(ngModel)]="subCatg.title" #subtitle="ngModel"
+		 		 [ngClass]="{ 'input-has-error': !subtitle.valid && !subtitle.pristine }" required>
+
+				<input list="categoryList" class="form-control" name="categoryId" placeholder="Kategorija" 
+				 [(ngModel)]="subCatg.categoryid" #categoryId="ngModel" #ctgInput
+		 		 [ngClass]="{ 'input-has-error': !categoryId.valid && !categoryId.pristine }" required/>
+						<datalist id="categoryList" >
+							<option value="{{cat.id}}" *ngFor="let cat of categories">
+								{{cat.title}}
+							</option>
+						</datalist>
+				<input type="radio" name="isActiveS" value="Y" [(ngModel)]="subCatg.active" required>
+					<p class="radiobtn">Da</p>
+				<input type="radio" name="isActiveS" value="N" [(ngModel)]="subCatg.active" required>
+					<p class="radiobtn">Ne</p>
+				<div id="form2">
+					<button class="btn btn-clean" [disabled]="!f2.valid">Sacuvaj</button>
+					<button class="btn" (click)="cleanSubForm()">Obrisi</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="lower-dash">
+	<div class="col-md-6" style="margin-left: 30px;">
+		<div class="prod-div" *ngFor="let prod of products" (click)="fillFormP(prod)">
+			<div class="img-div">
+				<img class="img-responsive" src="{{prod.value.photo}}">
+			</div>
+			<div class="details-div">
+				<div>Naziv: {{prod.value.title}}</div>
+				<div>Opis: {{prod.value.description}}</div>
+				<div>Kolicina: {{prod.value.quantity}}</div>
+				<div>Cena: {{prod.value.price}}</div>
+			</div>
+			<span class="glyphicon glyphicon-remove removeIcon" (click)="dialogProd(prod);"></span>
+		</div>
+	</div>
+	<div class="col-md-1 separator"></div>
+	<div class="col-md-4">
+		<h4>Proizvod:</h4>
+		<form name="form" (ngSubmit)="f3.form.valid && submitProduct(f3.value)" #f3="ngForm" novalidate>
+			<input type="text" name="uidP" [(ngModel)]="product.uidP" #uidP="ngModel" [hidden]="true">
+			<input type="text" class="form-control" name="prodtitle" placeholder="Naziv"
+			 [(ngModel)]="product.prodtitle" #prodtitle="ngModel"
+		 	 [ngClass]="{ 'input-has-error': !prodtitle.valid && !prodtitle.pristine }" required/>
+
+			<input type="text" class="form-control" name="desc" placeholder="Opis"
+			 [(ngModel)]="product.desc" #desc="ngModel"
+		 	 [ngClass]="{ 'input-has-error': !desc.valid && !desc.pristine }" required/>
+
+		 	 <input list="subCtgList" class="form-control" name="subCtgId" placeholder="Podkategorija" 
+				 [(ngModel)]="product.subCtgId" #subCtgId="ngModel" #subCtgInput
+		 		 [ngClass]="{ 'input-has-error': !subCtgId.valid && !subCtgId.pristine }" required/>
+						<datalist id="subCtgList" >
+							<option value="{{sub.id}}" *ngFor="let sub of subCatgs">
+								{{sub.title}}
+							</option>
+						</datalist>
+
+			<input type="number" class="form-control" name="quantity" placeholder="Kolicina"
+			 [(ngModel)]="product.quantity" #quantity="ngModel" min="1" max="1000"
+		 	 [ngClass]="{ 'input-has-error': !quantity.valid && !quantity.pristine }" pattern="^\d{0,8}(\.\d{1,2})?$" required/>
+
+			<input type="text" class="form-control" name="color" placeholder="Boja"
+			 [(ngModel)]="product.color" #color="ngModel"
+		 	 [ngClass]="{ 'input-has-error': !color.valid && !color.pristine }" required/>
+
+			<input type="text" class="form-control" name="price" placeholder="Cena"
+			 [(ngModel)]="product.price" #price="ngModel"
+		 	 [ngClass]="{ 'input-has-error': !price.valid && !price.pristine }" required/>
+
+		 	<input type="file" id="photoPick" name="photo"
+		 	(change)="selectFile($event)" required>
+
+			<input type="radio" name="isAvailable" value="true" [(ngModel)]="product.isAvailable" required>
+				<p class="radiobtn">Da</p>
+			<input type="radio" name="isAvailable" value="false" [(ngModel)]="product.isAvailable" required>
+				<p class="radiobtn">Ne</p>
+			<div id="form3">
+				<button class="btn btn-clean" [disabled]="!f3.valid">Sacuvaj</button>
+				<button class="btn" (click)="cleanProdForm()">Obrisi</button>
+			</div>
+		</form>
+	</div>
+</div>
+<div id="feedbackMsg" #feedbackMsg>
+	{{fdbMessage}}
+</div>
+<div class="dialogBackground" *ngIf="vDeleteCtg">
+	<div class="removeDisplay">
+		<p class="removeFont">Obrisati?</p>
+		<button class="btn btn-vt removeBtns" (click)="removeCategory(); vDeleteCtg = !vDeleteCtg">Da</button>
+		<button class="btn removeBtns" (click)="vDeleteCtg = !vDeleteCtg">Ne</button>
+	</div>
+</div>
+<div class="dialogBackground" *ngIf="vDeleteSubCtg">
+	<div class="removeDisplay" >
+		<p class="removeFont">Obrisati?</p>
+		<button class="btn btn-vt removeBtns" (click)="removeSubctg(); vDeleteSubCtg = !vDeleteSubCtg">Da</button>
+		<button class="btn removeBtns" (click)="vDeleteSubCtg = !vDeleteSubCtg">Ne</button>
+	</div>
+</div>
+<div class="dialogBackground" *ngIf="vDeleteProd">
+	<div class="removeDisplay" >
+		<p class="removeFont">Obrisati?</p>
+		<button class="btn btn-vt removeBtns" (click)="removeProd(); vDeleteProd = !vDeleteProd">Da</button>
+		<button class="btn removeBtns" (click)="vDeleteProd = !vDeleteProd">Ne</button>
+	</div>
+</div>
