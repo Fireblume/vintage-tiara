@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vintage.tiara.entity.CatSubctg;
 import vintage.tiara.entity.Category;
+import vintage.tiara.entity.Product;
 import vintage.tiara.entity.Subcategory;
 import vintage.tiara.service.DataService;
 
@@ -56,5 +58,19 @@ private static final Logger LOGGER = Logger.getLogger(LogInController.class.getN
 		}
 		return new ResponseEntity<List<CatSubctg>>(dataList, status);
 	}
-
+	
+	@RequestMapping(value="/loadProducts", method = RequestMethod.GET)
+	@ResponseBody public ResponseEntity<List<Product>> getProducts(@Param("id") Long id){
+		List<Product> dataList = new ArrayList<Product>();
+		HttpStatus status = HttpStatus.OK;
+		
+		try {
+			dataList = (List<Product>) dataS.getBySubctgId(id);
+		}catch (Exception e) {
+			LOGGER.log(Level.FINE, "Something went wrong", e);
+			status = HttpStatus.NOT_FOUND;
+			return new ResponseEntity<List<Product>>(dataList, status);
+		}
+		return new ResponseEntity<List<Product>>(dataList, status);
+	}
 }

@@ -42,13 +42,13 @@
     	</p>
     	<p>Cena: {{showProduct?.price}} RSD</p>
     	<div class="lower-stuff" *ngIf="userUid != undefined">
-    		<span class="glyphicon glyphicon-heart-empty heart-empty" *ngIf="!hearClick[showProduct?.key]" 
-    			(click)="hearClick[showProduct.key] = !hearClick[showProduct.key];
-    			likeProduct(showProduct.parentId, showProduct.key)"></span>
-    		<span class="glyphicon glyphicon-heart heart" *ngIf="hearClick[showProduct?.key]" 
-    			(click)="hearClick[showProduct.key] = !hearClick[showProduct.key];
-    			dislikeProduct(showProduct.key)"></span>
-    		<button class="btn btn-cart" (click)="toCart(showProduct.parentId, showProduct.key, quantityToBuy)"
+    		<span class="glyphicon glyphicon-heart-empty heart-empty" *ngIf="!hearClick[showProduct?.id]" 
+    			(click)="hearClick[showProduct.id] = !hearClick[showProduct.id];
+    			likeProduct(showProduct.subcategoryid, showProduct.id)"></span>
+    		<span class="glyphicon glyphicon-heart heart" *ngIf="hearClick[showProduct?.id]" 
+    			(click)="hearClick[showProduct.id] = !hearClick[showProduct.id];
+    			dislikeProduct(showProduct.id)"></span>
+    		<button class="btn btn-cart" (click)="toCart(showProduct.parentId, showProduct.id, quantityToBuy)"
     			[disabled]="quantityProblem">U KORPU</button>
     		<button class="btn btn-buy"
     			[disabled]="quantityProblem">KUPI</button>

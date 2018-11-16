@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import vintage.tiara.entity.Category;
+import vintage.tiara.entity.Product;
 import vintage.tiara.entity.Subcategory;
 import vintage.tiara.service.DataService;
 
@@ -118,8 +119,12 @@ public class AdminController {
 	@RequestMapping(value="/deleteCtg", method = RequestMethod.GET)
 	@ResponseBody public ResponseEntity<String> deleteCtg(@Param("id") Long id){	
 		HttpStatus status = HttpStatus.OK;
+		List<Subcategory> toDel;
 		
 		try {
+			toDel = (List<Subcategory>) dataS.getByCtgId(id);
+			for(Subcategory sub: toDel)
+				dataS.deleteBySubctgId(sub.getId());
 			dataS.deleteByCtgId(id);
 			dataS.deleteCategory(id);
 		}catch (Exception e) {
@@ -135,7 +140,51 @@ public class AdminController {
 		HttpStatus status = HttpStatus.OK;
 		
 		try {
+			dataS.deleteBySubctgId(id);
 			dataS.deleteSubcategory(id);
+		}catch (Exception e) {
+			LOGGER.log(Level.FINE, "Something went wrong", e);
+			status = HttpStatus.NOT_FOUND;
+			return new ResponseEntity<String>("{\"resp\":\"NOK\"}", status);
+		}
+		return new ResponseEntity<String>("{\"resp\":\"OK\"}", status);
+	}
+	
+	@RequestMapping(value="/saveproduct", method = RequestMethod.POST)
+	@ResponseBody public ResponseEntity<String> saveProduct(@RequestBody Product product){	
+		HttpStatus status = HttpStatus.OK;
+		
+		try {
+			dataS.create(product);
+		}catch (Exception e) {
+			LOGGER.log(Level.FINE, "Something went wrong", e);
+			status = HttpStatus.NOT_FOUND;
+			return new ResponseEntity<String>("{\"resp\":\"NOK\"}", status);
+		}
+		return new ResponseEntity<String>("{\"resp\":\"OK\"}", status);
+	}
+	
+	@RequestMapping(value="/updateproduct", method = RequestMethod.POST)
+	@ResponseBody public ResponseEntity<String> updateProduct(@RequestBody Product product){	
+		HttpStatus status = HttpStatus.OK;
+		
+		try {
+			dataS.updateProduct(product.getTitle(), product.getDescription(),
+					product.getPhoto(), product.getPrice(), product.getQuantity(), product.getActive(), product.getId());
+		}catch (Exception e) {
+			LOGGER.log(Level.FINE, "Something went wrong", e);
+			status = HttpStatus.NOT_FOUND;
+			return new ResponseEntity<String>("{\"resp\":\"NOK\"}", status);
+		}
+		return new ResponseEntity<String>("{\"resp\":\"OK\"}", status);
+	}
+	
+	@RequestMapping(value="/deleteProduct", method = RequestMethod.GET)
+	@ResponseBody public ResponseEntity<String> deleteProduct(@Param("id") Long id){	
+		HttpStatus status = HttpStatus.OK;
+		
+		try {
+			dataS.deleteProduct(id);
 		}catch (Exception e) {
 			LOGGER.log(Level.FINE, "Something went wrong", e);
 			status = HttpStatus.NOT_FOUND;

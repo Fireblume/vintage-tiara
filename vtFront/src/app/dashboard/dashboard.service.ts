@@ -8,6 +8,7 @@ import 'firebase/storage';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {Globals} from '../Globals';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ import { map } from 'rxjs/operators';
 export class DashboardService {
 
   constructor(private _firebaseAuth: AngularFireAuth, public db: AngularFireDatabase,
-  public firebaseApp: FirebaseApp, private http: HttpClient) {   
+  public firebaseApp: FirebaseApp, private http: HttpClient, private globals: Globals) {   
       this._firebaseAuth.authState.subscribe((res) => {
         if(res != null)
             this.adminUid = res.uid;
@@ -25,32 +26,28 @@ export class DashboardService {
   }
 
   adminUid:any;
-  baseUrl = 'http://localhost:8080'; 
 
   getCategories(){
-      return this.http.get(this.baseUrl+'/api/categories');
+      return this.http.get(this.globals.baseUrl+'/api/categories');
   }
 
   getSubCategories(categoryID){
-  	return this.http.get(this.baseUrl+'/api/subcategories?id='+categoryID);
+  	return this.http.get(this.globals.baseUrl+'/api/subcategories?id='+categoryID);
   }
 
   getProducts(subCtgID){
-   return this.db.list('/products/'+ this.adminUid + '/'+ subCtgID)
-                  .snapshotChanges().pipe(map(changes => {
-                    return changes.map(c => ({ key: c.payload.key, value: c.payload.val(), parentId: subCtgID }));
-                  }));
+   return this.http.get(this.globals.baseUrl+'/api/loadProducts?id='+subCtgID);
   }
 
   saveCategory(category){
     if(category.id == undefined ){
-      return this.http.post(this.baseUrl+'/api/savecategories',{
+      return this.http.post(this.globals.baseUrl+'/api/savecategories',{
                       title: category.title,
                       active: category.active
                     });
     }
     else
-      return this.http.post(this.baseUrl+'/api/updatecategories',{
+      return this.http.post(this.globals.baseUrl+'/api/updatecategories',{
                       id: category.id,
                       title: category.title,
                       active: category.active
@@ -59,14 +56,14 @@ export class DashboardService {
 
   saveSubCateg(subCateg){
     if(subCateg.id == undefined ){
-      return this.http.post(this.baseUrl+'/api/savesubcategories',{
+      return this.http.post(this.globals.baseUrl+'/api/savesubcategories',{
                       title: subCateg.title,
                       active: subCateg.active,
                       categoryid: subCateg.categoryid
                     });
     }
     else
-      return this.http.post(this.baseUrl+'/api/updatesubctg',{
+      return this.http.post(this.globals.baseUrl+'/api/updatesubctg',{
                       id: subCateg.id,
                       title: subCateg.title,
                       active: subCateg.active,
@@ -74,42 +71,42 @@ export class DashboardService {
                     });
   }
 
-  saveProduct(product, pushId){
-    if(product.uidP == undefined ){
-      return this.db.list('/products/'+ this.adminUid + '/'+ product.subCtgId)
-                    .set(pushId,{
-                          title: product.prodtitle,
-                          description: product.desc,
-                          quantity: product.quantity,
-                          color: product.color,
-                          price: product.price,
-                          available: product.isAvailable,
-                          photo: product.photo
-                        });
+  saveProduct(product){
+    if(product.id == undefined ){
+     return this.http.post(this.globals.baseUrl+'/api/saveproduct',{
+                      subcategoryid: product.subcategoryid,
+                      title: product.title,
+                      description: product.description,
+                      quantity: product.quantity,
+                      //color: product.color,
+                      price: product.price,
+                      active: product.active,
+                      photo: product.photo
+                    });
     }
     else
-      return this.db.object('/products/'+ this.adminUid + '/'+ product.subCtgId +'/'+product.uidP)
-                    .update({
-                      title: product.prodtitle,
-                      description: product.desc,
+       return this.http.post(this.globals.baseUrl+'/api/updateproduct',{
+                      id: product.id,
+                      subcategoryid: product.subcategoryid,
+                      title: product.title,
+                      description: product.description,
                       quantity: product.quantity,
-                      color: product.color,
+                      //color: product.color,
                       price: product.price,
-                      available: product.isAvailable,
+                      active: product.active,
                       photo: product.photo
                     });
   }
 
   removeSubctg(subCategId){
-    return this.http.get(this.baseUrl+'/api/deleteSubctg?id='+subCategId);     
+    return this.http.get(this.globals.baseUrl+'/api/deleteSubctg?id='+subCategId);     
   }
 
   removeCateg(ctgId){
-    return this.http.get(this.baseUrl+'/api/deleteCtg?id='+ctgId);
+    return this.http.get(this.globals.baseUrl+'/api/deleteCtg?id='+ctgId);
   }
 
-  removeProd(prod){
-    return this.db.object('/products/'+ this.adminUid +'/'+ prod.parentId +'/'+ prod.key)
-                  .remove().catch((error) => console.log(error));
+  removeProd(prodId){
+    return this.http.get(this.globals.baseUrl+'/api/deleteProduct?id='+prodId);
   }
 }

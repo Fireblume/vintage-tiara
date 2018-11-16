@@ -33,6 +33,7 @@ import { HomeResolver } from './home/homeResolver.service';
 import { EqualValidator } from './equalValidator.directive';
 import { environment } from '../environments/environment';
 import { ConvertObject } from './convertObject.pipe';
+import { Globals } from './Globals';
 
 import { InfoComponent } from './info/info.component';
 import { ModalComponent } from './modal/modal.component';
@@ -108,6 +109,7 @@ const routes: Routes = [
     HomeResolver,
     AuthGuard,
     AdminGuard,
+    Globals,
     OrdersService
     ],
   bootstrap: [AppComponent]

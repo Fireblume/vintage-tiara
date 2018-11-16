@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import vintage.tiara.dao.CategoryDao;
+import vintage.tiara.dao.ProductDao;
 import vintage.tiara.dao.SubctgDao;
 import vintage.tiara.entity.Category;
+import vintage.tiara.entity.Product;
 import vintage.tiara.entity.Subcategory;
 import vintage.tiara.service.DataService;
 
@@ -23,6 +25,9 @@ public class DataServiceImpl implements DataService{
 	
 	@Autowired
 	private SubctgDao subctgDao;
+	
+	@Autowired
+	private ProductDao productDao;
 	
 	@Override
 	public Iterable<Subcategory> getAllSubctgs() {
@@ -99,5 +104,49 @@ public class DataServiceImpl implements DataService{
 	public void updateCategory(String title, String active, Long id) {
 		categoryDao.update(title, active, id);
 		
+	}
+
+	@Override
+	public Iterable<Product> getAllProducts() {
+		return productDao.findAll();
+	}
+
+	@Override
+	@Transactional
+	public Iterable<Product> getBySubctgId(Long id) {
+		return productDao.getBySubctgId(id);
+	}
+
+	@Override
+	public Product create(Product product) throws SQLServerException, Exception {
+		return productDao.save(product);
+	}
+
+	@Override
+	public Optional<Product> findByIdProduct(Long id) {
+		return productDao.findById(id);
+	}
+
+	@Override
+	public void delete(Product product) {
+		productDao.delete(product);
+	}
+
+	@Override
+	public void deleteProduct(Long id) {
+		productDao.deleteById(id);
+	}
+
+	@Override
+	@Transactional
+	public void deleteBySubctgId(Long id) {
+		productDao.deleteBySubctgId(id);
+	}
+
+	@Override
+	@Transactional
+	public void updateProduct(String title, String desc, String photo, String price, int quantity, String active,
+			Long id) {
+		productDao.update(title, desc, photo, price, quantity, active, id);		
 	}
 }

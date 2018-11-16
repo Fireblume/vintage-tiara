@@ -111,22 +111,23 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  submitProduct(product){
+  submitProduct(){
     this.slimLoadingBarService.start();
-    const pushId = this.db.createPushId();
-    product.photo = this.product.photo;
-    if(product.photo != undefined)
-      this.ng2ImgMax.resizeImage(product.photo, 800, 800).subscribe(
+    if(this.product.photo != undefined)
+      this.ng2ImgMax.resizeImage(this.product.photo, 800, 800).subscribe(
           result => {
             var reader: FileReader = new FileReader();
             reader.readAsDataURL(result);
             reader.onload = (event: FileReaderEvent) => {
               let element = event.target.result
-              product.photo = element;
-              console.log(product)
-              //product.photo = e.target.result;
-              this.dashService.saveProduct(product, pushId).then(() =>{
-              this.slimLoadingBarService.complete();
+              this.product.photo = element;
+              this.dashService.saveProduct(this.product).subscribe((res:any) =>{
+                if(res.resp == 'OK'){
+                  this.getProducts(this.product.subcategoryid);
+                } else
+                  this.error = "Greška!";
+
+                  this.slimLoadingBarService.complete();
               });
             }
            }, 
@@ -134,7 +135,7 @@ export class DashboardComponent implements OnInit {
              console.log('😢 Oh no!', error);
           });   
     else
-      this.dashService.saveProduct(product, pushId).then(() =>{this.slimLoadingBarService.complete();});
+      this.dashService.saveProduct(this.product).subscribe(() =>{this.slimLoadingBarService.complete();});
   }
 
   submitSubctg(){
@@ -166,27 +167,27 @@ export class DashboardComponent implements OnInit {
   }
 
   fillFormP(prod){
-    this.product.uidP = prod.key;
-    this.product.prodtitle = prod.value.title;
-    this.product.desc = prod.value.description;
-    this.product.quantity = prod.value.quantity;
-    this.product.color = prod.value.color;
-    this.product.price = prod.value.price;
-    this.product.isAvailable = prod.value.available;
-    this.product.subCtgId = prod.parentId;
+    this.product.id = prod.id;
+    this.product.title = prod.title;
+    this.product.description = prod.description;
+    this.product.quantity = prod.quantity;
+    this.product.color = prod.color;
+    this.product.price = prod.price;
+    this.product.active = prod.activee;
+    this.product.subcategoryid = prod.subcategoryid;
+    this.product.photo = prod.photo;
 
     this.subCtgInput.nativeElement.disabled = true;
   }
 
   cleanCatgForm() {
-    this.selectedC = {};
+    //this.selectedC = {};
     this.category = {};
-    this.subCatgs = [];
-    this.selectedS = {};
+    /*this.subCatgs = [];
+    this.selectedS = {};*/
   }
 
   cleanSubForm(){
-    this.selectedS = {};
     this.subCatg = {};
     this.ctgInput.nativeElement.disabled = false;
   }
@@ -212,7 +213,6 @@ export class DashboardComponent implements OnInit {
   
     if (file.type.match('image.*')) {
       this.product.photo = file;
-      console.log(this.product)
     } else {
       alert('invalid format!');
     }
@@ -221,7 +221,8 @@ export class DashboardComponent implements OnInit {
   removeCategory(){
     this.dashService.removeCateg(this.forDeleting.id).subscribe((res:any) =>{
       if(res.resp == 'OK'){
-        this.subCatgs = this.removeFromParentArray(this.subCatgs, this.forDeleting.id);
+        this.products = this.removeFromSubctgProd(this.subCatgs, this.products);
+        this.subCatgs = this.removeFromSubctgArray(this.subCatgs, this.forDeleting.id);
         this.categories = this.removeFromArray(this.categories, this.forDeleting.id);
       } else
         this.error = "Greška!";
@@ -230,15 +231,21 @@ export class DashboardComponent implements OnInit {
 
   removeSubctg(){
     this.dashService.removeSubctg(this.forDeleting.id).subscribe((res:any) =>{
-      if(res.resp == 'OK')
+      if(res.resp == 'OK'){
         this.subCatgs = this.removeFromArray(this.subCatgs, this.forDeleting.id);
-      else
+        this.products = this.removeFromProductArray(this.products, this.forDeleting.id);
+      } else
         this.error = "Greška!";
     });
   }
 
   removeProd(){
-    this.dashService.removeProd(this.forDeleting);
+    this.dashService.removeProd(this.forDeleting.id).subscribe((res:any) =>{
+      if(res.resp == 'OK')
+        this.products = this.removeFromArray(this.products, this.forDeleting.id);
+      else
+        this.error = "Greška!";
+    });
   }
 
   dialogCatg(catg){
@@ -263,9 +270,20 @@ export class DashboardComponent implements OnInit {
      });
   }
 
-  removeFromParentArray(arr, id){
+  removeFromSubctgArray(arr, id){
     return arr.filter(function(ele){
          return ele.categoryid != id;
+     });
+  }
+
+  removeFromSubctgProd(arr, arrP){
+    for(var i in arr)
+      return this.removeFromProductArray(arrP, arr[i].id);
+  }
+
+   removeFromProductArray(arr, id){
+    return arr.filter(function(ele){
+         return ele.subcategoryid != id;
      });
   }
 

@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import vintage.tiara.entity.Category;
+import vintage.tiara.entity.Product;
 import vintage.tiara.entity.Subcategory;
 
 public interface DataService {
@@ -24,5 +25,14 @@ public interface DataService {
 	void delete(Category category);
 	void deleteCategory(Long id);
 	public void updateCategory(String title, String active, Long id);
+	
+	Iterable<Product> getAllProducts();
+	Iterable<Product> getBySubctgId(Long id);
+	Product create(Product product) throws SQLServerException, Exception;
+	Optional<Product> findByIdProduct(Long id);	
+	void delete(Product product);
+	void deleteProduct(Long id);
+	void deleteBySubctgId(Long id);
+	void updateProduct(String title, String desc, String photo, String price, int quantity, String active, Long id);
 
 }

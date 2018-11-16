@@ -61,6 +61,7 @@ export class HomeComponent implements OnInit  {
   subctgs: any = [];
   showProduct: any;
   maxQuantity: any;
+  error: any;
   userUid:any;
   amidnUid: any;
   quantityProblem:boolean;
@@ -75,12 +76,18 @@ export class HomeComponent implements OnInit  {
 
   showProducts(subCId){
     this.slimLoadingBarService.start();
-    this.fullProductList.forEach(val => {
-      if(subCId == val.key){
-        this.products = this.convert_object(val);
-      }
-    })
-    this.slimLoadingBarService.complete();
+    this.homeService.getProducts(subCId).subscribe(
+      (res) => {
+        this.products = res;
+        this.slimLoadingBarService.complete();
+      }, 
+      (error) => {
+            this.error = error;
+            setTimeout(()=>{
+            this.error = null;
+        }, 3000);
+      this.slimLoadingBarService.complete();
+    });
   }
 
   openModal(id, product) {
@@ -107,15 +114,15 @@ export class HomeComponent implements OnInit  {
     img.src = product.photo;
     this.modalImage = product.photo
     this.showProduct = product;
-    if(product.available == 'true')
+    if(product.active == 'Y')
       this.showProduct.inStock = 'DOSTUPNO';
     else
       this.showProduct.inStock = 'NEDOSTUPNO';
 
-    this.likedItems.forEach(like =>{
-      if(like.value.productKey == product.key)
-        this.hearClick[product.key] = true;
-    })
+    /*this.likedItems.forEach(like =>{
+      if(like.value.productKey == product.id)
+        this.hearClick[product.id] = true;
+    })*/
 
     this.maxQuantity = parseInt(this.showProduct.quantity);
 

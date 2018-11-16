@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
@@ -7,6 +8,7 @@ import 'firebase/storage';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {Globals} from '../Globals'
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,7 @@ import { map } from 'rxjs/operators';
 export class HomeService {
 
   constructor(private _firebaseAuth: AngularFireAuth, public db: AngularFireDatabase,
-  public firebaseApp: FirebaseApp) {
+  public firebaseApp: FirebaseApp, private http: HttpClient, private globals: Globals) {
      this._firebaseAuth.authState.subscribe((auth) => {
        try{
           this.userUid = auth.uid;
@@ -36,10 +38,8 @@ export class HomeService {
       }));
   }
 
-  getProducts(adminId){
-    return this.db.list('/products/'+adminId).snapshotChanges().pipe(map(changes => {
-        return changes.map(c => ({key:c.payload.key, value: c.payload.val()}));
-      }));
+  getProducts(subctgId){
+    return this.http.get(this.globals.baseUrl+'/api/loadProducts?id='+subctgId);
   }
 
   likeProduct(subctgId, productId){
