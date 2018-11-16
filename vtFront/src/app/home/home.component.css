@@ -140,7 +140,7 @@
   -webkit-appearance: none;
 }
 
-.under-cat:not(:last-child){
+.under-cat:not(:last-child) div{
  border-bottom: 1px solid; 
 }
 

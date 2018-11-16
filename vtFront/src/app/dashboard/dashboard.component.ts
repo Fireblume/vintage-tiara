@@ -23,9 +23,9 @@ export class DashboardComponent implements OnInit {
   @ViewChild('subCtgInput') public subCtgInput: ElementRef;
   @ViewChild('feedbackMsg') public feedbackMsg: ElementRef;
 
-	categories:any;
-	subCatgs:any;
-  products:any;
+	categories:any = [];
+	subCatgs:any = [];
+  products:any = [];
 
   product:any = {};
   category: any = {};
@@ -99,11 +99,16 @@ export class DashboardComponent implements OnInit {
           });
   }
 
-  submitCatg(category){
+  submitCatg(){
     this.slimLoadingBarService.start();
-    this.dashService.saveCategory(category).subscribe(
-      () =>{this.slimLoadingBarService.complete();}
-    );
+    this.dashService.saveCategory(this.category).subscribe((res:any) =>{
+      if(res.resp == 'OK'){
+        this.getCategory();
+      } else
+        this.error = "Greška!";
+
+        this.slimLoadingBarService.complete();
+    });
   }
 
   submitProduct(product){
@@ -132,11 +137,16 @@ export class DashboardComponent implements OnInit {
       this.dashService.saveProduct(product, pushId).then(() =>{this.slimLoadingBarService.complete();});
   }
 
-  submitSubctg(subCat){
+  submitSubctg(){
     this.slimLoadingBarService.start();
-    this.dashService.saveSubCateg(subCat).then(
-      () =>{this.slimLoadingBarService.complete();}
-      );
+    this.dashService.saveSubCateg(this.subCatg).subscribe((res:any) =>{
+      if(res.resp == 'OK'){
+        this.getSubCat(this.subCatg.categoryid);
+      } else
+        this.error = "Greška!";
+
+        this.slimLoadingBarService.complete();
+    });
   }
 
   fillFormC(category){
@@ -209,11 +219,22 @@ export class DashboardComponent implements OnInit {
   }
 
   removeCategory(){
-    this.dashService.removeCateg(this.forDeleting.id).subscribe();
+    this.dashService.removeCateg(this.forDeleting.id).subscribe((res:any) =>{
+      if(res.resp == 'OK'){
+        this.subCatgs = this.removeFromParentArray(this.subCatgs, this.forDeleting.id);
+        this.categories = this.removeFromArray(this.categories, this.forDeleting.id);
+      } else
+        this.error = "Greška!";
+    });
   }
 
   removeSubctg(){
-    this.dashService.removeSubctg(this.forDeleting.id).subscribe();
+    this.dashService.removeSubctg(this.forDeleting.id).subscribe((res:any) =>{
+      if(res.resp == 'OK')
+        this.subCatgs = this.removeFromArray(this.subCatgs, this.forDeleting.id);
+      else
+        this.error = "Greška!";
+    });
   }
 
   removeProd(){
@@ -234,6 +255,18 @@ export class DashboardComponent implements OnInit {
     this.vDeleteProd = !this.vDeleteProd;
     this.forDeleting = prod;
 
+  }
+
+  removeFromArray(arr, id){
+    return arr.filter(function(ele){
+         return ele.id != id;
+     });
+  }
+
+  removeFromParentArray(arr, id){
+    return arr.filter(function(ele){
+         return ele.categoryid != id;
+     });
   }
 
 }

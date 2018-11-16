@@ -46,31 +46,31 @@ export class DashboardService {
     if(category.id == undefined ){
       return this.http.post(this.baseUrl+'/api/savecategories',{
                       title: category.title,
-                      active: category.isActive
+                      active: category.active
                     });
     }
-    /*else
-      return this.db.object('/categories/'+ this.adminUid +'/'+category.uidC)
-                    .update({
+    else
+      return this.http.post(this.baseUrl+'/api/updatecategories',{
+                      id: category.id,
                       title: category.title,
-                      active: category.isActive
-                    });*/
+                      active: category.active
+                    });
   }
 
   saveSubCateg(subCateg){
-    if(subCateg.uidS == undefined ){
-      const pushId = this.db.createPushId();
-      return this.db.list('/subcategories/'+ this.adminUid + '/'+ subCateg.categoryId)
-                    .set(pushId,{
-                          title: subCateg.subtitle,
-                          active: subCateg.isActiveS
-                        });
+    if(subCateg.id == undefined ){
+      return this.http.post(this.baseUrl+'/api/savesubcategories',{
+                      title: subCateg.title,
+                      active: subCateg.active,
+                      categoryid: subCateg.categoryid
+                    });
     }
     else
-      return this.db.object('/subcategories/'+ this.adminUid + '/'+ subCateg.categoryId +'/'+subCateg.uidS)
-                    .update({
-                      title: subCateg.subtitle,
-                      active: subCateg.isActiveS
+      return this.http.post(this.baseUrl+'/api/updatesubctg',{
+                      id: subCateg.id,
+                      title: subCateg.title,
+                      active: subCateg.active,
+                      categoryid: subCateg.categoryid
                     });
   }
 

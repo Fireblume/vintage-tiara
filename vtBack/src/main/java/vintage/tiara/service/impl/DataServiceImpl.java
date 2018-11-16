@@ -86,4 +86,18 @@ public class DataServiceImpl implements DataService{
 		subctgDao.deleteByCtgId(id);
 		
 	}
+
+	@Override
+	@Transactional
+	public void updateSubctg(String title, String active, Long id) {
+		subctgDao.update(title, active, id);
+		
+	}
+
+	@Override
+	@Transactional
+	public void updateCategory(String title, String active, Long id) {
+		categoryDao.update(title, active, id);
+		
+	}
 }

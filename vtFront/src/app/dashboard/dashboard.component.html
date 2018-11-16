@@ -20,7 +20,7 @@
 	<div class="col-md-6 form-part">
 		<div class="col-md-6">
 			<h4>Kategorija:</h4>
-			<form name="form" (ngSubmit)="f1.form.valid && submitCatg(f1.value)" #f1="ngForm" novalidate>
+			<form name="form" (ngSubmit)="f1.form.valid && submitCatg()" #f1="ngForm" novalidate>
 				<input type="text" name="uidC" [(ngModel)]="category.id" #uidC="ngModel" [hidden]="true">
 				<input type="text" class="form-control" name="title" placeholder="Naziv" 
 				 [(ngModel)]="category.title" #title="ngModel"
@@ -38,7 +38,7 @@
 		</div>
 		<div class="col-md-6">
 			<h4>Podkategorija:</h4>
-			<form name="form" (ngSubmit)="f2.form.valid && submitSubctg(f2.value)" #f2="ngForm" novalidate>
+			<form name="form" (ngSubmit)="f2.form.valid && submitSubctg()" #f2="ngForm" novalidate>
 				<input type="text" name="uidS" [(ngModel)]="subCatg.id" #uidS="ngModel" [hidden]="true">
 				<input type="text" class="form-control" name="subtitle" placeholder="Naziv"
 				 [(ngModel)]="subCatg.title" #subtitle="ngModel"

@@ -58,6 +58,20 @@ public class AdminController {
 		return new ResponseEntity<String>("{\"resp\":\"OK\"}", status);
 	}
 	
+	@RequestMapping(value="/updatecategories", method = RequestMethod.POST)
+	@ResponseBody public ResponseEntity<String> updateCtg(@RequestBody Category category){	
+		HttpStatus status = HttpStatus.OK;
+		
+		try {
+			dataS.updateCategory(category.getTitle(), category.getActive(), category.getId());
+		}catch (Exception e) {
+			LOGGER.log(Level.FINE, "Something went wrong", e);
+			status = HttpStatus.NOT_FOUND;
+			return new ResponseEntity<String>("{\"resp\":\"NOK\"}", status);
+		}
+		return new ResponseEntity<String>("{\"resp\":\"OK\"}", status);
+	}
+	
 	@RequestMapping(value="/subcategories", method = RequestMethod.GET)
 	@ResponseBody public ResponseEntity<List<Subcategory>> getDataSubctg(@Param("id") Long id){	
 		List<Subcategory> subctgList = null;
@@ -71,6 +85,34 @@ public class AdminController {
 			return new ResponseEntity<List<Subcategory>>(subctgList, status);
 		}
 		return new ResponseEntity<List<Subcategory>>(subctgList, status);
+	}
+	
+	@RequestMapping(value="/savesubcategories", method = RequestMethod.POST)
+	@ResponseBody public ResponseEntity<String> saveSubctg(@RequestBody Subcategory subcategory){	
+		HttpStatus status = HttpStatus.OK;
+		
+		try {
+			dataS.create(subcategory);
+		}catch (Exception e) {
+			LOGGER.log(Level.FINE, "Something went wrong", e);
+			status = HttpStatus.NOT_FOUND;
+			return new ResponseEntity<String>("{\"resp\":\"NOK\"}", status);
+		}
+		return new ResponseEntity<String>("{\"resp\":\"OK\"}", status);
+	}
+	
+	@RequestMapping(value="/updatesubctg", method = RequestMethod.POST)
+	@ResponseBody public ResponseEntity<String> updatesubctg(@RequestBody Subcategory subcategory){	
+		HttpStatus status = HttpStatus.OK;
+		
+		try {
+			dataS.updateSubctg(subcategory.getTitle(), subcategory.getActive(), subcategory.getId());
+		}catch (Exception e) {
+			LOGGER.log(Level.FINE, "Something went wrong", e);
+			status = HttpStatus.NOT_FOUND;
+			return new ResponseEntity<String>("{\"resp\":\"NOK\"}", status);
+		}
+		return new ResponseEntity<String>("{\"resp\":\"OK\"}", status);
 	}
 	
 	@RequestMapping(value="/deleteCtg", method = RequestMethod.GET)

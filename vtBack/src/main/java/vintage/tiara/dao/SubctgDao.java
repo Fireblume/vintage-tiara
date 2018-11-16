@@ -16,5 +16,9 @@ public interface SubctgDao extends CrudRepository<Subcategory, Long>{
 	@Modifying
 	@Query("delete from Subcategory s where s.categoryid = :id")
 	public void deleteByCtgId(Long id);
+	
+	@Modifying
+	@Query("update Subcategory s set s.title = :title, s.active = :active where s.id = :id")
+	public void update(String title, String active, Long id);
 }
 
