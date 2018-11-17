@@ -7,6 +7,7 @@ import 'firebase/storage';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {Globals} from '../Globals'
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ import { map } from 'rxjs/operators';
 export class CartService {
 
  	constructor(private _firebaseAuth: AngularFireAuth, public db: AngularFireDatabase,
-  public firebaseApp: FirebaseApp) {
+  public firebaseApp: FirebaseApp, private globals: Globals) {
      	this._firebaseAuth.authState.subscribe((auth) => {
              try{
                 this.userUid = auth.uid;

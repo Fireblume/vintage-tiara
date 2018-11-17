@@ -148,8 +148,15 @@ export class HomeComponent implements OnInit  {
     this.homeService.removeLike(productKey);
   }
 
-  toCart(parentId, productId, quantity){
-     this.homeService.toCart(parentId, productId, quantity);
+  toCart(productId, quantity){
+    this.slimLoadingBarService.start();
+    this.homeService.toCart(productId, quantity).subscribe((res:any) =>{
+      if(res.resp == 'OK'){
+      } else
+        this.error = "Greška!";
+
+        this.slimLoadingBarService.complete();
+    });;
   }
 
   prepareDataLists(adminId){

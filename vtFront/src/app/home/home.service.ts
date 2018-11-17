@@ -26,18 +26,6 @@ export class HomeService {
 
   userUid:any;
 
-  getCategories(adminId){
-  	return this.db.list('/categories/'+adminId).snapshotChanges().pipe(map(changes => {
-        return changes.map(c => ({key:c.payload.key, value: c.payload.val() }));
-      }));
-  }
-
-  getSubCategories(adminId){
-    return this.db.list('/subcategories/'+adminId).snapshotChanges().pipe(map(changes => {
-        return changes.map(c => ({key:c.payload.key, value: c.payload.val() }));
-      }));
-  }
-
   getProducts(subctgId){
     return this.http.get(this.globals.baseUrl+'/api/loadProducts?id='+subctgId);
   }
@@ -54,13 +42,16 @@ export class HomeService {
       return this.db.list('/productLikes/'+ this.userUid + '/'+ productKey).remove();
     }
 
-  toCart(subctgId, productId, quantity){
-    return this.db.list('/cart/'+ this.userUid)
-                  .push({
-                        'subctgKey': subctgId,
-                        'productKey': productId,
-                        'quantity': quantity
-                      });
+  toCart(productId, quantity){
+      var date = new Date();
+      return this.http.post(this.globals.baseUrl+'/api/saveincart',
+                {
+                  productid: productId,
+                  uid: this.userUid,
+                  quantity: quantity,
+                  date: date,
+                  active: 'Y'
+                });
   }
 
 }

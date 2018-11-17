@@ -9,10 +9,15 @@ import org.springframework.stereotype.Service;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
+import vintage.tiara.dao.CartDao;
 import vintage.tiara.dao.CategoryDao;
+import vintage.tiara.dao.LikeDao;
 import vintage.tiara.dao.ProductDao;
 import vintage.tiara.dao.SubctgDao;
+import vintage.tiara.entity.Cart;
 import vintage.tiara.entity.Category;
+import vintage.tiara.entity.Like;
+import vintage.tiara.entity.ProdCart;
 import vintage.tiara.entity.Product;
 import vintage.tiara.entity.Subcategory;
 import vintage.tiara.service.DataService;
@@ -28,6 +33,12 @@ public class DataServiceImpl implements DataService{
 	
 	@Autowired
 	private ProductDao productDao;
+	
+	@Autowired
+	private LikeDao likeDao;
+
+	@Autowired 
+	private CartDao cartDao;
 	
 	@Override
 	public Iterable<Subcategory> getAllSubctgs() {
@@ -148,5 +159,46 @@ public class DataServiceImpl implements DataService{
 	public void updateProduct(String title, String desc, String photo, String price, int quantity, String active,
 			Long id) {
 		productDao.update(title, desc, photo, price, quantity, active, id);		
+	}
+
+	@Override
+	public Iterable<Product> getAllLikes(String uid) {
+		return likeDao.getAllLikes(uid);
+	}
+
+	@Override
+	public Like create(Like like) throws SQLServerException, Exception {
+		return likeDao.save(like);
+	}
+
+	@Override
+	public void delete(Like like) {
+		likeDao.delete(like);
+	}
+
+	@Override
+	public void deleteLike(Long id) {
+		likeDao.deleteById(id);
+	}
+
+	@Override
+	@Transactional
+	public Iterable<ProdCart> getCartItems(String uid) {
+		return cartDao.getCartItems(uid);
+	}
+
+	@Override
+	public Cart create(Cart like) throws SQLServerException, Exception {
+		return cartDao.save(like);
+	}
+
+	@Override
+	public void delete(Cart cart) {
+		cartDao.delete(cart);
+	}
+
+	@Override
+	public void deleteCart(Long id) {
+		cartDao.deleteById(id);
 	}
 }

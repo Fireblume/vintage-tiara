@@ -4,7 +4,10 @@ import java.util.Optional;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
+import vintage.tiara.entity.Cart;
 import vintage.tiara.entity.Category;
+import vintage.tiara.entity.Like;
+import vintage.tiara.entity.ProdCart;
 import vintage.tiara.entity.Product;
 import vintage.tiara.entity.Subcategory;
 
@@ -34,5 +37,14 @@ public interface DataService {
 	void deleteProduct(Long id);
 	void deleteBySubctgId(Long id);
 	void updateProduct(String title, String desc, String photo, String price, int quantity, String active, Long id);
-
+	
+	Iterable<Product> getAllLikes(String uid);
+	Like create(Like like) throws SQLServerException, Exception;	
+	void delete(Like subcategory);
+	void deleteLike(Long id);
+	
+	Iterable<ProdCart> getCartItems(String uid);
+	Cart create(Cart like) throws SQLServerException, Exception;	
+	void delete(Cart subcategory);
+	void deleteCart(Long id);
 }

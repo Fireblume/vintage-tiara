@@ -48,7 +48,7 @@
     		<span class="glyphicon glyphicon-heart heart" *ngIf="hearClick[showProduct?.id]" 
     			(click)="hearClick[showProduct.id] = !hearClick[showProduct.id];
     			dislikeProduct(showProduct.id)"></span>
-    		<button class="btn btn-cart" (click)="toCart(showProduct.parentId, showProduct.id, quantityToBuy)"
+    		<button class="btn btn-cart" (click)="toCart(showProduct.id, quantityToBuy)"
     			[disabled]="quantityProblem">U KORPU</button>
     		<button class="btn btn-buy"
     			[disabled]="quantityProblem">KUPI</button>

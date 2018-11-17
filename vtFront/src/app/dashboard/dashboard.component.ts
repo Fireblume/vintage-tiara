@@ -21,7 +21,6 @@ export class DashboardComponent implements OnInit {
 
   @ViewChild('ctgInput') public ctgInput: ElementRef;
   @ViewChild('subCtgInput') public subCtgInput: ElementRef;
-  @ViewChild('feedbackMsg') public feedbackMsg: ElementRef;
 
 	categories:any = [];
 	subCatgs:any = [];
@@ -31,7 +30,6 @@ export class DashboardComponent implements OnInit {
   category: any = {};
   subCatg:any = {};
   error:any;
-  categoryId:any;
 
   vDeleteCtg:any;
   vDeleteSubCtg:any;
@@ -41,8 +39,6 @@ export class DashboardComponent implements OnInit {
   selectedC:any = {};
   selectedS:any = {};
   selectedP:any = {};
-
-  fdbMessage:any;
 
   ngOnInit() {
   	this.getCategory();
@@ -135,7 +131,14 @@ export class DashboardComponent implements OnInit {
              console.log('😢 Oh no!', error);
           });   
     else
-      this.dashService.saveProduct(this.product).subscribe(() =>{this.slimLoadingBarService.complete();});
+      this.dashService.saveProduct(this.product).subscribe((res:any) =>{
+                if(res.resp == 'OK'){
+                  this.getProducts(this.product.subcategoryid);
+                } else
+                  this.error = "Greška!";
+
+                  this.slimLoadingBarService.complete();
+              });
   }
 
   submitSubctg(){
@@ -161,7 +164,6 @@ export class DashboardComponent implements OnInit {
     this.subCatg.title = subCat.title;
     this.subCatg.active = subCat.active;
     this.subCatg.categoryid = subCat.categoryid;
-    this.categoryId = subCat.parentId;
 
     this.ctgInput.nativeElement.disabled = true;
   }
@@ -181,10 +183,7 @@ export class DashboardComponent implements OnInit {
   }
 
   cleanCatgForm() {
-    //this.selectedC = {};
     this.category = {};
-    /*this.subCatgs = [];
-    this.selectedS = {};*/
   }
 
   cleanSubForm(){
@@ -276,15 +275,15 @@ export class DashboardComponent implements OnInit {
      });
   }
 
-  removeFromSubctgProd(arr, arrP){
-    for(var i in arr)
-      return this.removeFromProductArray(arrP, arr[i].id);
-  }
-
-   removeFromProductArray(arr, id){
+  removeFromProductArray(arr, id){
     return arr.filter(function(ele){
          return ele.subcategoryid != id;
      });
+  }
+  
+  removeFromSubctgProd(arr, arrP){
+    for(var i in arr)
+      return this.removeFromProductArray(arrP, arr[i].id);
   }
 
 }
