@@ -1,48 +1,49 @@
 package vintage.tiara.entity;
 
-public class ProdCart {
+public class ProdLike {
 	
 	private Long productid;
-	private Long cartid;
+	private Long likeid;
 	private String uid;
 	private String title;
 	private String description;
-	private int quantityInCart;
+	private int quantity;
 	private String photo;
 	private String price;
 	private String activeProd;
-	private String activeCart;
 	
-	public ProdCart() {}
+	public ProdLike() {}
 	
-	public ProdCart(Long productid, Long cartid, String uid, String title, String description, int quantityInCart,
-			String photo, String price, String activeCart, String activeProd) {
+	public ProdLike(Long productid, Long likeid, String uid, String title, String description, int quantity,
+			String photo, String price, String activeProd) {
 		super();
 		this.productid = productid;
-		this.cartid = cartid;
+		this.likeid = likeid;
 		this.uid = uid;
 		this.title = title;
 		this.description = description;
-		this.quantityInCart = quantityInCart;
+		this.quantity = quantity;
 		this.photo = photo;
 		this.price = price;
-		this.activeCart = activeCart;
 		this.activeProd = activeProd;
 	}
-	
+
 	public Long getProductid() {
 		return productid;
 	}
+
 	public void setProductid(Long productid) {
 		this.productid = productid;
 	}
-	public Long getCartid() {
-		return cartid;
+
+	public Long getLikeid() {
+		return likeid;
 	}
-	public void setCartid(Long cartid) {
-		this.cartid = cartid;
+
+	public void setLikeid(Long likeid) {
+		this.likeid = likeid;
 	}
-	
+
 	public String getUid() {
 		return uid;
 	}
@@ -54,40 +55,43 @@ public class ProdCart {
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public int getQuantityInCart() {
-		return quantityInCart;
+
+	public int getQuantity() {
+		return quantity;
 	}
-	public void setQuantityInCart(int quantityInCart) {
-		this.quantityInCart = quantityInCart;
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
+
 	public String getPhoto() {
 		return photo;
 	}
+
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
+
 	public String getPrice() {
 		return price;
 	}
+
 	public void setPrice(String price) {
 		this.price = price;
 	}
-	public String getActiveCart() {
-		return activeCart;
-	}
-	public void setActiveCart(String activeCart) {
-		this.activeCart = activeCart;
-	}
-
+	
 	public String getActiveProd() {
 		return activeProd;
 	}
@@ -95,5 +99,4 @@ public class ProdCart {
 	public void setActiveProd(String activeProd) {
 		this.activeProd = activeProd;
 	}
-	
 }

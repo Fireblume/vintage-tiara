@@ -9,6 +9,7 @@ import { FirebaseApp } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { ZoomElement } from '../Event';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { ActiveObject } from '../isActiveObject.pipe';
 
 @Component({
   selector: 'app-home',
@@ -29,15 +30,6 @@ export class HomeComponent implements OnInit  {
         this.prepareLikedItem(this.userUid);
       });
       
-    });
-
-    this.route.parent.data.subscribe((auth) => {
-      auth.base.adminId.subscribe(res =>{
-        if(res != null)
-          this.amidnUid = res[0].key;
-        else
-          this.amidnUid = undefined;
-      });
     });
 
     this.slimLoadingBarService.start();
@@ -63,7 +55,6 @@ export class HomeComponent implements OnInit  {
   maxQuantity: any;
   error: any;
   userUid:any;
-  amidnUid: any;
   quantityProblem:boolean;
 	images:any;
   myThumbnail:any = '';
@@ -86,8 +77,8 @@ export class HomeComponent implements OnInit  {
             setTimeout(()=>{
             this.error = null;
         }, 3000);
-      this.slimLoadingBarService.complete();
-    });
+        this.slimLoadingBarService.complete();
+    }); 
   }
 
   openModal(id, product) {
@@ -119,10 +110,10 @@ export class HomeComponent implements OnInit  {
     else
       this.showProduct.inStock = 'NEDOSTUPNO';
 
-    /*this.likedItems.forEach(like =>{
-      if(like.value.productKey == product.id)
+    this.likedItems.forEach(like =>{
+      if(like.productid == product.id)
         this.hearClick[product.id] = true;
-    })*/
+    })
 
     this.maxQuantity = parseInt(this.showProduct.quantity);
 
@@ -140,12 +131,24 @@ export class HomeComponent implements OnInit  {
       this.quantityProblem = false;
   }
 
-  likeProduct(parentId, productKey){
-    this.homeService.likeProduct(parentId, productKey);
+  likeProduct(productKey){
+    this.homeService.likeProduct(productKey).subscribe((res:any) =>{
+      if(res.resp == 'OK'){
+      } else
+        this.error = "Greška!";
+
+        this.slimLoadingBarService.complete();
+    });
   }
 
-  dislikeProduct(productKey){
-    this.homeService.removeLike(productKey);
+  dislikeProduct(productid){
+    this.homeService.removeLike(productid).subscribe((res:any) =>{
+      if(res.resp == 'OK'){
+      } else
+        this.error = "Greška!";
+
+        this.slimLoadingBarService.complete();
+    });
   }
 
   toCart(productId, quantity){
@@ -156,53 +159,21 @@ export class HomeComponent implements OnInit  {
         this.error = "Greška!";
 
         this.slimLoadingBarService.complete();
-    });;
-  }
-
-  prepareDataLists(adminId){
-    this.slimLoadingBarService.start();
-    this.homeService.getProducts(adminId).subscribe(res => {
-      this.fullProductList = res;
-    })
-  }
-
-  prepareLikedItem(uid){
-    this.cartService.getLikedItems(uid).subscribe(res => {
-        this.likedItems = res;
     });
   }
 
-  object_to_ctg(map) {
-    let categories: any = []
-    for (let k of Object.keys(map)) {
-        map[k].key = k;
-        categories.push(map[k]);
-    }
-
-    return categories;
-  }
-
-  convert_object(map) {
-    let obj: any = []
-    for (let k of Object.keys(map.value)) {
-        map.value[k].key = k;
-        map.value[k].parentId = map.key;
-        obj.push(map.value[k]);
-    }
-
-    return obj;
-  }
-
-  object_to_subctg_prod(map) {
-    let result: any = []
-    for (let k of Object.keys(map)) {
-        for (let j of Object.keys(map[k])) {
-            map[k][j].key = j;
-            map[k][j].parentId = k;
-            result.push(map[k][j]);
-        }
-    }
-
-    return result;
+  prepareLikedItem(uid){
+    this.cartService.getLikedItems(uid).subscribe(
+    (res) => {
+        this.likedItems = res;
+        this.slimLoadingBarService.complete();
+      }, 
+      (error) => {
+            this.error = error;
+            setTimeout(()=>{
+            this.error = null;
+        }, 3000);
+        this.slimLoadingBarService.complete();
+    });
   }
 }

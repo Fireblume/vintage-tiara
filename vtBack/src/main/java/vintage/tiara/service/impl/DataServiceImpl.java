@@ -18,6 +18,7 @@ import vintage.tiara.entity.Cart;
 import vintage.tiara.entity.Category;
 import vintage.tiara.entity.Like;
 import vintage.tiara.entity.ProdCart;
+import vintage.tiara.entity.ProdLike;
 import vintage.tiara.entity.Product;
 import vintage.tiara.entity.Subcategory;
 import vintage.tiara.service.DataService;
@@ -162,7 +163,7 @@ public class DataServiceImpl implements DataService{
 	}
 
 	@Override
-	public Iterable<Product> getAllLikes(String uid) {
+	public Iterable<ProdLike> getAllLikes(String uid) {
 		return likeDao.getAllLikes(uid);
 	}
 

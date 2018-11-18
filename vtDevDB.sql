@@ -56,7 +56,7 @@ CREATE TABLE PRODUCTS (
 	TITLE varchar(30) NOT NULL,
 	DESCRIPTION varchar(100),
 	QUANTITY int NOT NULL,
-	PHOTO nvarchar(max) NOT NULL,
+	PHOTO varchar(max) NOT NULL,
 	PRICE varchar(10) NOT NULL,
 	ACTIVE varchar(1) NOT NULL,
 	PRIMARY KEY (ID),

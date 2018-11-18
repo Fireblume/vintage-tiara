@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import vintage.tiara.entity.Cart;
 import vintage.tiara.entity.CatSubctg;
 import vintage.tiara.entity.Category;
+import vintage.tiara.entity.Like;
+import vintage.tiara.entity.ProdCart;
+import vintage.tiara.entity.ProdLike;
 import vintage.tiara.entity.Product;
 import vintage.tiara.entity.Subcategory;
 import vintage.tiara.service.DataService;
@@ -79,7 +82,7 @@ private static final Logger LOGGER = Logger.getLogger(LogInController.class.getN
 	@RequestMapping(value="/saveincart", method = RequestMethod.POST)
 	@ResponseBody public ResponseEntity<String> saveincart(@RequestBody Cart cart){	
 		HttpStatus status = HttpStatus.OK;
-		
+				
 		try {
 			dataS.create(cart);
 		}catch (Exception e) {
@@ -90,4 +93,75 @@ private static final Logger LOGGER = Logger.getLogger(LogInController.class.getN
 		return new ResponseEntity<String>("{\"resp\":\"OK\"}", status);
 	}
 	
+	@RequestMapping(value="/loadcart", method = RequestMethod.GET)
+	@ResponseBody public ResponseEntity<List<ProdCart>> getCart(@Param("uid") String uid){
+		List<ProdCart> dataList = new ArrayList<ProdCart>();
+		HttpStatus status = HttpStatus.OK;
+		
+		try {
+			dataList = (List<ProdCart>) dataS.getCartItems(uid);
+		}catch (Exception e) {
+			LOGGER.log(Level.FINE, "Something went wrong", e);
+			status = HttpStatus.NOT_FOUND;
+			return new ResponseEntity<List<ProdCart>>(dataList, status);
+		}
+		return new ResponseEntity<List<ProdCart>>(dataList, status);
+	}
+	
+	@RequestMapping(value="/deletecartitem", method = RequestMethod.GET)
+	@ResponseBody public ResponseEntity<String> deleteCartItem(@Param("id") Long id){	
+		HttpStatus status = HttpStatus.OK;
+		
+		try {
+			dataS.deleteCart(id);
+		}catch (Exception e) {
+			LOGGER.log(Level.FINE, "Something went wrong", e);
+			status = HttpStatus.NOT_FOUND;
+			return new ResponseEntity<String>("{\"resp\":\"NOK\"}", status);
+		}
+		return new ResponseEntity<String>("{\"resp\":\"OK\"}", status);
+	}
+	
+	@RequestMapping(value="/savelike", method = RequestMethod.POST)
+	@ResponseBody public ResponseEntity<String> savelik(@RequestBody Like like){	
+		HttpStatus status = HttpStatus.OK;
+				
+		try {
+			dataS.create(like);
+		}catch (Exception e) {
+			LOGGER.log(Level.FINE, "Something went wrong", e);
+			status = HttpStatus.NOT_FOUND;
+			return new ResponseEntity<String>("{\"resp\":\"NOK\"}", status);
+		}
+		return new ResponseEntity<String>("{\"resp\":\"OK\"}", status);
+	}
+	
+	@RequestMapping(value="/loadlikes", method = RequestMethod.GET)
+	@ResponseBody public ResponseEntity<List<ProdLike>> getLikes(@Param("uid") String uid){
+		List<ProdLike> dataList = new ArrayList<ProdLike>();
+		HttpStatus status = HttpStatus.OK;
+		
+		try {
+			dataList = (List<ProdLike>) dataS.getAllLikes(uid);
+		}catch (Exception e) {
+			LOGGER.log(Level.FINE, "Something went wrong", e);
+			status = HttpStatus.NOT_FOUND;
+			return new ResponseEntity<List<ProdLike>>(dataList, status);
+		}
+		return new ResponseEntity<List<ProdLike>>(dataList, status);
+	}
+	
+	@RequestMapping(value="/deletelike", method = RequestMethod.GET)
+	@ResponseBody public ResponseEntity<String> deleteLike(@Param("id") Long id){	
+		HttpStatus status = HttpStatus.OK;
+		
+		try {
+			dataS.deleteLike(id);
+		}catch (Exception e) {
+			LOGGER.log(Level.FINE, "Something went wrong", e);
+			status = HttpStatus.NOT_FOUND;
+			return new ResponseEntity<String>("{\"resp\":\"NOK\"}", status);
+		}
+		return new ResponseEntity<String>("{\"resp\":\"OK\"}", status);
+	}
 }

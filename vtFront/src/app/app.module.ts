@@ -32,7 +32,7 @@ import { HomeResolver } from './home/homeResolver.service';
 
 import { EqualValidator } from './equalValidator.directive';
 import { environment } from '../environments/environment';
-import { ConvertObject } from './convertObject.pipe';
+import { ActiveObject } from './isActiveObject.pipe';
 import { Globals } from './Globals';
 
 import { InfoComponent } from './info/info.component';
@@ -80,7 +80,7 @@ const routes: Routes = [
     CartComponent,
     BaseComponent,
     OrdersComponent,
-    ConvertObject
+    ActiveObject
   ],
   imports: [
     BrowserModule,

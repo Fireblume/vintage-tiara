@@ -30,28 +30,31 @@ export class HomeService {
     return this.http.get(this.globals.baseUrl+'/api/loadProducts?id='+subctgId);
   }
 
-  likeProduct(subctgId, productId){
-    return this.db.list('/productLikes/'+ this.userUid)
-                  .push({
-                      'subctgKey': subctgId,
-                      'productKey': productId
-                      });
+  likeProduct(productId){
+    var date = new Date();
+    return this.http.post(this.globals.baseUrl+'/api/savelike',
+              {
+                productid: productId,
+                uid: this.userUid,
+                date: date,
+                active: 'Y'
+              });  
   }
 
-  removeLike(productKey){
-      return this.db.list('/productLikes/'+ this.userUid + '/'+ productKey).remove();
-    }
+  removeLike(productid){
+    return this.http.get(this.globals.baseUrl+'/api/deletelike?id='+productid);
+  }
 
   toCart(productId, quantity){
-      var date = new Date();
-      return this.http.post(this.globals.baseUrl+'/api/saveincart',
-                {
-                  productid: productId,
-                  uid: this.userUid,
-                  quantity: quantity,
-                  date: date,
-                  active: 'Y'
-                });
+    var date = new Date();
+    return this.http.post(this.globals.baseUrl+'/api/saveincart',
+              {
+                productid: productId,
+                uid: this.userUid,
+                quantity: quantity,
+                date: date,
+                active: 'Y'
+              });
   }
 
 }

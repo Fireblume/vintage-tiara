@@ -17,12 +17,13 @@
 				<div id="infoDiv">
 					<p>Naziv: {{item.title}}</p>
 					<p>Opis: {{item.description}}</p>
-					<p>Kolicina: {{item.quantity}}</p>
+					<p>Status: <span [ngStyle]="{'color':item?.activeProd == 'Y' ? '' : 'red'}">{{item?.inStock}}</span></p>
+					<p>Kolicina: {{item.quantityInCart}}</p>
 					<p>Cena: {{item.price}} RSD</p>
 				</div>
 			</div>
 			<div id="btnDiv">
-				<button class="btn btn-cancel" (click)="removeItem(item.itemCartKey)">ODBACI</button>
+				<button class="btn btn-cancel" (click)="removeItem(item.cartid)">ODBACI</button>
 			</div>
 		</div>
 		<button class="btn btn-buyAll" *ngIf="itemsInCart.length != 0" (click)="buyClicked = true">
@@ -44,7 +45,9 @@
 				<div id="infoDiv">
 					<p>Naziv: {{item.title}}</p>
 					<p>Opis: {{item.description}}</p>
-					<p>Kolicina: <input type="number" name="quantity" class="form-control quantity-input" 
+					<p>Status: <span [ngStyle]="{'color':item?.activeProd == 'Y' ? '' : 'red'}">{{item?.inStock}}</span></p>
+					<p *ngIf="item.activeProd == 'Y'">
+						Kolicina: <input type="number" name="quantity" class="form-control quantity-input" 
 					    		[(ngModel)]="quantityToBuy" min="1"	max="{{item.quantity}}" 
 					    		(input)="onQChange($event.target.value, item.quantity)"
 					    		[ngClass]="{ 'input-has-error': quantityProblem}" required></p>
@@ -52,9 +55,11 @@
 				</div>
 			</div>
 			<div id="btnDiv2">
-				<button class="btn btn-cancel" (click)="removeLike(item.key)">ODBACI</button>
-				<button class="btn btn-add" [disabled]="quantityProblem" (click)="toCart(item.subctgKey, item.productKey, item.quantity)">U KORPU</button>
-				<button class="btn btn-buy" >KUPI</button>
+				<button class="btn btn-cancel" (click)="removeLike(item.likeid)">ODBACI</button>
+				<button class="btn btn-add" [disabled]="quantityProblem || item?.activeProd == 'N'" 
+				(click)="toCart(item)">U KORPU</button>
+				<button class="btn btn-buy" [disabled]="quantityProblem || item?.activeProd == 'N'">
+				KUPI</button>
 			</div>
 		</div>
 	</div>

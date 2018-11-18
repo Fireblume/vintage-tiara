@@ -8,6 +8,7 @@ import vintage.tiara.entity.Cart;
 import vintage.tiara.entity.Category;
 import vintage.tiara.entity.Like;
 import vintage.tiara.entity.ProdCart;
+import vintage.tiara.entity.ProdLike;
 import vintage.tiara.entity.Product;
 import vintage.tiara.entity.Subcategory;
 
@@ -38,7 +39,7 @@ public interface DataService {
 	void deleteBySubctgId(Long id);
 	void updateProduct(String title, String desc, String photo, String price, int quantity, String active, Long id);
 	
-	Iterable<Product> getAllLikes(String uid);
+	Iterable<ProdLike> getAllLikes(String uid);
 	Like create(Like like) throws SQLServerException, Exception;	
 	void delete(Like subcategory);
 	void deleteLike(Long id);

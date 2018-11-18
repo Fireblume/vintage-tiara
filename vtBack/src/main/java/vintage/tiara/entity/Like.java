@@ -1,5 +1,7 @@
 package vintage.tiara.entity;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,11 +25,11 @@ public class Like {
 	private String uid;
 			
 	@Column(name="ADDEDON", unique=false, nullable=true)
-	private String date;
+	private Date date;
 
 	public Like() {}
 	
-	public Like(Long id, Long productid, String uid, String date) {
+	public Like(Long id, Long productid, String uid, Date date) {
 		super();
 		this.id = id;
 		this.productid = productid;
@@ -59,11 +61,11 @@ public class Like {
 		this.uid = uid;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	

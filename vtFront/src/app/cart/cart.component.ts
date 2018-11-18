@@ -14,29 +14,20 @@ export class CartComponent implements OnInit {
   private route: ActivatedRoute) { 
     this.slimLoadingBarService.start();
     this.route.parent.data.subscribe((auth) => {
-      auth.base.adminId.subscribe(res =>{
+      auth.base.auth.subscribe(res =>{
         if(res != null)
-          this.adminId = res[0].key;
+          this.userUid = res.uid;
         else
-          this.adminId = undefined;
+          this.userUid = undefined;
 
-            this.route.parent.data.subscribe((auth) => {
-            auth.base.auth.subscribe(res =>{
-              if(res != null)
-                this.userUid = res.uid;
-              else
-                this.userUid = undefined;
-
-              this.prepareCartItems(this.userUid, this.adminId);
-              this.prepareLikedItems(this.userUid, this.adminId);
-            });
-          })
+        this.prepareCartItems(this.userUid);
+        this.prepareLikedItems(this.userUid);
       });
-    });
+    })
   }
 
   userUid:any;
-  adminId:any;
+  error:any;
   itemsInCart:any = [];
   likedItemsCart:any = [];
   showItems:boolean = true;
@@ -48,21 +39,25 @@ export class CartComponent implements OnInit {
   }
 
   removeLike(likeKey){
-  	this.cartService.removeLike(likeKey).then(a =>
-      this.cartService.getLikedItems(this.userUid).subscribe(res => {
-      if(res.length == 0)
-        this.likedItemsCart = [];
-      })
-    );
+  	this.cartService.removeLike(likeKey).subscribe((res:any) =>{
+      if(res.resp == 'OK'){
+        this.likedItemsCart = this.removeFromLikeArray(this.likedItemsCart, likeKey);
+      } else
+        this.error = "Greška!";
+
+        this.slimLoadingBarService.complete();
+    });
   }
 
   removeItem(itemKey){
-    this.cartService.removeItem(itemKey).then(a =>
-      this.cartService.getCartItems(this.userUid).subscribe(res => {
-      if(res.length == 0)
-        this.itemsInCart = [];
-      })
-    );
+    this.cartService.removeItem(itemKey).subscribe((res:any) =>{
+      if(res.resp == 'OK'){
+        this.itemsInCart = this.removeFromCartArray(this.itemsInCart, itemKey);
+      } else
+        this.error = "Greška!";
+
+        this.slimLoadingBarService.complete();
+    });
   }
 
   onQChange(value, maxQuantity){
@@ -72,99 +67,66 @@ export class CartComponent implements OnInit {
       this.quantityProblem = false;
   }
 
-  prepareCartItems(uid, adminId){
-    this.cartService.getCartItems(uid).subscribe(res => {
-      if(res.length == 0)
-        this.slimLoadingBarService.complete();
-
-      let container: any = [];
-      res.forEach(item =>{
-        let itemCopy:any = item;
-        this.cartService.getProducts(adminId, itemCopy.value.subctgKey, itemCopy.value.productKey)
-        .subscribe(prod => {
-          let prodCopy:any = prod;
-          let itemToShow:any = {
-                  'key': itemCopy.key,
-                  'productKey': itemCopy.value.productKey,
-                  'subctgKey': itemCopy.value.subctgKey,
-                  'title': prodCopy.title,
-                  'description': prodCopy.description,
-                  'quantity': itemCopy.value.quantity,
-                  'price' : prodCopy.price,
-                  'photo': prodCopy.photo
-                  }
-                container.push(itemToShow);
+  prepareCartItems(uid){
+    this.cartService.getCartItems(uid).subscribe(
+      (res) => {
+        this.itemsInCart = res;
+        this.itemsInCart.forEach(item =>{
+          if(item.activeProd == 'Y')
+            item.inStock = 'DOSTUPNO';
+          else
+            item.inStock = 'NEDOSTUPNO';
         })
-        this.itemsInCart = container;
         this.slimLoadingBarService.complete();
+      }, 
+      (error) => {
+            this.error = error;
+            setTimeout(()=>{
+            this.error = null;
+        }, 3000);
       })
-    })
   }
 
-  prepareLikedItems(uid, adminId){
-    this.cartService.getLikedItems(uid).subscribe(res => {
-      if(res.length == 0)
-          this.slimLoadingBarService.complete();
-
-      let container: any = [];
-      res.forEach(item =>{
-        let itemCopy:any = item;
-        this.cartService.getProducts(adminId, itemCopy.value.subctgKey, itemCopy.value.productKey)
-        .subscribe(prod => {
-          let prodCopy:any = prod;
-          let itemToShow:any = {
-                  'key': itemCopy.key,
-                  'productKey': itemCopy.value.productKey,
-                  'subctgKey': itemCopy.value.subctgKey,
-                  'title': prodCopy.title,
-                  'description': prodCopy.description,
-                  'quantity': prodCopy.quantity,
-                  'price' : prodCopy.price,
-                  'photo': prodCopy.photo
-                  }
-                container.push(itemToShow);
+  prepareLikedItems(uid){
+    this.cartService.getLikedItems(uid).subscribe(
+      (res) => {
+        this.likedItemsCart = res;
+        this.likedItemsCart.forEach(item =>{
+          if(item.activeProd == 'Y')
+            item.inStock = 'DOSTUPNO';
+          else
+            item.inStock = 'NEDOSTUPNO';
         })
-        this.likedItemsCart = container;
         this.slimLoadingBarService.complete();
+      }, 
+      (error) => {
+            this.error = error;
+            setTimeout(()=>{
+            this.error = null;
+        }, 3000);
       })
-    })
   }
 
-  toCart(parentId, productId, quantity){
-     this.cartService.toCart(parentId, productId, quantity);
+  toCart(item){
+     this.cartService.toCart(item.productid, item.quantity).subscribe((res:any) =>{
+      if(res.resp == 'OK'){
+        this.itemsInCart.push(item);
+      } else
+        this.error = "Greška!";
+
+        this.slimLoadingBarService.complete();
+    });
   }
 
-  object_to_ctg(map) {
-    let categories: any = []
-    for (let k of Object.keys(map)) {
-        map[k].key = k;
-        categories.push(map[k]);
-    }
-
-    return categories;
+  removeFromCartArray(arr, id){
+    return arr.filter(function(ele){
+         return ele.cartid != id;
+     });
   }
 
-  convert_object(map) {
-    let obj: any = []
-    for (let k of Object.keys(map.value)) {
-        map.value[k].key = k;
-        map.value[k].parentId = map.key;
-        obj.push(map.value[k]);
-    }
-
-    return obj;
-  }
-
-  object_to_subctg_prod(map) {
-    let result: any = []
-    for (let k of Object.keys(map)) {
-        for (let j of Object.keys(map[k])) {
-            map[k][j].key = j;
-            map[k][j].parentId = k;
-            result.push(map[k][j]);
-        }
-    }
-
-    return result;
+  removeFromLikeArray(arr, id){
+    return arr.filter(function(ele){
+         return ele.likeid != id;
+     });
   }
 }

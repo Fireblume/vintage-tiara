@@ -11,7 +11,7 @@ import vintage.tiara.entity.ProdCart;
 public interface CartDao extends CrudRepository<Cart, Long>{
 
 	@Query("select new vintage.tiara.entity.ProdCart(p.id, c.id, c.uid, p.title, p.description, c.quantity,"
-			+ " p.photo, p.price, c.active, c.date) from Product p inner join Cart c on p.id = c.productid"
+			+ " p.photo, p.price, c.active, p.active) from Product p inner join Cart c on p.id = c.productid"
 			+ " where c.uid = :uid")
 	public Iterable<ProdCart> getCartItems(String uid);
 }

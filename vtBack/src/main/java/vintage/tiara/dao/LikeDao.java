@@ -5,12 +5,14 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import vintage.tiara.entity.Like;
-import vintage.tiara.entity.Product;
+import vintage.tiara.entity.ProdLike;
 
 @Repository
 public interface LikeDao extends CrudRepository<Like, Long>{
 	
-	@Query("from Product p inner join Like l on p.id = l.productid where l.uid = :uid")
-	public Iterable<Product> getAllLikes(String uid);
+	@Query("select new vintage.tiara.entity.ProdLike(p.id, c.id, c.uid, p.title, p.description, p.quantity,"
+			+ " p.photo, p.price, p.active) from Product p inner join Like c on p.id = c.productid"
+			+ " where c.uid = :uid")
+	public Iterable<ProdLike> getAllLikes(String uid);
 
 }

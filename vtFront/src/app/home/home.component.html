@@ -17,7 +17,7 @@
 		</div>
 	</div>
 	<div class="img-container col-md-9">
-		<div class="img-div" *ngFor="let prod of products" (click)="openModal('custom-modal-1', prod)">
+		<div class="img-div" *ngFor="let prod of products " (click)="openModal('custom-modal-1', prod)">
 			<img src="{{prod.photo}}" class="image">
 			<span class="zoom-img glyphicon glyphicon-search"></span>
 		<div>
@@ -34,8 +34,9 @@
     <div class="col-md-5 details">
     	<p>Naziv: {{showProduct?.title}}</p>
     	<p>Opis: {{showProduct?.description}}</p>
-    	<p>Status: {{showProduct?.inStock}}</p>
-    	<p>Kolicina: <input type="number" name="quantity" class="form-control quantity-input" 
+    	<p>Status: <span [ngStyle]="{'color':showProduct?.active == 'Y' ? '' : 'red'}">{{showProduct?.inStock}}</span></p>
+    	<p  *ngIf="showProduct?.active == 'Y'">
+    		Kolicina: <input type="number" name="quantity" class="form-control quantity-input" 
     		[(ngModel)]="quantityToBuy" min="1"	max="{{maxQuantity}}" 
     		(input)="onQChange($event.target.value)"
     		[ngClass]="{ 'input-has-error': quantityProblem}" required>
@@ -44,14 +45,14 @@
     	<div class="lower-stuff" *ngIf="userUid != undefined">
     		<span class="glyphicon glyphicon-heart-empty heart-empty" *ngIf="!hearClick[showProduct?.id]" 
     			(click)="hearClick[showProduct.id] = !hearClick[showProduct.id];
-    			likeProduct(showProduct.subcategoryid, showProduct.id)"></span>
+    			likeProduct(showProduct.id)"></span>
     		<span class="glyphicon glyphicon-heart heart" *ngIf="hearClick[showProduct?.id]" 
     			(click)="hearClick[showProduct.id] = !hearClick[showProduct.id];
     			dislikeProduct(showProduct.id)"></span>
     		<button class="btn btn-cart" (click)="toCart(showProduct.id, quantityToBuy)"
-    			[disabled]="quantityProblem">U KORPU</button>
+    			[disabled]="quantityProblem || showProduct?.active === 'N'">U KORPU</button>
     		<button class="btn btn-buy"
-    			[disabled]="quantityProblem">KUPI</button>
+    			[disabled]="quantityProblem || showProduct?.active === 'N'">KUPI</button>
     	</div>
     </div>
     <div class="col-md-2" style="width: 85px;">
