@@ -8,6 +8,7 @@ import 'firebase/storage';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {Globals} from '../Globals';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ import { map } from 'rxjs/operators';
 export class BaseService {
 
   constructor(private _firebaseAuth: AngularFireAuth, public db: AngularFireDatabase,
-              public firebaseApp: FirebaseApp, private http: HttpClient) {
+              public firebaseApp: FirebaseApp, private http: HttpClient, private globals: Globals) {
                this._firebaseAuth.authState.subscribe((auth) => {
                try{
                   this.userUid = auth.uid;
@@ -24,7 +25,6 @@ export class BaseService {
     }
 
   userUid:any;
-  baseUrl = 'http://localhost:8080'; 
 
   getAdminId(){
     return this.db.list('/categories/').snapshotChanges().pipe(map(changes => {
@@ -33,16 +33,14 @@ export class BaseService {
   }
 
   getProducts(){
-   return this.db.list('/products/').snapshotChanges().pipe(map(changes => {
-            return changes.map(c => ({value: c.payload.val()}));
-          }));
+   return this.http.get(this.globals.baseUrl+'/api/loadAllProducts');
   }
 
   logOut(){
-    return this.http.get(this.baseUrl+'/api/logout?invalid=true');
+    return this.http.get(this.globals.baseUrl+'/api/logout?invalid=true');
   }
 
   getMenuItems(){
-    return this.http.get(this.baseUrl+'/api/load');
+    return this.http.get(this.globals.baseUrl+'/api/load');
   }
 }

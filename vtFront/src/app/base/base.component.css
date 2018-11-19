@@ -25,7 +25,10 @@ header {
 
 .nav-tabs{
 	padding-top: 70px;
-	border-bottom: 1px solid #996515;
+	/*border-bottom: 1px solid #996515;*/
+    background: /* gradient can be an image */ linear-gradient( to right, rgba(153,101,21,1) 100px, rgba(1,1,1,0) 360px, rgba(153,101,21,1) 100% ) left bottom no-repeat;
+    background-size: 100% 1px;
+    border: none !important;
 }
 
 #firstTab {

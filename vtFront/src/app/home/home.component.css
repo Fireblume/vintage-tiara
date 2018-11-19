@@ -54,6 +54,10 @@
   backface-visibility: hidden;
 }
 
+.img-container{
+  width: 79% !important;
+}
+
 .zoom-img {
   transition: .5s ease;
   opacity: 0;

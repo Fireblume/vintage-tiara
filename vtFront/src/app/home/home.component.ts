@@ -40,6 +40,13 @@ export class HomeComponent implements OnInit  {
         this.slimLoadingBarService.complete();
         })
       })
+
+      this.route.parent.data.subscribe((auth) => {
+      auth.base.products.subscribe(res =>{
+        if(res != null)
+            this.fullProductList = res;
+        })
+      })
   }
 
   @ViewChild('modalPP') public modalPP: ZoomElement;
@@ -66,8 +73,12 @@ export class HomeComponent implements OnInit  {
   }
 
   showProducts(subCId){
-    this.slimLoadingBarService.start();
-    this.homeService.getProducts(subCId).subscribe(
+    //this.slimLoadingBarService.start();
+    this.products = this.fullProductList.filter(function(ele){
+      return ele.subcategoryid == subCId;
+    })
+
+    /*this.homeService.getProducts(subCId).subscribe(
       (res) => {
         this.products = res;
         this.slimLoadingBarService.complete();
@@ -78,7 +89,7 @@ export class HomeComponent implements OnInit  {
             this.error = null;
         }, 3000);
         this.slimLoadingBarService.complete();
-    }); 
+    }); */
   }
 
   openModal(id, product) {
