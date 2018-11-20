@@ -23,7 +23,8 @@
 }
 
 .cat-container{
-	margin-left: 50px;
+	margin-left: 40px;
+  margin-right: 10px;
 }
 
 .img-div{
@@ -37,7 +38,7 @@
 }
 
 .home-container{
-	margin-top: 50px;
+	margin-top: 40px;
 }
 
 .labela{
@@ -52,6 +53,7 @@
   height: auto;
   transition: .5s ease;
   backface-visibility: hidden;
+  border: 10px solid white;
 }
 
 .img-container{
@@ -87,8 +89,8 @@
 	cursor: pointer;
 }
 
-.lower-stuff{
-	margin-top: 170px;
+.higher-stuff{
+	height: 360px;
 }
 
 .btn-cart {
@@ -173,4 +175,44 @@
 .quantity-input{
   width: 40% !important;
   display: inline !important;
+}
+
+.menu-background{
+  background-image: linear-gradient(#b76e79 60%, #E9E9E9);
+  min-height: 600px;
+  border-radius: 5px;
+}
+
+.menu-glyph{
+  font-size: 16px;
+}
+
+#menuTitle{
+  font-size: 24px;
+  color: white;
+  padding-top: 10px;
+}
+
+.item-title{
+  font-size: 24px;
+  color: white;
+  border-bottom: 1px solid white;
+  margin-bottom: 10px;
+}
+
+.item-title:hover{
+  color: #914853;
+  cursor: pointer;
+}
+
+.subitem-title{
+  font-size: 18px;
+  color: white;
+  padding-left: 10px;
+  padding-bottom: 5px;
+}
+
+.subitem-title:hover{
+  color: #914853;
+  cursor: pointer;
 }

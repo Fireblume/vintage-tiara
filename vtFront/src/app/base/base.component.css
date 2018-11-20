@@ -2,15 +2,69 @@
     height: 50px;
     margin-top: -20px;
     text-align: center;
-    border-top: 1px solid #C5B358 ;
+    border-top: 1px solid lightgray;
     padding-top: 15px;
-    color: #C5B358;
+    color: dimgray;
 }
 
-header {
-	background-image: url('../../../src/image/cover.png');
+/*header {
+	background-image: url('../../../src/image/coverNolog.png');
 	height: 185px;
     margin-top: -10px;
+}*/
+
+.menuDiv{
+    display: inline-flex;
+    margin-top: 10px;
+}
+
+.menuItems{
+    margin-right: 15px;
+}
+
+.menuItems a{
+    color: dimgray;
+}
+
+#header1{
+    height: 30px;
+}
+
+#header2{
+    border-bottom: 1px solid darkgray;
+    border-top: 1px solid lightgray;
+    height: 180px;
+    background-color: #f4f4f4;
+}
+
+#upperHead{
+    display: inline-flex;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+#socialLog{
+    height: 20px;
+    width: 50px;
+    display: inline-flex;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+#socialLog a{
+    margin-right: 5px;
+}
+.logo{
+    width: 150px;
+    position: absolute;
+    left: 45%;
+    top: 40px;
+}
+
+.active{
+    color: #914853 !important;
+    font-size: 16px;
 }
 
 #section {
@@ -68,8 +122,7 @@ li a {
 }
 
 #logout{
-    margin-right: 50px;
-    margin-top: 14px !important;
+    cursor: pointer;
 }
 
 #register{
@@ -77,7 +130,8 @@ li a {
 }
 
 #cart{
-    margin-right: 20px;
+    width: 25px;
+    cursor: pointer;
 }
 
 #separator{

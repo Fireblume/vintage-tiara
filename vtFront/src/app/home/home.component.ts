@@ -68,6 +68,8 @@ export class HomeComponent implements OnInit  {
   hovered:any = {};
   quantityToBuy:number = 1;
   hearClick:any = {};
+  addBtnTxt:any ='U KORPU';
+  clicked:any = {};
 
 	ngOnInit() {   
   }
@@ -166,6 +168,10 @@ export class HomeComponent implements OnInit  {
     this.slimLoadingBarService.start();
     this.homeService.toCart(productId, quantity).subscribe((res:any) =>{
       if(res.resp == 'OK'){
+        this.addBtnTxt = "DODATO!";
+        setTimeout(()=>{
+            this.addBtnTxt = "U KORPU";
+        }, 3000);
       } else
         this.error = "Greška!";
 

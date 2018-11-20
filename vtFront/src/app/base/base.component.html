@@ -1,7 +1,38 @@
-<ng2-slim-loading-bar color="#C5B358" height="5px" id="slimLoad"></ng2-slim-loading-bar>
+<ng2-slim-loading-bar color="#914853" height="5px" id="slimLoad"></ng2-slim-loading-bar>
 <div #viewSection></div>
+
 <header id="header">
-    <ul class="nav nav-tabs">
+  <div id="header1">
+    <div id="socialLog">
+      <a href="https://www.facebook.com/VintageTiaraSombor/" target="_blank" title="facebook">
+        <img src="{{fbicon}}" class="img-responsive"/></a>
+      <a href="https://www.instagram.com/vintage_tiara/" target="_blank" title="instagram">
+        <img src="{{instaicon}}" class="img-responsive"/></a>
+    </div>
+    <div id="upperHead" *ngIf="logedIn == false">
+      <div class="menuItems"><a [routerLink]="['/login']" (click)="clickEvent('')">ULOGUJ SE</a></div>
+      <div class="menuItems">|</div>
+      <div class="menuItems"><a [routerLink]="['/register']" (click)="clickEvent('')">REGISTRUJ SE</a></div>
+    </div>
+    <div id="upperHead" *ngIf="logedIn == true">
+      <div class="menuItems" id="cart"><img src="../../src/image/cartBlack.png" class="img-responsive" 
+        [routerLink]="['/cart']" (click)="clickEvent('')"/></div>
+      <div class="menuItems"><a id="logout" (click)="logOut()">IZLOGUJ SE</a></div>
+    </div>
+  </div>
+  <div id="header2">
+    <div class="logo">
+      <img src="{{logo}}" class="img-responsive">
+      <div class="menuDiv">
+        <div class="menuItems"><a [routerLink]="['/home']" (click)="clickEvent('one')"
+          [ngClass]="status.one ? 'active' : ''"><b>POČETNA</b></a></div>
+        <div class="menuItems"><a [routerLink]="['/info']" (click)="clickEvent('two')"
+          [ngClass]="status.two ? 'active' : ''"><b>KONTAKT</b></a></div>
+      </div>
+    </div>
+  </div>
+ 
+   <!--  <ul class="nav nav-tabs" style="display: none">
     <li [ngClass]="status.one ? 'active' : ''" id="firstTab"  (click)="clickEvent('one')">
       <a [routerLink]="['/home']">Početna</a></li>
     <li [ngClass]="status.two ? 'active' : ''" (click)="clickEvent('two')">
@@ -20,7 +51,7 @@
       <li id="logout" (click)="logOut()">
         <a>Izloguj se</a></li>
     </div>
-  </ul>
+  </ul> -->
   </header>
   <section id="section" #section>
     <router-outlet></router-outlet>

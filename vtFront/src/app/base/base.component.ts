@@ -17,6 +17,9 @@ export class BaseComponent implements OnInit{
  	 notAdmin:boolean;
 	 logedIn:boolean;
 	 userUid:any;
+   logo:any='../../../src/image/logoB.png';
+   fbicon:any='../../../src/image/ficon.png';
+   instaicon:any='../../../src/image/instaicon.png';
  	 @ViewChild('viewSection') viewSection: ElementRef
  	 @ViewChild('upButton') upButton: ElementRef
  	 @ViewChild('section') section: ElementRef

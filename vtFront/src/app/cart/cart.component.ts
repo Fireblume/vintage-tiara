@@ -80,9 +80,9 @@ export class CartComponent implements OnInit {
         this.slimLoadingBarService.complete();
       }, 
       (error) => {
-            this.error = error;
-            setTimeout(()=>{
-            this.error = null;
+        this.error = error;
+        setTimeout(()=>{
+          this.error = null;
         }, 3000);
       })
   }

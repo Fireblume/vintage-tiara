@@ -1,6 +1,27 @@
 <div class="home-container" *ngIf="categories?.length !== 0">
-	<div class="cat-container col-md-2">
-		<p class="labela">Kategorije</p>
+	<div class="cat-container col-md-2 menu-background">
+		<div style="margin-bottom: 100px;">
+			<p class="" id="menuTitle">KATEGORIJE</p>
+			<div *ngFor="let cat of categories" >
+				<div class="" *ngIf="cat.category.active == 'Y'">
+					<div id="" class="item-title" (click) ="hovered[cat.category.title] = !hovered[cat.category.title]">
+					{{cat.category.title}}
+					</div>
+					<div *ngIf="hovered[cat.category.title]" class="">
+						<div *ngFor="let sub of cat.subList" class="">
+							<div *ngIf="sub.active == 'Y'"  class="subitem-title" (click)="showProducts(sub.id); clicked ={}; clicked[sub.id] = true;">
+								<div>
+									{{sub?.title}}
+									<span class="glyphicon glyphicon-triangle-left menu-glyph" 
+									*ngIf="clicked[sub.id] == true" ></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- <p class="labela">Kategorije</p>
 		<div *ngFor="let cat of categories" >
 			<div class="cat-div" *ngIf="cat.category.active == 'Y'">
 				<div id="catTitle" (click) ="hovered[cat.category.title] = !hovered[cat.category.title]">
@@ -14,7 +35,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 	<div class="img-container col-md-9">
 		<div class="img-div" *ngFor="let prod of products " (click)="openModal('custom-modal-1', prod)">
@@ -32,16 +53,18 @@
 		<!--<img src="../../src/image/{{modalImage}}">-->
 	</div>
     <div class="col-md-5 details">
-    	<p>Naziv: {{showProduct?.title}}</p>
-    	<p>Opis: {{showProduct?.description}}</p>
-    	<p>Status: <span [ngStyle]="{'color':showProduct?.active == 'Y' ? '' : 'red'}">{{showProduct?.inStock}}</span></p>
-    	<p  *ngIf="showProduct?.active == 'Y'">
-    		Kolicina: <input type="number" name="quantity" class="form-control quantity-input" 
-    		[(ngModel)]="quantityToBuy" min="1"	max="{{maxQuantity}}" 
-    		(input)="onQChange($event.target.value)"
-    		[ngClass]="{ 'input-has-error': quantityProblem}" required>
-    	</p>
-    	<p>Cena: {{showProduct?.price}} RSD</p>
+    	<div class="higher-stuff">
+	    	<p>Naziv: {{showProduct?.title}}</p>
+	    	<p>Opis: {{showProduct?.description}}</p>
+	    	<p>Status: <span [ngStyle]="{'color':showProduct?.active == 'Y' ? '' : 'red'}">{{showProduct?.inStock}}</span></p>
+	    	<p  *ngIf="showProduct?.active == 'Y'">
+	    		Kolicina: <input type="number" name="quantity" class="form-control quantity-input" 
+	    		[(ngModel)]="quantityToBuy" min="1"	max="{{maxQuantity}}" 
+	    		(input)="onQChange($event.target.value)"
+	    		[ngClass]="{ 'input-has-error': quantityProblem}" required>
+	    	</p>
+	    	<p>Cena: {{showProduct?.price}} RSD</p>
+	    </div>
     	<div class="lower-stuff" *ngIf="userUid != undefined">
     		<span class="glyphicon glyphicon-heart-empty heart-empty" *ngIf="!hearClick[showProduct?.id]" 
     			(click)="hearClick[showProduct.id] = !hearClick[showProduct.id];
@@ -50,7 +73,7 @@
     			(click)="hearClick[showProduct.id] = !hearClick[showProduct.id];
     			dislikeProduct(showProduct.id)"></span>
     		<button class="btn btn-cart" (click)="toCart(showProduct.id, quantityToBuy)"
-    			[disabled]="quantityProblem || showProduct?.active === 'N'">U KORPU</button>
+    			[disabled]="quantityProblem || showProduct?.active === 'N'" [ngStyle]="{'background': addBtnTxt == 'DODATO!' ? '#b76e79' : '#CFB53B'}">{{addBtnTxt}}</button>
     		<button class="btn btn-buy"
     			[disabled]="quantityProblem || showProduct?.active === 'N'">KUPI</button>
     	</div>

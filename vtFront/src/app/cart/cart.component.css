@@ -5,10 +5,11 @@
 
 #contentDiv{
     width: 60%;
-    border: 1px solid #C5B358;
+    border: 1px solid lightgray;
     border-radius: 3px;
     padding: 15px;
     margin-bottom: 30px;
+    background-color: white;
 
     -moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
