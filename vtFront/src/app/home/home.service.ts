@@ -57,4 +57,8 @@ export class HomeService {
               });
   }
 
+  cartCount(uid){
+    return this.http.get(this.globals.baseUrl+'/api/countcartitems?uid='+uid);
+  }
+  
 }

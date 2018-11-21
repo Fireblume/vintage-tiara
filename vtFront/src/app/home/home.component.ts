@@ -9,8 +9,7 @@ import { FirebaseApp } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { ZoomElement } from '../Event';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import { ActiveObject } from '../isActiveObject.pipe';
-import { SingletonService } from '../singleton.service';
+import { Globals } from '../Globals'
 
 @Component({
   selector: 'app-home',
@@ -21,13 +20,16 @@ export class HomeComponent implements OnInit  {
 
   constructor(private homeService: HomeService, private route: ActivatedRoute,
   private modalService: ModalService, public firebaseApp: FirebaseApp, private _firebaseAuth: AngularFireAuth, private slimLoadingBarService: SlimLoadingBarService, private cartService: CartService,
-  private singleton: SingletonService) { 
+  private global: Globals) { 
      this.route.parent.data.subscribe((auth) => {
       auth.base.auth.subscribe(res =>{
         if(res != null)
           this.userUid = res.uid;
         else
           this.userUid = undefined;
+
+        this.homeService.cartCount(this.userUid)
+            .subscribe((cnt:number) => {this.global.countCart = cnt})
 
         this.prepareLikedItem(this.userUid);
       });
@@ -171,7 +173,7 @@ export class HomeComponent implements OnInit  {
     this.homeService.toCart(productId, quantity).subscribe((res:any) =>{
       if(res.resp == 'OK'){
         this.addBtnTxt = "DODATO!";
-        this.singleton.countCart = this.singleton.countCart + 1;
+        this.global.countCart = this.global.countCart + 1;
         setTimeout(()=>{
             this.addBtnTxt = "U KORPU";
         }, 3000);

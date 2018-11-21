@@ -8,9 +8,9 @@
     height: 50px;
     margin-top: -20px;
     text-align: center;
-    border-top: 1px solid #C5B358 ;
+    border-top: 1px solid lightgray ;
     padding-top: 15px;
-    color: #C5B358;
+    color: dimgray;
 }
 
 #section {
@@ -26,7 +26,7 @@
 }
 
 .btn-login {
-	background: #C5B358;
+	background: #a95461;
 	color: white;
   	position: relative;
 	bottom: 10px;
@@ -34,14 +34,15 @@
   	width: 250px;
   	margin-top: 50px;
 
-	-moz-box-shadow: 1px 1px 2px #EEE8AA;
-	-webkit-box-shadow: 1px 1px 2px #EEE8AA;
-	box-shadow: 1px 1px 2px #EEE8AA;
+	-moz-box-shadow: 1px 1px 2px #bd7b85;
+	-webkit-box-shadow: 1px 1px 2px #bd7b85;
+	box-shadow: 1px 1px 2px #bd7b85;
+
 }
 
 .btn-login:hover{
-	background: #FAFAD2;
-	color: #996515;
+	background: #8f4752;
+  	color: white;
 }
 
 /*.out-loging{

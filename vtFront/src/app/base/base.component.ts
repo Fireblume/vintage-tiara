@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable, pipe, forkJoin, of } from 'rxjs';
@@ -6,16 +6,17 @@ import { LoginService } from '../login/login.service';
 import { HomeService } from '../home/home.service';
 import { CartService } from '../cart/cart.service';
 import { BaseService } from './base.service';
-import { SingletonService } from '../singleton.service';
+import { Globals } from '../Globals'
+
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-base',
   templateUrl: './base.component.html',
   styleUrls: ['./base.component.css']
 })
-export class BaseComponent implements OnInit{
+export class BaseComponent implements OnInit, OnDestroy{
 
- 	 notAdmin:boolean;
 	 logedIn:boolean;
 	 userUid:any;
    cartCount:number = 0;
@@ -27,10 +28,21 @@ export class BaseComponent implements OnInit{
  	 @ViewChild('section') section: ElementRef
 
 	constructor(private route: Router, private _firebaseAuth: AngularFireAuth, private actRoute: ActivatedRoute, private loginService: LoginService, private homeService: HomeService,
-	private cartService: CartService, private baseService: BaseService, private singleton: SingletonService) { 
-    this.actRoute.snapshot.data.base.cartCount.subscribe(
-      res => {this.singleton.countCart = res;}
+	private cartService: CartService, private baseService: BaseService, private global: Globals,
+  private location: Location) { 
+    this.actRoute.snapshot.data.base.auth.subscribe(
+      (res:any) => {
+        let uid:any;
+        if(res == null)
+          uid = '';
+        else
+          uid = res.uid;
+
+        this.baseService.cartCount(uid)
+            .subscribe((cnt:number) => {this.global.countCart = cnt})
+      }
     );
+
 	}
 
 	ngOnInit() {
@@ -41,18 +53,19 @@ export class BaseComponent implements OnInit{
 		);
 
 		window.addEventListener("scroll", (e: Event) => {this.scrollFunction()});
-	  window.addEventListener ("popstate", (e:Event) => {this.checkLink()});
 	  
+    this.location.subscribe(x => {
+      if(x.url == '/home')
+        this.clickEvent('one');
+      else if(x.url == '/info')
+        this.clickEvent('two');
+      else
+        this.clickEvent('');
+    });
 	}
 
-	status:any = { 
-    	'one':false, 
-		'two':false
-    };
-
   clickEvent(number){
-		this.status = {};
-		this.status[number] = true
+    this.global.urlPath = number;
 	}
 
   checkLink(){
@@ -93,5 +106,11 @@ export class BaseComponent implements OnInit{
         else
           this.logedIn = false;
     });
+  }
+
+  ngOnDestroy(){
+    this.actRoute.snapshot.data.base.auth.unsubscribe();
+    this.actRoute.snapshot.data.base.menuItems.unsubscribe();
+    this.actRoute.snapshot.data.base.products.unsubscribe();
   }
 }

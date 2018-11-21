@@ -30,12 +30,13 @@
 }
 
 .separator{
-	border-left: 1px solid #C5B358;
+	border-left: 1px solid #bf7f89;
     height: 300px;
 }
 
 .items-lists{
 	border: 6px solid #bf7f89;
+	background-color: white;
     border-radius: 3px;
     padding-top: 10px;
     margin-left: 50px;
@@ -115,6 +116,7 @@
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
+    background-color: white;
 
     -moz-box-shadow: 0.5px 1px 5px lightgray;
 	-webkit-box-shadow: 0.5px 1px 5px lightgray;

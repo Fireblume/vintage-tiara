@@ -12,25 +12,18 @@ import { User } from 'firebase';
 @Injectable()
 export class BaseResolver implements Resolve<any> {
 
-  constructor(private baseService: BaseService, private _firebaseAuth: AngularFireAuth) { 
-     this.user = JSON.parse(sessionStorage.getItem("currentUser"));
+  constructor(private baseService: BaseService, private _firebaseAuth: AngularFireAuth) {   
   }
-
-  user:any;
 
   resolve(): Observable<any>{
     return of(
     [this._firebaseAuth.authState, 
-    this.baseService.getAdminId(),
     this.baseService.getMenuItems(),
-    this.baseService.getProducts(),
-    this.baseService.cartCount(this.user.uid)]
+    this.baseService.getProducts()]
     ).pipe(map(res => ({
     	auth: res[0],
-    	adminId: res[1],
-      menuItems: res[2],
-      products: res[3],
-      cartCount: res[4]
+      menuItems: res[1],
+      products: res[2]
     })));
   }
 

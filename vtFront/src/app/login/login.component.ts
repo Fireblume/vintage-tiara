@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 import { LoginService } from './login.service';
 import { CartService } from '../cart/cart.service';
+import { Globals } from '../Globals'
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ import { CartService } from '../cart/cart.service';
 export class LoginComponent implements OnInit {
 
   constructor(public afAuth: AngularFireAuth, private router: Router, private logInService: LoginService,
-  private zone: NgZone, public cartService: CartService) { }
+  private zone: NgZone, public cartService: CartService, private global: Globals) { }
 
   login: any = {};
   error: any;
@@ -33,8 +34,8 @@ export class LoginComponent implements OnInit {
 		    	this.logInService.sendEmail(res.user.email).subscribe();
 		    });
 		    this.zone.run(() => {
-		    	//this.router.navigate(['/home']);
-    			history.back(); //add history entry - to trigger url path change
+		    	this.router.navigate(['/']);
+		    	this.global.urlPath = 'one';
     			});
 		    this.logInService.changeLoginStatus(true);
 			
@@ -53,8 +54,8 @@ export class LoginComponent implements OnInit {
 	      	this.setUser(res);
 	      	sessionStorage.setItem("currentUser", JSON.stringify(this.currentUser));
 	      	this.logInService.sendUser(this.currentUser).subscribe();
-	      	//this.router.navigate(['/home']); 
-	      	history.back(); //add history entry - to trigger url path change   
+	      	this.router.navigate(['/']); 
+	      	this.global.urlPath = 'one'; 
 	      	this.logInService.changeLoginStatus(true);
 	      })
 	      .catch((err) => { 

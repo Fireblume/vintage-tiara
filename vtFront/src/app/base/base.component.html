@@ -15,7 +15,7 @@
       <div class="menuItems"><a [routerLink]="['/register']" (click)="clickEvent('')">REGISTRUJ SE</a></div>
     </div>
     <div id="upperHead" *ngIf="logedIn == true">
-      <div id="cartNum">{{singleton.countCart}}</div>
+      <div id="cartNum">{{global.countCart}}</div>
       <div class="menuItems" id="cart">
         <img src="../../src/image/cartBlack.png" class="img-responsive" 
         [routerLink]="['/cart']" (click)="clickEvent('')"/>
@@ -28,9 +28,9 @@
       <img src="{{logo}}" class="img-responsive">
       <div class="menuDiv">
         <div class="menuItems"><a [routerLink]="['/home']" (click)="clickEvent('one')"
-          [ngClass]="status.one ? 'active' : ''"><b>POČETNA</b></a></div>
+          [ngClass]="global.urlPath == 'one' ? 'active' : ''"><b>POČETNA</b></a></div>
         <div class="menuItems"><a [routerLink]="['/info']" (click)="clickEvent('two')"
-          [ngClass]="status.two ? 'active' : ''"><b>KONTAKT</b></a></div>
+          [ngClass]="global.urlPath == 'two' ? 'active' : ''"><b>KONTAKT</b></a></div>
       </div>
     </div>
   </div>

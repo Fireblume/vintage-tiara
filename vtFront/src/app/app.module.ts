@@ -23,7 +23,6 @@ import { DashboardService } from './dashboard/dashboard.service';
 import { CartService } from './cart/cart.service';
 import { BaseService } from './base/base.service';
 import { OrdersService } from './orders/orders.service';
-import { SingletonService } from './singleton.service';
 
 import { AuthGuard } from './auth.guard';
 import { AdminGuard } from './admin.guard';
@@ -112,7 +111,6 @@ const routes: Routes = [
     AdminGuard,
     Globals,
     OrdersService,
-    SingletonService
     ],
   bootstrap: [AppComponent]
 })

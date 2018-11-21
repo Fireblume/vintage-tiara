@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
   		this.registerService.registerUser(this.register.email, this.register.password)
   		.then((userCredential) => {
 			this.registerService.udpateDisplayName(this.register.name);
-        	this.router.navigate(['login']);
+        	this.router.navigate(['/login']);
     	})
     	.catch((error) => {
           this.error = error;
