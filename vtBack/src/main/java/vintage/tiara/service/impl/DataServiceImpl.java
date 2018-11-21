@@ -207,4 +207,9 @@ public class DataServiceImpl implements DataService{
 	public int countCartItems(String uid) {
 		return cartDao.countCartItems(uid);
 	}
+
+	@Override
+	public Iterable<Product> search(String search) {
+		return productDao.search(search);
+	}
 }

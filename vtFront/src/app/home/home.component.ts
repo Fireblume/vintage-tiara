@@ -1,10 +1,12 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, OnDestroy  } from '@angular/core';
 import { HomeService } from './home.service';
 import { ModalService} from '../modal.service';
 import { CartService } from '../cart/cart.service';
+import { BaseService } from '../base/base.service';
 
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { FirebaseApp } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { ZoomElement } from '../Event';
@@ -16,11 +18,18 @@ import { Globals } from '../Globals'
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit  {
+export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(private homeService: HomeService, private route: ActivatedRoute,
   private modalService: ModalService, public firebaseApp: FirebaseApp, private _firebaseAuth: AngularFireAuth, private slimLoadingBarService: SlimLoadingBarService, private cartService: CartService,
-  private global: Globals) { 
+  private global: Globals, private baseService: BaseService) { 
+
+    this.subscription = this.baseService.getSearch().subscribe(
+      message => { 
+        this.products = message; 
+        this.slimLoadingBarService.complete();
+      });
+
      this.route.parent.data.subscribe((auth) => {
       auth.base.auth.subscribe(res =>{
         if(res != null)
@@ -54,6 +63,7 @@ export class HomeComponent implements OnInit  {
   }
 
   @ViewChild('modalPP') public modalPP: ZoomElement;
+  subscription: Subscription;
 
   modalImage: any = [];
 	categories: any = [];
@@ -74,6 +84,7 @@ export class HomeComponent implements OnInit  {
   hearClick:any = {};
   addBtnTxt:any ='U KORPU';
   clicked:any = {};
+  differ: any;
 
 	ngOnInit() {   
   }
@@ -198,4 +209,9 @@ export class HomeComponent implements OnInit  {
         this.slimLoadingBarService.complete();
     });
   }
+
+  ngOnDestroy() {
+        // unsubscribe to ensure no memory leaks
+        this.subscription.unsubscribe();
+    }
 }

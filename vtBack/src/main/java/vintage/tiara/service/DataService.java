@@ -38,6 +38,7 @@ public interface DataService {
 	void deleteProduct(Long id);
 	void deleteBySubctgId(Long id);
 	void updateProduct(String title, String desc, String photo, String price, int quantity, String active, Long id);
+	Iterable<Product> search(String search);
 	
 	Iterable<ProdLike> getAllLikes(String uid);
 	Like create(Like like) throws SQLServerException, Exception;	

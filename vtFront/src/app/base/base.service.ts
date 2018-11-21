@@ -6,7 +6,7 @@ import * as firebase from 'firebase/app';
 import { FirebaseApp } from 'angularfire2';
 import 'firebase/storage';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {Globals} from '../Globals';
 
@@ -25,6 +25,7 @@ export class BaseService {
     }
 
   userUid:any;
+  private subject = new Subject<any>();
 
   getAdminId(){
     return this.db.list('/categories/').snapshotChanges().pipe(map(changes => {
@@ -46,5 +47,15 @@ export class BaseService {
 
   cartCount(uid){
     return this.http.get(this.globals.baseUrl+'/api/countcartitems?uid='+uid);
+  }
+
+  search(input){
+    this.http.get(this.globals.baseUrl+'/api/search?src='+input).subscribe(res =>{
+      this.subject.next(res);
+    });
+  }
+
+  getSearch(): Observable<any> {
+    return this.subject.asObservable();
   }
 }

@@ -17,4 +17,5 @@ public interface CartDao extends CrudRepository<Cart, Long>{
 	
 	@Query("select count(*) from Cart c where c.uid = :uid")
 	public int countCartItems(String uid);
+		
 }

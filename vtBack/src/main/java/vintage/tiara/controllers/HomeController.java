@@ -194,4 +194,19 @@ private static final Logger LOGGER = Logger.getLogger(LogInController.class.getN
 		}
 		return new ResponseEntity<Integer>(cnt, status);
 	}
+	
+	@RequestMapping(value="/search", method = RequestMethod.GET)
+	@ResponseBody public ResponseEntity<List<Product>> search(@Param("src") String src){
+		List<Product> dataList = new ArrayList<Product>();
+		HttpStatus status = HttpStatus.OK;
+		
+		try {
+			dataList = (List<Product>) dataS.search(src);
+		}catch (Exception e) {
+			LOGGER.log(Level.FINE, "Something went wrong", e);
+			status = HttpStatus.NOT_FOUND;
+			return new ResponseEntity<List<Product>>(dataList, status);
+		}
+		return new ResponseEntity<List<Product>>(dataList, status);
+	}
 }

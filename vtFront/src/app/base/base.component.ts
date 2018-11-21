@@ -8,7 +8,8 @@ import { CartService } from '../cart/cart.service';
 import { BaseService } from './base.service';
 import { Globals } from '../Globals'
 
-import {Location} from "@angular/common";
+import { Location } from "@angular/common";
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 @Component({
   selector: 'app-base',
@@ -20,6 +21,7 @@ export class BaseComponent implements OnInit, OnDestroy{
 	 logedIn:boolean;
 	 userUid:any;
    cartCount:number = 0;
+   prodList:any = [];
    logo:any='../../../src/image/logoB.png';
    fbicon:any='../../../src/image/ficon.png';
    instaicon:any='../../../src/image/instaicon.png';
@@ -27,9 +29,10 @@ export class BaseComponent implements OnInit, OnDestroy{
  	 @ViewChild('upButton') upButton: ElementRef
  	 @ViewChild('section') section: ElementRef
 
+
 	constructor(private route: Router, private _firebaseAuth: AngularFireAuth, private actRoute: ActivatedRoute, private loginService: LoginService, private homeService: HomeService,
 	private cartService: CartService, private baseService: BaseService, private global: Globals,
-  private location: Location) { 
+  private location: Location, private slimLoadingBarService: SlimLoadingBarService) { 
     this.actRoute.snapshot.data.base.auth.subscribe(
       (res:any) => {
         let uid:any;
@@ -112,5 +115,12 @@ export class BaseComponent implements OnInit, OnDestroy{
     this.actRoute.snapshot.data.base.auth.unsubscribe();
     this.actRoute.snapshot.data.base.menuItems.unsubscribe();
     this.actRoute.snapshot.data.base.products.unsubscribe();
+  }
+
+  doSearch(input){
+    if(input != "" || input != undefined){
+      this.slimLoadingBarService.start();
+      this.baseService.search(input);
+    }
   }
 }

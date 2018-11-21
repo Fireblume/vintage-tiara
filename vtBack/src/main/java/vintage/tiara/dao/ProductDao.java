@@ -21,4 +21,7 @@ public interface ProductDao extends CrudRepository<Product, Long>{
 	@Query("update Product s set s.title = :title, s.active = :active, s.description = :desc, "
 			+ "s.quantity = :quantity, s.photo = :photo, s.price = :price where s.id = :id")
 	public void update(String title, String desc, String photo, String price, int quantity, String active, Long id);
+	
+	@Query("from Product p where p.title LIKE %:search% or p.description like %:search%")
+	public Iterable<Product> search(String search);
 }

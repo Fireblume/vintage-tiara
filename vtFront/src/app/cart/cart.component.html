@@ -15,11 +15,11 @@
 					<img src="{{item.photo}}" class="img-responsive" />
 				</div>
 				<div id="infoDiv">
-					<p>Naziv: {{item.title}}</p>
-					<p>Opis: {{item.description}}</p>
-					<p>Status: <span [ngStyle]="{'color':item?.activeProd == 'Y' ? '' : 'red'}">{{item?.inStock}}</span></p>
-					<p>Kolicina: {{item.quantityInCart}}</p>
-					<p>Cena: {{item.price}} RSD</p>
+					<div class="details-txt-t">{{item.title}}</div>
+					<div class="details-txt-d">{{item.description}}</div>
+					<div class="details-txt addLine">{{item.price}} RSD</div>
+					<div class="details-txt">Status: <span [ngStyle]="{'color':item?.activeProd == 'Y' ? '' : 'red'}">{{item?.inStock}}</span></div>
+					<div class="details-txt">Kolicina: {{item.quantityInCart}}</div>
 				</div>
 			</div>
 			<div id="btnDiv">
@@ -43,15 +43,15 @@
 					<img src="{{item.photo}}" class="img-responsive" />
 				</div>
 				<div id="infoDiv">
-					<p>Naziv: {{item.title}}</p>
-					<p>Opis: {{item.description}}</p>
-					<p>Status: <span [ngStyle]="{'color':item?.activeProd == 'Y' ? '' : 'red'}">{{item?.inStock}}</span></p>
-					<p *ngIf="item.activeProd == 'Y'">
+					<div class="details-txt-t">{{item.title}}</div>
+					<div class="details-txt-d">{{item.description}}</div>
+					<div class="details-txt addLine">Cena: {{item.price}} RSD</div>
+					<div class="details-txt">Status: <span [ngStyle]="{'color':item?.activeProd == 'Y' ? '' : 'red'}">{{item?.inStock}}</span></div>
+					<div class="details-txt" *ngIf="item.activeProd == 'Y'">
 						Kolicina: <input type="number" name="quantity" class="form-control quantity-input" 
 					    		[(ngModel)]="quantityToBuy" min="1"	max="{{item.quantity}}" 
 					    		(input)="onQChange($event.target.value, item.quantity)"
-					    		[ngClass]="{ 'input-has-error': quantityProblem}" required></p>
-					<p>Cena: {{item.price}} RSD</p>
+					    		[ngClass]="{ 'input-has-error': quantityProblem}" required></div>
 				</div>
 			</div>
 			<div id="btnDiv2">

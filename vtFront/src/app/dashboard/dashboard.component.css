@@ -103,7 +103,7 @@
 }
 
 .prod-div{
-	height: 150px;
+	height: auto;
     width: 300px;
 
     display: inline-flex;

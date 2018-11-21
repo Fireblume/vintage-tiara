@@ -48,6 +48,31 @@
     top: 5px;
 }
 
+#searchHead{
+    display: inline-flex;
+    position: absolute;
+    margin-left: 10px;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    width: 200px;
+    padding-left: 5px;
+    background: lightgray;
+    height: 30px;
+}
+
+#searchInput{
+    border:none; 
+    background: transparent; 
+    outline: 0;
+}
+
+#loopIcon{
+    margin-top: 7px;
+    margin-right: 10px;
+    color: dimgray;
+    cursor: pointer;
+}
+
 #socialLog{
     height: 20px;
     width: 50px;

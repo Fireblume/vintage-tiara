@@ -175,7 +175,7 @@ export class DashboardComponent implements OnInit {
     this.product.quantity = prod.quantity;
     this.product.color = prod.color;
     this.product.price = prod.price;
-    this.product.active = prod.activee;
+    this.product.active = prod.active;
     this.product.subcategoryid = prod.subcategoryid;
     this.product.photo = prod.photo;
 

@@ -95,6 +95,7 @@
 
 .higher-stuff{
 	height: 360px;
+  margin-top: 10px;
 }
 
 .btn-cart {
@@ -130,50 +131,6 @@
 .btn-cart:hover, .btn-buy:hover{
 	background: #c59858 !important;
     color: white;
-}
-
-
-
-.under-cat-div{
-  border: 1px solid #914853;
-  border: 1px solid;
-  width: 240px;
-  border-radius: 3px;
-  margin-top: 7px;
-  margin-left: -37px;
-
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-box-shadow: 0.5px 1px 5px #b76e79;
-  -webkit-box-shadow: 0.5px 1px 5px #b76e79;
-  box-shadow: 1px 1px 5px #b76e79;
-  -webkit-appearance: none;
-}
-
-.under-cat:not(:last-child) div{
- border-bottom: 1px solid; 
-}
-
-.under-cat{
-  
-  background: white;
-  color: #914853;
-  padding-bottom: 2.5px;
-  padding-top: 2.5px;
-  width: 230px;
-  margin-left: 5px;
-}
-
-.under-cat:hover{
-  border-radius: 2px;
-  background-color: #914853;
-  color: white;
-  cursor: pointer;
-}
-
-#catTitle{
-  padding: 3px;
-  margin: -5px;
 }
 
 .quantity-input{
@@ -219,4 +176,24 @@
 .subitem-title:hover{
   color: #914853;
   cursor: pointer;
+}
+
+.details-txt-t{
+  font-size: 20px;
+  color: #6e6e6e;
+}
+
+.details-txt-d{
+  font-size: 16px;
+  color: #6e6e6e;
+}
+
+.details-txt{
+  font-size: 18px;
+  color: #6e6e6e;
+}
+
+.addLine{
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 15px;
 }

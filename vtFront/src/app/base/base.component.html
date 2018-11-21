@@ -9,6 +9,11 @@
       <a href="https://www.instagram.com/vintage_tiara/" target="_blank" title="instagram">
         <img src="{{instaicon}}" class="img-responsive"/></a>
     </div>
+    <div id="searchHead">
+      <span id="loopIcon" class="glyphicon glyphicon-search" (click)="doSearch(searchIn)"></span>
+      <input type="text" id="searchInput" [(ngModel)]="searchIn" placeholder="Pretraga" 
+      (keydown.enter)="doSearch(searchIn)"/>
+    </div>
     <div id="upperHead" *ngIf="logedIn == false">
       <div class="menuItems"><a [routerLink]="['/login']" (click)="clickEvent('')">ULOGUJ SE</a></div>
       <div class="menuItems">|</div>
