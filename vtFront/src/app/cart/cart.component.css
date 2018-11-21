@@ -1,6 +1,6 @@
 #imgDiv{
-	width: 300px;
-	height: 300px;
+	width: 250px;
+	height: 250px;
 }
 
 #contentDiv{
@@ -13,9 +13,9 @@
 
     -moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
-	-moz-box-shadow: 0.5px 1px 5px #b76e79;
-	-webkit-box-shadow: 0.5px 1px 5px #b76e79;
-	box-shadow: 1px 1px 5px #b76e79;
+	-moz-box-shadow: 0.5px 1px 5px #ccc;
+	-webkit-box-shadow: 0.5px 1px 5px #ccc;
+	box-shadow: 1px 1px 5px #ccc;
 	-webkit-appearance: none;
 }
 
@@ -38,29 +38,16 @@
 }
 
 .btn-buy, .btn-add, .btn-buyAll{
-	background: #C5B358;
+	background: #a95461;
 	color: white;
 	position: relative;
 	bottom: 10px;
 	font-size: 16px;
 
 
-	-moz-box-shadow: 1px 1px 2px #EEE8AA;
-	-webkit-box-shadow: 1px 1px 2px #EEE8AA;
-	box-shadow: 1px 1px 2px #EEE8AA;
-}
-
-.btn-add{
-	background: #CFB53B;
-	color: white;
-	position: relative;
-	bottom: 10px;
-	font-size: 16px;
-
-
-	-moz-box-shadow: 1px 1px 2px #EEE8AA;
-	-webkit-box-shadow: 1px 1px 2px #EEE8AA;
-	box-shadow: 1px 1px 2px #EEE8AA;
+	-moz-box-shadow: 1px 1px 2px #bd7b85;
+	-webkit-box-shadow: 1px 1px 2px #bd7b85;
+	box-shadow: 1px 1px 2px #bd7b85;
 }
 
 .btn-buyAll {
@@ -74,14 +61,19 @@
 }
 
 .btn-buy:hover, .btn-cancel:hover, .btn-add:hover, .btn-buyAll:hover{
-	background: #FAFAD2;
-  	color: #996515;
+	background: #8f4752;
+  	color: white;
+}
+
+.btn-buy:hover{
+	background: #bd7b85;
+  	color: white;
 }
 
 .btn-cancel{
 	background: white;
-    border: 1px solid #C5B358;
-    color: #C5B358;
+    border: 1px solid #8f4752;
+    color: #8f4752;
 	position: relative;
 	bottom: 10px;
 	font-size: 16px;

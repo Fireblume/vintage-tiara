@@ -7,7 +7,7 @@
 	<div *ngIf="showItems">
 		<div *ngIf="itemsInCart.length == 0" id="emptyCartTxt">- Još ništa niste dodali -</div>
 		<button class="btn btn-buyAll" *ngIf="itemsInCart.length != 0" (click)="buyClicked = true">
-			K U P I
+			<b>K U P I</b>
 		</button>
 		<div *ngFor="let item of itemsInCart" id="contentDiv">
 			<div id="contentDivInner">
@@ -27,7 +27,7 @@
 			</div>
 		</div>
 		<button class="btn btn-buyAll" *ngIf="itemsInCart.length != 0" (click)="buyClicked = true">
-			K U P I
+			<b>K U P I</b>
 		</button>
 	</div>
 	<div class="cart-inner-menu">

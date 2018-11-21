@@ -202,4 +202,9 @@ public class DataServiceImpl implements DataService{
 	public void deleteCart(Long id) {
 		cartDao.deleteById(id);
 	}
+
+	@Override
+	public int countCartItems(String uid) {
+		return cartDao.countCartItems(uid);
+	}
 }

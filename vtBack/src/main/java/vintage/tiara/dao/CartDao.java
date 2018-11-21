@@ -14,4 +14,7 @@ public interface CartDao extends CrudRepository<Cart, Long>{
 			+ " p.photo, p.price, c.active, p.active) from Product p inner join Cart c on p.id = c.productid"
 			+ " where c.uid = :uid")
 	public Iterable<ProdCart> getCartItems(String uid);
+	
+	@Query("select count(*) from Cart c where c.uid = :uid")
+	public int countCartItems(String uid);
 }

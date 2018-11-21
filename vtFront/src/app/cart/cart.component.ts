@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from './cart.service';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { ActivatedRoute } from '@angular/router';
+import { SingletonService } from '../singleton.service';
 
 @Component({
   selector: 'app-cart',
@@ -11,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class CartComponent implements OnInit {
 
   constructor(public cartService: CartService, private slimLoadingBarService: SlimLoadingBarService, 
-  private route: ActivatedRoute) { 
+  private route: ActivatedRoute, private singleton: SingletonService) { 
     this.slimLoadingBarService.start();
     this.route.parent.data.subscribe((auth) => {
       auth.base.auth.subscribe(res =>{
@@ -53,6 +54,7 @@ export class CartComponent implements OnInit {
     this.cartService.removeItem(itemKey).subscribe((res:any) =>{
       if(res.resp == 'OK'){
         this.itemsInCart = this.removeFromCartArray(this.itemsInCart, itemKey);
+        this.singleton.countCart = this.singleton.countCart - 1;
       } else
         this.error = "Greška!";
 

@@ -48,4 +48,5 @@ public interface DataService {
 	Cart create(Cart like) throws SQLServerException, Exception;	
 	void delete(Cart subcategory);
 	void deleteCart(Long id);
+	int countCartItems(String uid);
 }

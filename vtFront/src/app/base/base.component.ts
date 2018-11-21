@@ -6,6 +6,7 @@ import { LoginService } from '../login/login.service';
 import { HomeService } from '../home/home.service';
 import { CartService } from '../cart/cart.service';
 import { BaseService } from './base.service';
+import { SingletonService } from '../singleton.service';
 
 @Component({
   selector: 'app-base',
@@ -17,6 +18,7 @@ export class BaseComponent implements OnInit{
  	 notAdmin:boolean;
 	 logedIn:boolean;
 	 userUid:any;
+   cartCount:number = 0;
    logo:any='../../../src/image/logoB.png';
    fbicon:any='../../../src/image/ficon.png';
    instaicon:any='../../../src/image/instaicon.png';
@@ -25,10 +27,10 @@ export class BaseComponent implements OnInit{
  	 @ViewChild('section') section: ElementRef
 
 	constructor(private route: Router, private _firebaseAuth: AngularFireAuth, private actRoute: ActivatedRoute, private loginService: LoginService, private homeService: HomeService,
-	private cartService: CartService, private baseService: BaseService) { 
-    /*this.actRoute.snapshot.data.base.adminId.subscribe(
-      res => console.log(res)
-    );*/
+	private cartService: CartService, private baseService: BaseService, private singleton: SingletonService) { 
+    this.actRoute.snapshot.data.base.cartCount.subscribe(
+      res => {this.singleton.countCart = res;}
+    );
 	}
 
 	ngOnInit() {

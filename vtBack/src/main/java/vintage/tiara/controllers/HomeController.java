@@ -179,4 +179,19 @@ private static final Logger LOGGER = Logger.getLogger(LogInController.class.getN
 		}
 		return new ResponseEntity<String>("{\"resp\":\"OK\"}", status);
 	}
+
+	@RequestMapping(value="/countcartitems", method = RequestMethod.GET)
+	@ResponseBody public ResponseEntity<Integer> countCartItems(@Param("uid") String uid){
+		HttpStatus status = HttpStatus.OK;
+		int cnt = 0;
+		
+		try {
+			cnt = dataS.countCartItems(uid);
+		}catch (Exception e) {
+			LOGGER.log(Level.FINE, "Something went wrong", e);
+			status = HttpStatus.NOT_FOUND;
+			return new ResponseEntity<Integer>(cnt, status);
+		}
+		return new ResponseEntity<Integer>(cnt, status);
+	}
 }

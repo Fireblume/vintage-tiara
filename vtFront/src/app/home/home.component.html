@@ -73,7 +73,7 @@
     			(click)="hearClick[showProduct.id] = !hearClick[showProduct.id];
     			dislikeProduct(showProduct.id)"></span>
     		<button class="btn btn-cart" (click)="toCart(showProduct.id, quantityToBuy)"
-    			[disabled]="quantityProblem || showProduct?.active === 'N'" [ngStyle]="{'background': addBtnTxt == 'DODATO!' ? '#b76e79' : '#CFB53B'}">{{addBtnTxt}}</button>
+    			[disabled]="quantityProblem || showProduct?.active === 'N'" [ngStyle]="{'background': addBtnTxt == 'DODATO!' ? '#c59858' : '#ccbc6b'}">{{addBtnTxt}}</button>
     		<button class="btn btn-buy"
     			[disabled]="quantityProblem || showProduct?.active === 'N'">KUPI</button>
     	</div>

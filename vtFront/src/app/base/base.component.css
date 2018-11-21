@@ -31,10 +31,14 @@
 }
 
 #header2{
-    border-bottom: 1px solid darkgray;
+    border-bottom: 1px solid #ccc;
     border-top: 1px solid lightgray;
     height: 180px;
-    background-color: #f4f4f4;
+    background-color: white;
+
+    -moz-box-shadow: 1px 1px 2px #ccc;
+    -webkit-box-shadow: 1px 1px 2px #ccc;
+    box-shadow: 1px 1px 2px #ccc;
 }
 
 #upperHead{
@@ -55,6 +59,16 @@
 #socialLog a{
     margin-right: 5px;
 }
+
+#cartNum{
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 20px;
+}
+
 .logo{
     width: 150px;
     position: absolute;

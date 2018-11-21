@@ -8,7 +8,7 @@ import 'firebase/storage';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {Globals} from '../Globals'
+import { Globals } from '../Globals'
 
 @Injectable({
   providedIn: 'root'

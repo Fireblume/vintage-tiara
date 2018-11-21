@@ -15,8 +15,11 @@
       <div class="menuItems"><a [routerLink]="['/register']" (click)="clickEvent('')">REGISTRUJ SE</a></div>
     </div>
     <div id="upperHead" *ngIf="logedIn == true">
-      <div class="menuItems" id="cart"><img src="../../src/image/cartBlack.png" class="img-responsive" 
-        [routerLink]="['/cart']" (click)="clickEvent('')"/></div>
+      <div id="cartNum">{{singleton.countCart}}</div>
+      <div class="menuItems" id="cart">
+        <img src="../../src/image/cartBlack.png" class="img-responsive" 
+        [routerLink]="['/cart']" (click)="clickEvent('')"/>
+      </div>
       <div class="menuItems"><a id="logout" (click)="logOut()">IZLOGUJ SE</a></div>
     </div>
   </div>

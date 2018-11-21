@@ -54,6 +54,10 @@
   transition: .5s ease;
   backface-visibility: hidden;
   border: 10px solid white;
+
+  -moz-box-shadow: 1px 1px 2px #ccc;
+  -webkit-box-shadow: 1px 1px 2px #ccc;
+  box-shadow: 1px 1px 2px #ccc;
 }
 
 .img-container{
@@ -94,7 +98,7 @@
 }
 
 .btn-cart {
-	background: #CFB53B;
+	background: #ccbc6b;
 	color: white;
   margin-left: 30px;
   position: relative;
@@ -124,8 +128,8 @@
 }
 
 .btn-cart:hover, .btn-buy:hover{
-	background: #FAFAD2;
-  color: #996515;
+	background: #c59858 !important;
+    color: white;
 }
 
 
@@ -178,7 +182,7 @@
 }
 
 .menu-background{
-  background-image: linear-gradient(#b76e79 60%, #E9E9E9);
+  background-image: linear-gradient(#b76e79 60%, #f3f3f3);
   min-height: 600px;
   border-radius: 5px;
 }

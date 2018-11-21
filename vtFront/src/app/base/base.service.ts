@@ -43,4 +43,8 @@ export class BaseService {
   getMenuItems(){
     return this.http.get(this.globals.baseUrl+'/api/load');
   }
+
+  cartCount(uid){
+    return this.http.get(this.globals.baseUrl+'/api/countcartitems?uid='+uid);
+  }
 }
