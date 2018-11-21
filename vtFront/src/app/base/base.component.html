@@ -11,7 +11,7 @@
     </div>
     <div id="searchHead">
       <span id="loopIcon" class="glyphicon glyphicon-search" (click)="doSearch(searchIn)"></span>
-      <input type="text" id="searchInput" [(ngModel)]="searchIn" placeholder="Pretraga" 
+      <input type="text" id="searchInput" [(ngModel)]="searchIn" placeholder="Pretraga proizvoda" 
       (keydown.enter)="doSearch(searchIn)"/>
     </div>
     <div id="upperHead" *ngIf="logedIn == false">
@@ -25,7 +25,15 @@
         <img src="../../src/image/cartBlack.png" class="img-responsive" 
         [routerLink]="['/cart']" (click)="clickEvent('')"/>
       </div>
-      <div class="menuItems"><a id="logout" (click)="logOut()">IZLOGUJ SE</a></div>
+      <div class="menuItems">
+        <div class="dropdown">ĆAO, {{displayName.toUpperCase()}}
+          <span class="glyphicon glyphicon-triangle-bottom"></span>
+          <div class="dropdown-content">
+            <a id="logout">VAŠE PORUĐBINE</a>
+            <a id="logout" (click)="logOut()">IZLOGUJ SE</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div id="header2">

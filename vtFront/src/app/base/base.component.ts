@@ -18,16 +18,16 @@ import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 })
 export class BaseComponent implements OnInit, OnDestroy{
 
-	 logedIn:boolean;
-	 userUid:any;
-   cartCount:number = 0;
-   prodList:any = [];
-   logo:any='../../../src/image/logoB.png';
-   fbicon:any='../../../src/image/ficon.png';
-   instaicon:any='../../../src/image/instaicon.png';
- 	 @ViewChild('viewSection') viewSection: ElementRef
- 	 @ViewChild('upButton') upButton: ElementRef
- 	 @ViewChild('section') section: ElementRef
+  logedIn:boolean;
+  displayName:any;
+  cartCount:number = 0;
+  prodList:any = [];
+  logo:any='../../../src/image/logoB.png';
+  fbicon:any='../../../src/image/ficon.png';
+  instaicon:any='../../../src/image/instaicon.png';
+  @ViewChild('viewSection') viewSection: ElementRef
+  @ViewChild('upButton') upButton: ElementRef
+  @ViewChild('section') section: ElementRef
 
 
 	constructor(private route: Router, private _firebaseAuth: AngularFireAuth, private actRoute: ActivatedRoute, private loginService: LoginService, private homeService: HomeService,
@@ -38,8 +38,10 @@ export class BaseComponent implements OnInit, OnDestroy{
         let uid:any;
         if(res == null)
           uid = '';
-        else
+        else{
           uid = res.uid;
+          this.displayName = res.displayName.split(' ')[0];
+        }
 
         this.baseService.cartCount(uid)
             .subscribe((cnt:number) => {this.global.countCart = cnt})

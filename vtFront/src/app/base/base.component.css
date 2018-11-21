@@ -204,3 +204,42 @@ li a {
     width: 100%;
     z-index: 1000;
 }
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    color: dimgray;
+    cursor: pointer;
+    height: 30px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 5px 15px;
+    z-index: 1;
+    right: 5px;
+    margin-top: 7px;
+    font-size: 14px;
+}
+
+.dropdown-content a {
+    display: block;
+    margin-bottom: 5px;
+    float: right;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown .glyphicon-triangle-bottom{
+    visibility: visible;
+}
+
+.dropdown:hover .glyphicon-triangle-bottom{
+    visibility: hidden;
+}

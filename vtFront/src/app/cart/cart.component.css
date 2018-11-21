@@ -4,7 +4,7 @@
 }
 
 #contentDiv{
-    width: 60%;
+    width: 75%;
     border: 1px solid lightgray;
     border-radius: 3px;
     padding: 15px;
@@ -30,7 +30,7 @@
 
 #infoDiv{
 	margin-left: 30px;
-	width: 40%;
+	width: 55%;
 }
 
 #infoDiv p{
@@ -51,7 +51,7 @@
 }
 
 .btn-buyAll {
-	margin-left: 65%;
+	margin-left: 80%;
     margin-top: -1%;
     width: 13%;
 }
@@ -82,12 +82,12 @@
 
 #btnDiv{
 	width: 40%;
-    margin-left: 80%;
+    margin-left: 85%;
 }
 
 #btnDiv2{
 	width: 60%;
-    margin-left: 50%;
+    margin-left: 60%;
 }
 
 #btnDiv button{
