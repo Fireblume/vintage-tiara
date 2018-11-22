@@ -24,6 +24,8 @@
 	</div>
 	<div class="img-container col-md-9">
 		<div class="img-div" *ngFor="let prod of products " (click)="openModal('custom-modal-1', prod)">
+			<div class="newTag" *ngIf="prod.newest == 'Y'">NOVO</div>
+    		<div class="saleTag" *ngIf="prod.onsale == 'Y'">AKCIJA {{prod.sale}}%</div>
 			<img src="{{prod.photo}}" class="image">
 			<span class="zoom-img glyphicon glyphicon-search"></span>
 		<div>
@@ -40,7 +42,12 @@
     	<div class="higher-stuff">
 	    	<div class="details-txt-t">{{showProduct?.title}}</div>
 	    	<div class="details-txt-d">{{showProduct?.description}}</div>
-	    	<div class="details-txt addLine">{{showProduct?.price}} RSD</div>
+	    	<div class="addLine price-div">
+		    	<div class="details-txt" [ngClass]="{ 'crossPrice': showProduct?.onsale == 'Y'}">{{showProduct?.price}} RSD</div>
+		    	<div class="details-txt new-price" *ngIf="showProduct?.onsale == 'Y'">
+		    		<i>{{priceOnSale}} RSD</i>
+		    	</div>
+		    </div>
 	    	<div class="details-txt">Status: <span [ngStyle]="{'color':showProduct?.active == 'Y' ? '' : 'red'}">{{showProduct?.inStock}}</span></div>
 	    	<div class="details-txt" *ngIf="showProduct?.active == 'Y'">
 	    		Kolicina: <input type="number" name="quantity" class="form-control quantity-input" 

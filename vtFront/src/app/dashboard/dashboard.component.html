@@ -71,10 +71,11 @@
 				<img class="img-responsive" src="{{prod.photo}}">
 			</div>
 			<div class="details-div">
-				<div>Naziv: {{prod.title}}</div>
-				<div>Opis: {{prod.description}}</div>
+				<div id="titleP">{{prod.title}}</div>
+				<div>{{prod.description}}</div>
+				<div id="priceP">{{prod.price}} RSD</div>
 				<div>Kolicina: {{prod.quantity}}</div>
-				<div>Cena: {{prod.price}}</div>
+				<div>Sniženje: {{prod.sale}}%</div>
 			</div>
 			<span class="glyphicon glyphicon-remove removeIcon" (click)="dialogProd(prod);"></span>
 		</div>
@@ -111,15 +112,35 @@
 
 			<input type="text" class="form-control" name="price" placeholder="Cena"
 			 [(ngModel)]="product.price" #price="ngModel"
-		 	 [ngClass]="{ 'input-has-error': !price.valid && !price.pristine }" pattern="^\d{0,8}(\.\d{1,2})?$" required/>
+		 	 [ngClass]="{ 'input-has-error': !price.valid && !price.pristine }" pattern="^[1-9]\d{0,8}(\.\d{1,2})?$" required/>
 
-		 	<input type="file" id="photoPick" name="photo"
+		 	<div>Na akciji? 
+		 		<input type="radio" name="onsale" value="Y" [(ngModel)]="product.onsale" required>
+					<p class="radiobtn">Da</p>
+				<input type="radio" name="onsale" value="N" [(ngModel)]="product.onsale" required>
+					<p class="radiobtn">Ne</p>
+		 	</div>
+		 	<div *ngIf="product.onsale == 'Y'">
+			 	<input type="text" class="form-control" name="sale" placeholder="Snizenje (procenat)"
+				 [(ngModel)]="product.sale" #sale="ngModel"
+			 	 [ngClass]="{ 'input-has-error': !sale.valid && !sale.pristine }" 
+			 	 pattern="^[0-9]\d{0,3}?$" required />
+			</div>
+		 	<div>Nov proizvod? 
+		 		<input type="radio" name="isNew" value="Y" [(ngModel)]="product.newest" required>
+					<p class="radiobtn">Da</p>
+				<input type="radio" name="isNew" value="N" [(ngModel)]="product.newest" required>
+					<p class="radiobtn">Ne</p>
+		 	</div>
+		 	<div>U ponudi? 
+				<input type="radio" name="isAvailable" value="Y" [(ngModel)]="product.active" required>
+					<p class="radiobtn">Da</p>
+				<input type="radio" name="isAvailable" value="N" [(ngModel)]="product.active" required>
+					<p class="radiobtn">Ne</p>
+			</div>
+			<input type="file" id="photoPick" name="photo"
 		 	(change)="selectFile($event)" required>
-
-			<input type="radio" name="isAvailable" value="Y" [(ngModel)]="product.active" required>
-				<p class="radiobtn">Da</p>
-			<input type="radio" name="isAvailable" value="N" [(ngModel)]="product.active" required>
-				<p class="radiobtn">Ne</p>
+		 	
 			<div id="form3">
 				<button class="btn btn-clean" [disabled]="!f3.valid">Sacuvaj</button>
 				<button class="btn" (click)="cleanProdForm()">Obrisi</button>

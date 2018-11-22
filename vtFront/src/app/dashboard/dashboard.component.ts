@@ -178,8 +178,14 @@ export class DashboardComponent implements OnInit {
     this.product.active = prod.active;
     this.product.subcategoryid = prod.subcategoryid;
     this.product.photo = prod.photo;
-
+    this.product.newest = prod.newest;
+    this.product.onsale = prod.onsale;
     this.subCtgInput.nativeElement.disabled = true;
+
+    if(prod.sale == null)
+      this.product.sale = 0;
+    else
+      this.product.sale = prod.sale;
   }
 
   cleanCatgForm() {

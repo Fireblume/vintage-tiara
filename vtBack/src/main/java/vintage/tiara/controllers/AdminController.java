@@ -170,7 +170,8 @@ public class AdminController {
 		
 		try {
 			dataS.updateProduct(product.getTitle(), product.getDescription(),
-					product.getPhoto(), product.getPrice(), product.getQuantity(), product.getActive(), product.getId());
+					product.getPhoto(), product.getPrice(), product.getQuantity(), 
+					product.getActive(), product.getId(), product.getNewest(), product.getSale(), product.getOnsale());
 		}catch (Exception e) {
 			LOGGER.log(Level.FINE, "Something went wrong", e);
 			status = HttpStatus.NOT_FOUND;

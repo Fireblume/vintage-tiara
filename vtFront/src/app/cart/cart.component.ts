@@ -29,6 +29,7 @@ export class CartComponent implements OnInit {
 
   userUid:any;
   error:any;
+  priceOnSale:any = {};
   itemsInCart:any = [];
   likedItemsCart:any = [];
   showItems:boolean = true;
@@ -74,6 +75,10 @@ export class CartComponent implements OnInit {
       (res) => {
         this.itemsInCart = res;
         this.itemsInCart.forEach(item =>{
+          if(item.onsale == 'Y'){
+            item.priceOnSale = item.price - (item.price*item.sale/100);
+          }
+
           if(item.activeProd == 'Y')
             item.inStock = 'DOSTUPNO';
           else
@@ -94,6 +99,9 @@ export class CartComponent implements OnInit {
       (res) => {
         this.likedItemsCart = res;
         this.likedItemsCart.forEach(item =>{
+          if(item.onsale == 'Y'){
+            item.priceOnSale = item.price - (item.price*item.sale/100);
+          }
           if(item.activeProd == 'Y')
             item.inStock = 'DOSTUPNO';
           else

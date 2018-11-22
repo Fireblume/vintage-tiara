@@ -11,7 +11,7 @@ import vintage.tiara.entity.ProdLike;
 public interface LikeDao extends CrudRepository<Like, Long>{
 	
 	@Query("select new vintage.tiara.entity.ProdLike(p.id, c.id, c.uid, p.title, p.description, p.quantity,"
-			+ " p.photo, p.price, p.active) from Product p inner join Like c on p.id = c.productid"
+			+ " p.photo, p.price, p.active, p.newest, p.sale, p.onsale) from Product p inner join Like c on p.id = c.productid"
 			+ " where c.uid = :uid")
 	public Iterable<ProdLike> getAllLikes(String uid);
 

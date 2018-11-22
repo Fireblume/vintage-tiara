@@ -81,7 +81,10 @@ export class DashboardService {
                       //color: product.color,
                       price: product.price,
                       active: product.active,
-                      photo: product.photo
+                      photo: product.photo,
+                      newest: product.newest,
+                      sale: product.sale,
+                      onsale: product.onsale
                     });
     }
     else
@@ -94,7 +97,10 @@ export class DashboardService {
                       //color: product.color,
                       price: product.price,
                       active: product.active,
-                      photo: product.photo
+                      photo: product.photo,
+                      newest: product.newest,
+                      sale: product.sale,
+                      onsale: product.onsale
                     });
   }
 

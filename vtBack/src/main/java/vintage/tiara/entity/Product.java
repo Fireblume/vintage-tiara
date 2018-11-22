@@ -36,11 +36,20 @@ public class Product {
 	
 	@Column(name="ACTIVE", unique=false, nullable=false)
 	private String active;
+	
+	@Column(name="NEWEST", unique=false, nullable=true)
+	private String newest;
+	
+	@Column(name="SALE", unique=false, nullable=true)
+	private Integer sale;
+	
+	@Column(name="ONSALE", unique=false, nullable=true)
+	private String onsale;
 
 	public Product() {}
 	
 	public Product(Long id, Long subcategoryid, String title, String description, int quantity, String photo,
-			String price, String active) {
+			String price, String active, String newest, Integer sale, String onsale) {
 		super();
 		this.id = id;
 		this.subcategoryid = subcategoryid;
@@ -50,6 +59,9 @@ public class Product {
 		this.photo = photo;
 		this.price = price;
 		this.active = active;
+		this.newest = newest;
+		this.sale = sale;
+		this.onsale = onsale;
 	}
 
 	public Long getId() {
@@ -115,4 +127,29 @@ public class Product {
 	public void setActive(String active) {
 		this.active = active;
 	}
+
+	public String getNewest() {
+		return newest;
+	}
+
+	public void setNewest(String newest) {
+		this.newest = newest;
+	}
+
+	public Integer getSale() {
+		return sale;
+	}
+
+	public void setSale(Integer sale) {
+		this.sale = sale;
+	}
+
+	public String getOnsale() {
+		return onsale;
+	}
+
+	public void setOnsale(String onsale) {
+		this.onsale = onsale;
+	}
+	
 }

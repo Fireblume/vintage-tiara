@@ -60,6 +60,13 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.fullProductList = res;
         })
       })
+
+      this.route.parent.data.subscribe((auth) => {
+      auth.base.newAsale.subscribe(res =>{
+        if(res != null)
+            this.products = res;
+        })
+      })
   }
 
   @ViewChild('modalPP') public modalPP: ZoomElement;
@@ -85,6 +92,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   addBtnTxt:any ='U KORPU';
   clicked:any = {};
   differ: any;
+  priceOnSale:number = 0;
 
 	ngOnInit() {   
   }
@@ -111,6 +119,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   openModal(id, product) {
       var img = new Image;
+      this.priceOnSale = 0;
       
       img.onload = (function(modalPP) {
         return function(){
@@ -142,6 +151,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       if(like.productid == product.id)
         this.hearClick[product.id] = true;
     })
+
+    if(product.onsale == 'Y'){
+      this.priceOnSale = product.price - (product.price*product.sale/100);
+    }
 
     this.maxQuantity = parseInt(this.showProduct.quantity);
 

@@ -158,8 +158,8 @@ public class DataServiceImpl implements DataService{
 	@Override
 	@Transactional
 	public void updateProduct(String title, String desc, String photo, String price, int quantity, String active,
-			Long id) {
-		productDao.update(title, desc, photo, price, quantity, active, id);		
+			Long id, String isNew, int sale, String onsale) {
+		productDao.update(title, desc, photo, price, quantity, active, id, isNew, sale, onsale);		
 	}
 
 	@Override
@@ -211,5 +211,10 @@ public class DataServiceImpl implements DataService{
 	@Override
 	public Iterable<Product> search(String search) {
 		return productDao.search(search);
+	}
+
+	@Override
+	public Iterable<Product> getNewSale() {
+		return productDao.getNewSale();
 	}
 }

@@ -196,4 +196,39 @@
 .addLine{
   border-bottom: 1px solid lightgray;
   margin-bottom: 15px;
+  margin-top: 5px;
+}
+
+.newTag{
+  position: absolute;
+  top: 40px;
+  background-color: #ffd500;
+  color: dimgray;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 1px;
+}
+
+.saleTag{
+  position: absolute;
+  top: 60px;
+  background-color: red;
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 1px;
+}
+
+.crossPrice{
+  text-decoration-line: line-through;
+  text-decoration-color: red;
+}
+
+.price-div div{
+  display: inline;
+}
+
+.new-price{
+  margin-left: 30px;
+  color: red;
 }

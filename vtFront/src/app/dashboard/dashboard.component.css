@@ -176,3 +176,11 @@
     top: 0;
     background-color: rgba(0, 0, 0, 0.5);
 }
+
+#titleP{
+	font-size: 16px;
+}
+
+#priceP{
+	border-bottom: 1px solid darkgray;
+}

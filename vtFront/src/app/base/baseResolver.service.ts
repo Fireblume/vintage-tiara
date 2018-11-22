@@ -19,11 +19,13 @@ export class BaseResolver implements Resolve<any> {
     return of(
     [this._firebaseAuth.authState, 
     this.baseService.getMenuItems(),
-    this.baseService.getProducts()]
+    this.baseService.getProducts(),
+    this.baseService.getNewAndSale()]
     ).pipe(map(res => ({
     	auth: res[0],
       menuItems: res[1],
-      products: res[2]
+      products: res[2],
+      newAsale: res[3]
     })));
   }
 

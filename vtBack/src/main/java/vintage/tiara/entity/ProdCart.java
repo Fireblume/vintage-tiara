@@ -12,11 +12,14 @@ public class ProdCart {
 	private String price;
 	private String activeProd;
 	private String activeCart;
+	private String newest;
+	private String onsale;
+	private Integer sale;
 	
 	public ProdCart() {}
 	
 	public ProdCart(Long productid, Long cartid, String uid, String title, String description, int quantityInCart,
-			String photo, String price, String activeCart, String activeProd) {
+			String photo, String price, String activeCart, String activeProd, String newest, Integer sale, String onsale) {
 		super();
 		this.productid = productid;
 		this.cartid = cartid;
@@ -28,6 +31,9 @@ public class ProdCart {
 		this.price = price;
 		this.activeCart = activeCart;
 		this.activeProd = activeProd;
+		this.newest = newest;
+		this.sale = sale;
+		this.onsale = onsale;
 	}
 	
 	public Long getProductid() {
@@ -94,6 +100,30 @@ public class ProdCart {
 
 	public void setActiveProd(String activeProd) {
 		this.activeProd = activeProd;
+	}
+
+	public String getNewest() {
+		return newest;
+	}
+
+	public void setNewest(String newest) {
+		this.newest = newest;
+	}
+
+	public Integer getSale() {
+		return sale;
+	}
+
+	public void setSale(Integer sale) {
+		this.sale = sale;
+	}
+	
+	public String getOnsale() {
+		return onsale;
+	}
+
+	public void setOnsale(String onsale) {
+		this.onsale = onsale;
 	}
 	
 }

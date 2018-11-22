@@ -37,6 +37,10 @@ export class BaseService {
    return this.http.get(this.globals.baseUrl+'/api/loadAllProducts');
   }
 
+  getNewAndSale(){
+    return this.http.get(this.globals.baseUrl+'/api/loadNewOrSaleProducts');
+  }
+
   logOut(){
     return this.http.get(this.globals.baseUrl+'/api/logout?invalid=true');
   }

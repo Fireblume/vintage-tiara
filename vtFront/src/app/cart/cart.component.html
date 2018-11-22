@@ -17,9 +17,14 @@
 				<div id="infoDiv">
 					<div class="details-txt-t">{{item.title}}</div>
 					<div class="details-txt-d">{{item.description}}</div>
-					<div class="details-txt addLine">{{item.price}} RSD</div>
+					<div class="addLine price-div">
+				    	<div class="details-txt" [ngClass]="{ 'crossPrice': item?.onsale == 'Y'}">{{item.price}} RSD</div>
+				    	<div class="details-txt new-price" *ngIf="item?.onsale == 'Y'">
+				    		<i>{{item.priceOnSale}} RSD</i>
+				    	</div>
+				    </div>
 					<div class="details-txt">Status: <span [ngStyle]="{'color':item?.activeProd == 'Y' ? '' : 'red'}">{{item?.inStock}}</span></div>
-					<div class="details-txt">Kolicina: {{item.quantityInCart}}</div>
+					<div class="details-txt">Količina: {{item.quantityInCart}}</div>
 				</div>
 			</div>
 			<div id="btnDiv">
@@ -45,10 +50,15 @@
 				<div id="infoDiv">
 					<div class="details-txt-t">{{item.title}}</div>
 					<div class="details-txt-d">{{item.description}}</div>
-					<div class="details-txt addLine">Cena: {{item.price}} RSD</div>
+					<div class="addLine price-div">
+				    	<div class="details-txt" [ngClass]="{ 'crossPrice': item?.onsale == 'Y'}">{{item.price}} RSD</div>
+				    	<div class="details-txt new-price" *ngIf="item?.onsale == 'Y'">
+				    		<i>{{item.priceOnSale}} RSD</i>
+				    	</div>
+				    </div>
 					<div class="details-txt">Status: <span [ngStyle]="{'color':item?.activeProd == 'Y' ? '' : 'red'}">{{item?.inStock}}</span></div>
 					<div class="details-txt" *ngIf="item.activeProd == 'Y'">
-						Kolicina: <input type="number" name="quantity" class="form-control quantity-input" 
+						Količina: <input type="number" name="quantity" class="form-control quantity-input" 
 					    		[(ngModel)]="quantityToBuy" min="1"	max="{{item.quantity}}" 
 					    		(input)="onQChange($event.target.value, item.quantity)"
 					    		[ngClass]="{ 'input-has-error': quantityProblem}" required></div>

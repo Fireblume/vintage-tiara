@@ -11,11 +11,14 @@ public class ProdLike {
 	private String photo;
 	private String price;
 	private String activeProd;
+	private String newest;
+	private String onsale;
+	private Integer sale;
 	
 	public ProdLike() {}
 	
 	public ProdLike(Long productid, Long likeid, String uid, String title, String description, int quantity,
-			String photo, String price, String activeProd) {
+			String photo, String price, String activeProd, String newest, Integer sale, String onsale) {
 		super();
 		this.productid = productid;
 		this.likeid = likeid;
@@ -26,6 +29,9 @@ public class ProdLike {
 		this.photo = photo;
 		this.price = price;
 		this.activeProd = activeProd;
+		this.newest = newest;
+		this.sale = sale;
+		this.onsale = onsale;
 	}
 
 	public Long getProductid() {
@@ -99,4 +105,29 @@ public class ProdLike {
 	public void setActiveProd(String activeProd) {
 		this.activeProd = activeProd;
 	}
+	
+	public String getNewest() {
+		return newest;
+	}
+
+	public void setNewest(String newest) {
+		this.newest = newest;
+	}
+
+	public Integer getSale() {
+		return sale;
+	}
+
+	public void setSale(Integer sale) {
+		this.sale = sale;
+	}
+
+	public String getOnsale() {
+		return onsale;
+	}
+
+	public void setOnsale(String onsale) {
+		this.onsale = onsale;
+	}
+	
 }

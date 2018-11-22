@@ -148,4 +148,19 @@
 .addLine{
   border-bottom: 1px solid lightgray;
   margin-bottom: 15px;
+  margin-top: 5px;
+}
+
+.crossPrice{
+  text-decoration-line: line-through;
+  text-decoration-color: red;
+}
+
+.price-div div{
+  display: inline;
+}
+
+.new-price{
+  margin-left: 30px;
+  color: red;
 }
