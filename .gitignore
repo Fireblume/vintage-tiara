@@ -1,0 +1,49 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+vtFront/dist
+vtFront/tmp
+vtFront/out-tsc
+
+# dependencies
+vtFront/node_modules
+
+# IDEs and editors
+vtBack/.project
+vtBack/.classpath
+vtBack/*.launch
+vtBack/.settings/
+
+
+# System Files
+vtFront/.DS_Store
+vtFront/Thumbs.db
+
+vtFront/src/environments/
+
+vtBack/*.class
+
+# Log file
+vtBack/*.log
+
+# BlueJ files
+vtBack/*.ctxt
+
+# Mobile Tools for Java (J2ME)
+vtBack/.mtj.tmp/
+
+# Package Files #
+vtBack/*.jar
+vtBack/*.war
+vtBack/*.nar
+vtBack/*.ear
+vtBack/*.zip
+vtBack/*.tar.gz
+vtBack/*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+vtBack/hs_err_pid*
+
+vtBack/src/*.properties
+vtBack/target/
+vtBack/.settings/
