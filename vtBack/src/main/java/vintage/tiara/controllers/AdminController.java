@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import vintage.tiara.entity.Category;
+import vintage.tiara.entity.Email;
 import vintage.tiara.entity.Product;
 import vintage.tiara.entity.Subcategory;
 import vintage.tiara.service.DataService;
@@ -28,7 +31,10 @@ public class AdminController {
 	private static final Logger LOGGER = Logger.getLogger(LogInController.class.getName());
 	
 	@Autowired
-	private DataService dataS;
+	private JavaMailSender mailSender;
+	
+	@Autowired
+ 	private DataService dataS;
 	
 	@RequestMapping(value="/categories", method = RequestMethod.GET)
 	@ResponseBody public ResponseEntity<List<Category>> getDataCtg(){	
@@ -194,4 +200,26 @@ public class AdminController {
 		return new ResponseEntity<String>("{\"resp\":\"OK\"}", status);
 	}
 
+	@RequestMapping(value="/sendEmail", method = RequestMethod.POST)
+	@ResponseBody public ResponseEntity<String> saveincart(@RequestBody Email email){	
+		HttpStatus status = HttpStatus.OK;
+
+		  try {
+			  	SimpleMailMessage mail = new SimpleMailMessage();
+			 
+				mail.setFrom(email.getFrom());
+				mail.setTo("vintagetiaraoffice@gmail.com");
+				mail.setSubject(email.getSubject());
+				mail.setText(email.getContent());
+			 // Send message
+				LOGGER.info("Sending email...");
+			 mailSender.send(mail);
+			 LOGGER.info("Sent...");
+		  } catch (Exception mex) {
+			  	LOGGER.log(Level.FINE, "Something went wrong", mex);
+				status = HttpStatus.NOT_FOUND;
+				return new ResponseEntity<String>("{\"resp\":\"NOK\"}", status);
+		  }
+		return new ResponseEntity<String>("{\"resp\":\"OK\"}", status);
+	}
 }

@@ -20,10 +20,19 @@
 		</div>
 		<div class="col-md-6" id="contact">
 			<p class="title">Kontakt</p>
-			<form>
-				<input type="text" class="form-control" placeholder="Naslov" id="subject"/>
-				<input type="text" class="form-control" placeholder="Email" id="email"/>
-				<textarea id="message" class="form-control"></textarea>
+			<form name="form" (ngSubmit)="f.form.valid && sendEmail()" #f="ngForm" novalidate>
+				<input type="text" class="form-control" name="subject" placeholder="Naslov" id="subject"
+				 [(ngModel)]="email.subject" #subject="ngModel" [ngClass]="{ 'input-has-error': !subject.valid && !subject.pristine }" required/>
+
+				<div *ngIf="userEmail == undefined">
+				 	<input type="text" class="form-control" name="email" placeholder="Email" id="email"
+					 [(ngModel)]="email.from" #email="ngModel" [ngClass]="{ 'input-has-error': !email.valid && !email.pristine }" required/>
+				</div>
+
+				<textarea id="message" class="form-control" name="content" placeholder="Poruka" id="message"
+				 [(ngModel)]="email.content" #content="ngModel" [ngClass]="{ 'input-has-error': !content.valid && !content.pristine }" required></textarea>
+
+		 		<button class="btn btn-send" [disabled]="!f.valid">Pošalji</button>
 			</form>
 		</div>
 	</div>

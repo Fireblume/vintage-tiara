@@ -109,6 +109,17 @@
 		<artifactId>spring-boot-configuration-processor</artifactId>
 		<optional>true</optional>
 	</dependency>	
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-mail</artifactId>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+	<dependency>
+	    <groupId>javax.mail</groupId>
+	    <artifactId>mail</artifactId>
+	    <version>1.4.7</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/javax.activation/activation -->	
   </dependencies>
 
   <build>

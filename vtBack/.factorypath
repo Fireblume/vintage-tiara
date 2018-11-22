@@ -75,5 +75,10 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/org/apache/pdfbox/pdfbox-tools/2.0.9/pdfbox-tools-2.0.9.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/apache/pdfbox/pdfbox-debugger/2.0.9/pdfbox-debugger-2.0.9.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/springframework/boot/spring-boot-configuration-processor/2.0.1.RELEASE/spring-boot-configuration-processor-2.0.1.RELEASE.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/org/springframework/boot/spring-boot-starter-mail/2.0.1.RELEASE/spring-boot-starter-mail-2.0.1.RELEASE.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/org/springframework/spring-context-support/5.0.5.RELEASE/spring-context-support-5.0.5.RELEASE.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/com/sun/mail/javax.mail/1.6.1/javax.mail-1.6.1.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/javax/mail/mail/1.4.7/mail-1.4.7.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="EXTJAR" id="C:\Users\sweet_000\AngularProjects\vintage-tiara\vtBack\sqljdbc4-2.0.jar" enabled="true" runInBatchMode="false"/>
 </factorypath>

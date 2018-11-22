@@ -31,8 +31,8 @@
 				<input type="radio" name="isActive" value="N" [(ngModel)]="category.active" required/>
 					<p class="radiobtn">Ne</p>
 				<div id="form1">
-					<button class="btn btn-clean" [disabled]="!f1.valid">Sacuvaj</button>
-					<button class="btn" (click)="cleanCatgForm()">Obrisi</button>
+					<button class="btn btn-clean" [disabled]="!f1.valid">Sačuvaj</button>
+					<button class="btn" (click)="cleanCatgForm()">Obriši</button>
 				</div>
 			</form>
 		</div>
@@ -57,8 +57,8 @@
 				<input type="radio" name="isActiveS" value="N" [(ngModel)]="subCatg.active" required>
 					<p class="radiobtn">Ne</p>
 				<div id="form2">
-					<button class="btn btn-clean" [disabled]="!f2.valid">Sacuvaj</button>
-					<button class="btn" (click)="cleanSubForm()">Obrisi</button>
+					<button class="btn btn-clean" [disabled]="!f2.valid">Sačuvaj</button>
+					<button class="btn" (click)="cleanSubForm()">Obriši</button>
 				</div>
 			</form>
 		</div>
@@ -89,9 +89,9 @@
 			 [(ngModel)]="product.title" #prodtitle="ngModel"
 		 	 [ngClass]="{ 'input-has-error': !prodtitle.valid && !prodtitle.pristine }" required/>
 
-			<input type="text" class="form-control" name="desc" placeholder="Opis"
+			<textarea type="text" class="form-control" name="desc" placeholder="Opis"
 			 [(ngModel)]="product.description" #desc="ngModel"
-		 	 [ngClass]="{ 'input-has-error': !desc.valid && !desc.pristine }" required/>
+		 	 [ngClass]="{ 'input-has-error': !desc.valid && !desc.pristine }" required></textarea>
 
 		 	 <input list="subCtgList" class="form-control" name="subCtgId" placeholder="Podkategorija" 
 				 [(ngModel)]="product.subcategoryid" #subCtgId="ngModel" #subCtgInput
@@ -124,7 +124,7 @@
 			 	<input type="text" class="form-control" name="sale" placeholder="Snizenje (procenat)"
 				 [(ngModel)]="product.sale" #sale="ngModel"
 			 	 [ngClass]="{ 'input-has-error': !sale.valid && !sale.pristine }" 
-			 	 pattern="^[0-9]\d{0,3}?$" required />
+			 	 pattern="^\d{0,3}?$" required />
 			</div>
 		 	<div>Nov proizvod? 
 		 		<input type="radio" name="isNew" value="Y" [(ngModel)]="product.newest" required>
@@ -142,8 +142,8 @@
 		 	(change)="selectFile($event)" required>
 		 	
 			<div id="form3">
-				<button class="btn btn-clean" [disabled]="!f3.valid">Sacuvaj</button>
-				<button class="btn" (click)="cleanProdForm()">Obrisi</button>
+				<button class="btn btn-clean" [disabled]="!f3.valid">Sačuvaj</button>
+				<button class="btn" (click)="cleanProdForm()">Obriši</button>
 			</div>
 		</form>
 	</div>
