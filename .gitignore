@@ -13,7 +13,7 @@ vtBack/.project
 vtBack/.classpath
 vtBack/*.launch
 vtBack/.settings/
-
+.settings/
 
 # System Files
 vtFront/.DS_Store
